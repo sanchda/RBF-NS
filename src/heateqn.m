@@ -1,5 +1,5 @@
-function U = heateqn(U0, x, h, M, alpha, eps)
-% Solves the heat equation on the surface of the sphere using an RBF
+function U = rbf_ns(U0, x, h, M, alpha, eps)
+% Solves the NS equations on the surface of the sphere using an RBF
 % embedded, narrow-band method.  In this method, the differential operators
 % are expressed in R3, but restricted to acting on the surface of the
 % sphere.  The centers x are assumed to be on the surface of the sphere
@@ -95,36 +95,30 @@ function U = heateqn(U0, x, h, M, alpha, eps)
     Lzz = Lzz/A;
 
     
-    % Not useful any longer
+    % Clear out the unused matrices
     clear('xdiff1','xdiff2','xdiff');
     clear('ydiff1','ydiff2','ydiff');
     clear('zdiff1','zdiff2','zdiff');
     
 
-    % Initialize the scalar Laplacian.
+    % Initialize the vector Laplacian.
     % ASSERT:  X contains only points on the surface of the unit sphere
     %
-    % On the surface of the sphere, the
-    % scalar Laplacian has the following form:
-    %
-    % lapu = - 2x	 (dU/dx)   - 2y    (dU/dy)   - 2z    (dU/dz)
-    %        - 2xy   (ddU/dxy) - 2xz   (ddU/dxz) - 2yz   (ddU/dyz)
-    %        + (xx-1)(ddU/dxx) + (yy-1)(ddU/dyy) + (zz-1)(ddU/dzz)
-    %
-    % We can write this as a matrix since we're using matrix operators and
-    % matrix multiplication is associative.  However, multiplication by the
-    % coordinate should scale the proper element of the resulting vector
-    % (i.e., -x*(dU/dx) means the ith element of dU/dx is multiplied by the
-    % x coordinate of the ith RBF center.
+    % Since U = (u,v,w) is a vector, we write veclapU in terms of the
+    % action of the vector Laplacian on each individual component of U.
+    % Moreover, since the action of each component relies on contributions
+    % from each coordinate, we write the three componentwise Laplacians
+    % in three parts, for a total of nine operators.
     
     X = diag(x(:,1));
     Y = diag(x(:,2));
     Z = diag(x(:,3));
   
-    lapu = - 2*X*Lx       - 2*Y*Ly       - 2*Z*Lz ...
-           - 2*X*Y*Lxy    - 2*X*Z*Lxz    - 2*Y*Z*Lyz ...
-           + (eye(N)-X*X)*Lxx  + (eye(N)-Y*Y)*Lyy  + (eye(N)-Z*Z)*Lzz;
-     
+    lapux = - Y*Ly + Z*Z*Lyy - Z*Lx - 2*Y*Z*Lyz + Y*Y*Lzz;
+    
+    lapuy = - X*Y*Lzz + 
+       
+       
     % Clear up the unused matrices
 %    clear('X','Y','Z');
 %    clear('Lx','Ly','Lz');
