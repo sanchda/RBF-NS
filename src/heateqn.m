@@ -114,11 +114,21 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     Y = diag(x(:,2));
     Z = diag(x(:,3));
   
-    lapux = - Y*Ly + Z*Z*Lyy - Z*Lx - 2*Y*Z*Lyz + Y*Y*Lzz;
+    lapux = -Z*Lz + Y*Y*Lzz - Y*Ly - 2*Y*Z*Lyz + 2*Z*Z*Lyy;
+    lapuy = -X*Y*Lzz + X*Z*Lyz + Y*Lx + Y*Z*Lxz - Z*Z*Lxy;
+    lapuz =  X*Y*Lyz - X*Z*Lyy + Z*Lx - Y*Y*Lxz + Y*Z*Lxy;
     
-    lapuy = - X*Y*Lzz + 
+    lapvx =  X*Ly + X*Z*Lyz - X*Y*Lyy + Y*Z*Lxz + Z*Z*Lxy;
+    lapvy = -Z*Lz + X*X*Lzz - X*Lx - 2*X*Z*Lx + Z*Z*Lxx;
+    lapvz =  Z*Ly - X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
+    
+    lapwx =  X*Lz + X*Y*Lyz - X*Z*Lyy + Y*Y*Lxz + Y*Z*Lxy;
+    lapwy =  Y*Lz + X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
+    lapwz = -Y*Ly + X*X*Lyy - X*Lx + 2*X*Y*Lxy + Y*Y*Lxx;
        
-       
+    % TODO: multiply the result of lap(U) by mu.
+    
+    
     % Clear up the unused matrices
 %    clear('X','Y','Z');
 %    clear('Lx','Ly','Lz');
