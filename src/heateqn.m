@@ -32,6 +32,17 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     r2 = eps*eps*r2;
     A = exp(-r2);
     
+    % Build the matrix for matrix-valued RBF interpolation.
+    % This is a gigantic shitmess.  It's not yet obvious how it should be
+    % cleaned up.
+    e2  = @(x,y) twoeps2*exp((1 - dot(x,y))*twoeps2);
+    PSI1 = @(x,y) [(-x(2)*y(2) - x(3)*y(3) + twoeps2*(x(3)*y(2) - x(2)*y(3))^2) y(1)*(x(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3))) (x(3)*y(1) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(x(3)*y(2) - x(2)*y(3)))];
+    PSI2 = @(x,y) [(twoeps2*x(1)*(y(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3)))) (2*twoeps2*x(1)*y(1)*(-1 - (-2 + x(2)*x(2) - 2*x(3)*y(1) + y(2)*y(2) + 2*x(1)*(x(3) + y(1) - y(3)) + twoeps2*(x(3) + y(1))*y(3)))) (-twoeps2*x(1)*(-y(2) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3))))];
+    PSI3 = @(x,y) [((x(1)*y(3) - twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(3)*y(2) + x(2)*y(3)))) (-y(1)*(-x(2)+twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3)))) (-x(1)*y(1)-x(2)*y(2)+twoeps2*(x(2)*y(1)-x(1)*y(2))^2)];
+    PSI  = @(x,y) e2(x,y)*[PSI1(x,y)' PSI2(x,y)' PSI3(x,y)'];
+    
+    
+    
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere
     
