@@ -41,6 +41,10 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     PSI3 = @(x,y) [((x(1)*y(3) - twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(3)*y(2) + x(2)*y(3)))) (-y(1)*(-x(2)+twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3)))) (-x(1)*y(1)-x(2)*y(2)+twoeps2*(x(2)*y(1)-x(1)*y(2))^2)];
     PSI  = @(x,y) e2(x,y)*[PSI1(x,y)' PSI2(x,y)' PSI3(x,y)'];
     
+    dx   = @(x) ((1)/sqrt(1 - x(3)^2))*[(-x(3)*x(1)) (x(3)*x(2)) (1-x(3)*x(3))]';
+    ex   = @(x) ((1)/sqrt(1 - x(3)^2))*[-x(2) x(1) 0]';
+    
+    A2   = @(x,y) [dx(x)';ex(x)']*PSI(x,y)*[dx(y)';ex(y)']';
     
     
     % Initialize the differentiation matrices
