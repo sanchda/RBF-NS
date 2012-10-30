@@ -41,12 +41,32 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     PSI3 = @(x,y) [((x(1)*y(3) - twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(3)*y(2) + x(2)*y(3)))) (-y(1)*(-x(2)+twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3)))) (-x(1)*y(1)-x(2)*y(2)+twoeps2*(x(2)*y(1)-x(1)*y(2))^2)];
     PSI  = @(x,y) e2(x,y)*[PSI1(x,y)' PSI2(x,y)' PSI3(x,y)'];
     
-    dx   = @(x) ((1)/sqrt(1 - x(3)^2))*[(-x(3)*x(1)) (x(3)*x(2)) (1-x(3)*x(3))]';
-    ex   = @(x) ((1)/sqrt(1 - x(3)^2))*[-x(2) x(1) 0]';
+    dx   = @(x) (1/sqrt(1 - x(3)^2))*[(-x(3)*x(1)) (x(3)*x(2)) (1-x(3)*x(3))]';
+    ex   = @(x) (1/sqrt(1 - x(3)^2))*[-x(2) x(1) 0]';
     
     A2   = @(x,y) [dx(x)';ex(x)']*PSI(x,y)*[dx(y)';ex(y)']';
     
+    % TODO: build Adiv in a more intelligent way
+    Adiv = zeros(2*N,2*N);
     
+    for i=1:N
+        for j = 1:N
+            Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = A2(x(i,:),x(j,:));
+        end
+    end
+    
+    % TODO: build gamdel in a better way.  Also, seriously--did you wake
+    % up on the retarded side of the bed when you named this array?
+    gamdel = zeros(2*N,1);
+    buff = zeros(2,3);
+
+    for i=1:N
+        buff(1,:) = dx(x(i,:))';
+        buff(2,:) = ex(x(i,:))';
+        gamdel(2*i-1:2*i) = buff*U0(i,:)';
+    end
+    
+    alphbet = ((gamdel')/Adiv)';
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere
     
