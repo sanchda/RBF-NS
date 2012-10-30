@@ -66,7 +66,20 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
         gamdel(2*i-1:2*i) = buff*U0(i,:)';
     end
     
-    alphbet = ((gamdel')/Adiv)';
+    albet = ((gamdel')/Adiv)';
+    
+    % Now, recover the coefficients.
+    PSImat = zeros(3*N,3*N);
+    PSIarg = zeros(3*N,1);
+    
+    for i=1:N
+        for j = 1:N
+            PSImat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
+        end
+        PSIarg((3*i-2):(3*i),:) = albet(2*i-1)*dx(x(i,:)) + albet(2*i)*ex(x(i,:));
+    end
+    
+    Udivfree = PSImat*PSIarg;
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere
     
