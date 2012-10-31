@@ -1,7 +1,7 @@
 cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
 alpha = 1;  % Parameter for the heat equation
 eps = 1;    % Shape paramater for the RBF kernel
-N = 10;     % Somehow related to the number of centers.  For the ME points,
+N = 5;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
 M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
@@ -21,7 +21,7 @@ X = X(2:end,:);  % This first point causes problems for some reason.
 U0 = [0.*X(:,1), X(:,3), -X(:,2)];
 
 % u=(x+y+z) => curl = {y - x, z - x, -y + x}
-% U0 = [X(:,2) - X(:,1), X(:,3) - X(:,1), -X(:,2) + X(:,1)];
+U0 = [X(:,2) - X(:,1), X(:,3) - X(:,1), -X(:,2) + X(:,1)];
 
 
 % Debug!
@@ -53,4 +53,16 @@ U = heateqn(U0, X, h, M, alpha, eps);
 [p,t] = cart2sph(X(:,1), X(:,2), X(:,3));
 
 % Display U according to p,t coordinates
-scatter3(p,t,U,30,U,'.')
+subplot(2,3,1);
+scatter3(p,t,U(:,1),30,U(:,1),'.')
+subplot(2,3,2);
+scatter3(p,t,U(:,2),30,U(:,2),'.')
+subplot(2,3,3);
+scatter3(p,t,U(:,3),30,U(:,3),'.')
+
+subplot(2,3,4);
+scatter3(p,t,U0(:,1),30,U0(:,1),'.')
+subplot(2,3,5);
+scatter3(p,t,U0(:,2),30,U0(:,2),'.')
+subplot(2,3,6);
+scatter3(p,t,U0(:,3),30,U0(:,3),'.')

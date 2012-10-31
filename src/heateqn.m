@@ -35,11 +35,11 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     % Build the matrix for matrix-valued RBF interpolation.
     % This is a gigantic shitmess.  It's not yet obvious how it should be
     % cleaned up.
-    e2  = @(x,y) twoeps2*exp((1 - dot(x,y))*twoeps2);
-    PSI1 = @(x,y) [(-x(2)*y(2) - x(3)*y(3) + twoeps2*(x(3)*y(2) - x(2)*y(3))^2) y(1)*(x(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3))) (x(3)*y(1) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(x(3)*y(2) - x(2)*y(3)))];
-    PSI2 = @(x,y) [(twoeps2*x(1)*(y(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3)))) (2*twoeps2*x(1)*y(1)*(-1 - (-2 + x(2)*x(2) - 2*x(3)*y(1) + y(2)*y(2) + 2*x(1)*(x(3) + y(1) - y(3)) + twoeps2*(x(3) + y(1))*y(3)))) (-twoeps2*x(1)*(-y(2) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3))))];
-    PSI3 = @(x,y) [((x(1)*y(3) - twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(3)*y(2) + x(2)*y(3)))) (-y(1)*(-x(2)+twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3)))) (-x(1)*y(1)-x(2)*y(2)+twoeps2*(x(2)*y(1)-x(1)*y(2))^2)];
-    PSI  = @(x,y) e2(x,y)*[PSI1(x,y)' PSI2(x,y)' PSI3(x,y)'];
+    e2  = @(x,y) twoeps2*exp((-1 + dot(x,y))*twoeps2);  % Only for S2
+    PSI1 = @(x,y) [(-x(2)*y(2) - x(3)*y(3) + twoeps2*(x(3)*y(2) - x(2)*y(3))^2);y(1)*(x(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3)));(x(3)*y(1) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(x(3)*y(2) - x(2)*y(3)))]; 
+    PSI2 = @(x,y) [(x(1)*(y(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3))));(2*x(1)*y(1)*(-1 - (-2 + x(2)*x(2) - 2*x(3)*y(1) + y(2)*y(2) + 2*x(1)*(x(3) + y(1) - y(3)) + twoeps2*(x(3) + y(1))*y(3))));(-x(1)*(-y(2) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3))))];
+    PSI3 = @(x,y) [((x(1)*y(3) - twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(3)*y(2) + x(2)*y(3))));(-y(1)*(-x(2)+twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3))));(-x(1)*y(1)-x(2)*y(2)+twoeps2*(x(2)*y(1)-x(1)*y(2))^2)];
+    PSI  = @(x,y) e2(x,y)*[PSI1(x,y)';PSI2(x,y)';PSI3(x,y)'];
     
     dx   = @(x) (1/sqrt(1 - x(3)^2))*[(-x(3)*x(1)) (x(3)*x(2)) (1-x(3)*x(3))]';
     ex   = @(x) (1/sqrt(1 - x(3)^2))*[-x(2) x(1) 0]';
@@ -49,7 +49,7 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     % TODO: build Adiv in a more intelligent way
     Adiv = zeros(2*N,2*N);
     
-    for i=1:N
+    for i = 1:N
         for j = 1:N
             Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = A2(x(i,:),x(j,:));
         end
@@ -72,14 +72,17 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     PSImat = zeros(3*N,3*N);
     PSIarg = zeros(3*N,1);
     
-    for i=1:N
+    for i = 1:N
         for j = 1:N
             PSImat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
         end
         PSIarg((3*i-2):(3*i),:) = albet(2*i-1)*dx(x(i,:)) + albet(2*i)*ex(x(i,:));
     end
     
-    Udivfree = PSImat*PSIarg;
+    Udivbuff = PSImat*PSIarg;
+    
+    Udivfree = reshape(Udivbuff,N,3);
+    U=Udivfree;
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere
     
