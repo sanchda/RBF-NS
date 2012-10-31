@@ -82,7 +82,9 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     Udivbuff = PSImat*PSIarg;
     
     Udivfree = reshape(Udivbuff,N,3);
-    U=Udivfree;
+    
+    U = Udivfree;
+    
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere
     

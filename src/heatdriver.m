@@ -1,5 +1,5 @@
 cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
-alpha = 1;  % Parameter for the heat equation
+mu = 1;  % Parameter for the NS equation
 eps = 1;    % Shape paramater for the RBF kernel
 N = 5;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
@@ -18,11 +18,15 @@ X = X(2:end,:);  % This first point causes problems for some reason.
 % curl_T(u) on the sphere.
 
 % u=x => curl = {0, z, -y}
-U0 = [0.*X(:,1), X(:,3), -X(:,2)];
+U0 = [0*X(:,1), X(:,3), -X(:,2)];
 
 % u=(x+y+z) => curl = {y - x, z - x, -y + x}
 U0 = [X(:,2) - X(:,1), X(:,3) - X(:,1), -X(:,2) + X(:,1)];
 
+
+onemat = ones((N+1)*(N+1)-1,1);
+% Div-only VFs can be given by gradients of scalars.  Px*grad(u):
+U0 = [onemat-X(:,1).*X(:,1), -X(:,1).*X(:,2), -X(:,1).*X(:,3)];
 
 % Debug!
 % heateqn should be rewritten to remove the assumption that the points in X
