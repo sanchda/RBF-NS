@@ -55,6 +55,7 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
         end
     end
     
+    Adiv(1:2,1:2) = A2(x(1,:),x(2,:));
     % TODO: build gamdel in a better way.  Also, seriously--did you wake
     % up on the retarded side of the bed when you named this array?
     gamdel = zeros(2*N,1);

@@ -7,12 +7,12 @@ M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
 
 X = getMEPoints(N);
-X = X(2:end,:);  % This first point causes problems for some reason.
-
-%DEBUG:  if one makes some shitty argument about the point being approached
-%to z->1 from (x,y)=(0,0), the limit works out for ej and dj.  The reason
-%why the original point breaks is because this (and the antipodal point,
-%I guess) is the only point where the denominator goes to zero.
+% Rotate X through by a small angle
+t=0.1;
+theta = [[1 0 0];[0 cos(t) -sin(t)];[0 sin(t) cos(t)]];
+for i = 1:(N+1)^2
+    X(i,:) = (theta*X(i,:)')';
+end
 
 % Div-free VFs can be given by curls of scalars.  Just use Qx*grad(u) =
 % curl_T(u) on the sphere.
