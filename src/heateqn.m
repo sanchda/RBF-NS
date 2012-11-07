@@ -26,6 +26,7 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
    
 
     % Build the distance matrix.  Simplification is due to the centers
+   
     % being on the surface of the sphere.
     
     r2 = 2*(1 - x(:,1)*x(:,1).' - x(:,2)*x(:,2).' - x(:,3)*x(:,3).');
@@ -44,18 +45,26 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     dx   = @(x) (1/sqrt(1 - x(3)^2))*[(-x(3)*x(1)) (x(3)*x(2)) (1-x(3)*x(3))]';
     ex   = @(x) (1/sqrt(1 - x(3)^2))*[-x(2) x(1) 0]';
     
-    A2   = @(x,y) [dx(x)';ex(x)']*PSI(x,y)*[dx(y)';ex(y)']';
+    
+    mat1 = @(i,j) [-dot(ex(x(i,:)),ex(x(j,:))) dot(ex(x(i,:)),dx(x(j,:))); dot(dx(x(i,:)),ex(x(j,:))) -dot(dx(x(i,:)),dx(x(j,:)))];
+    mat2 = @(i,j) [dot(ex(x(i,:)),x(j,:)) + dot(ex(x(j,:)),x(i,:))  dot(ex(x(i,:)),x(j,:)) - dot(dx(x(j,:)),x(i,:));-dot(dx(x(i,:)),x(j,:)) + dot(ex(x(j,:)),x(i,:)) -dot(dx(x(i,:)),x(j,:)) - dot(dx(x(j,:)),x(i,:))];
+    eta1 = @(r) -twoeps2*exp(-r*r*eps*eps);
+    mu1  = @(r) twoeps2*twoeps2*exp(-r*r*eps*eps);
+    r    = @(i,j) sqrt( (x(i,1) - x(j,1))^2 + (x(i,2) - x(j,2))^2 + (x(i,3) - x(j,3))^2);
+    eta  = @(i,j) eta1(r(i,j));
+    mu   = @(i,j) mu1(r(i,j));
+    
+    A2   = @(i,j) eta(i,j)*mat1(i,j) + mu(i,j)*mat2(i,j);
     
     % TODO: build Adiv in a more intelligent way
     Adiv = zeros(2*N,2*N);
     
     for i = 1:N
         for j = 1:N
-            Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = A2(x(i,:),x(j,:));
+            Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = A2(i,j);
         end
     end
     
-    Adiv(1:2,1:2) = A2(x(1,:),x(2,:));
     % TODO: build gamdel in a better way.  Also, seriously--did you wake
     % up on the retarded side of the bed when you named this array?
     gamdel = zeros(2*N,1);
