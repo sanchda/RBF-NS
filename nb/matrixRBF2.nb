@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    275241,       5290]
-NotebookOptionsPosition[    272722,       5206]
-NotebookOutlinePosition[    273064,       5221]
-CellTagsIndexPosition[    273021,       5218]
+NotebookDataLength[    276351,       5325]
+NotebookOptionsPosition[    273718,       5237]
+NotebookOutlinePosition[    274060,       5252]
+CellTagsIndexPosition[    274017,       5249]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -944,6 +944,37 @@ Cell[BoxData[
    MatrixForm[BoxForm`e$]]]], "Output",
  CellChangeTimes->{{3.5612185728449316`*^9, 3.5612185765391426`*^9}, 
    3.56123709020536*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"mat2", "[", 
+   RowBox[{"1", ",", "2"}], "]"}], "//", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.5612372615721617`*^9, 3.5612373198154926`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0.2825479702978762`", 
+      RowBox[{"-", "0.10102271514129624`"}]},
+     {"0.15190027697146052`", 
+      RowBox[{"-", "0.23167040846771192`"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.561237266933468*^9, 3.5612373200835085`*^9}}]
 }, Open  ]]
 }, Open  ]],
 
@@ -5257,39 +5288,43 @@ Cell[30068, 880, 1035, 24, 57, "Output"]
 Cell[CellGroupData[{
 Cell[31140, 909, 293, 8, 31, "Input"],
 Cell[31436, 919, 1013, 26, 71, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32486, 950, 184, 4, 31, "Input"],
+Cell[32673, 956, 772, 20, 57, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[32498, 951, 114, 1, 71, "Section"],
-Cell[32615, 954, 223, 4, 29, "Text"],
-Cell[32841, 960, 1182, 35, 75, "Input"],
-Cell[34026, 997, 197, 4, 29, "Text"],
-Cell[34226, 1003, 2293, 56, 152, "Input"],
-Cell[36522, 1061, 160, 3, 29, "Text"],
-Cell[36685, 1066, 1785, 52, 192, "Input"],
-Cell[38473, 1120, 311, 7, 31, "Input"],
-Cell[38787, 1129, 3031, 87, 172, "Input"],
-Cell[41821, 1218, 263, 7, 31, "Input"],
-Cell[42087, 1227, 638, 18, 31, "Input"]
+Cell[33494, 982, 114, 1, 71, "Section"],
+Cell[33611, 985, 223, 4, 29, "Text"],
+Cell[33837, 991, 1182, 35, 75, "Input"],
+Cell[35022, 1028, 197, 4, 29, "Text"],
+Cell[35222, 1034, 2293, 56, 152, "Input"],
+Cell[37518, 1092, 160, 3, 29, "Text"],
+Cell[37681, 1097, 1785, 52, 192, "Input"],
+Cell[39469, 1151, 311, 7, 31, "Input"],
+Cell[39783, 1160, 3031, 87, 172, "Input"],
+Cell[42817, 1249, 263, 7, 31, "Input"],
+Cell[43083, 1258, 638, 18, 31, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[42762, 1250, 100, 1, 71, "Section"],
+Cell[43758, 1281, 100, 1, 71, "Section"],
 Cell[CellGroupData[{
-Cell[42887, 1255, 135, 2, 31, "Input"],
-Cell[43025, 1259, 1178, 20, 39, "Message"]
+Cell[43883, 1286, 135, 2, 31, "Input"],
+Cell[44021, 1290, 1178, 20, 39, "Message"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[44240, 1284, 589, 17, 52, "Input"],
-Cell[44832, 1303, 180, 2, 30, "Output"]
+Cell[45236, 1315, 589, 17, 52, "Input"],
+Cell[45828, 1334, 180, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[45049, 1310, 2159, 65, 132, "Input"],
-Cell[47211, 1377, 74303, 1251, 409, "Output"]
+Cell[46045, 1341, 2159, 65, 132, "Input"],
+Cell[48207, 1408, 74303, 1251, 409, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[121551, 2633, 2209, 58, 132, "Input"],
-Cell[123763, 2693, 74454, 1254, 482, "Output"],
-Cell[198220, 3949, 74474, 1253, 498, "Output"]
+Cell[122547, 2664, 2209, 58, 132, "Input"],
+Cell[124759, 2724, 74454, 1254, 482, "Output"],
+Cell[199216, 3980, 74474, 1253, 498, "Output"]
 }, Open  ]]
 }, Open  ]]
 }
