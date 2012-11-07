@@ -1,7 +1,7 @@
 cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
 mu = 1;  % Parameter for the NS equation
-eps = 5;    % Shape paramater for the RBF kernel
-N = 21;     % Somehow related to the number of centers.  For the ME points,
+eps = 2;    % Shape paramater for the RBF kernel
+N = 8;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
 M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
@@ -9,7 +9,7 @@ h = 0.01;   % timestep
 X = getMEPoints(N);
 % Rotate X through by a small angle
 t=0.5;
-theta = [[1 0 0];[0 cos(t) -sin(t)];[0 sin(t) cos(t)]];
+theta = [1 0 0;0 cos(t) -sin(t);0 sin(t) cos(t)];
 for i = 1:(N+1)^2
     X(i,:) = (theta*X(i,:)')';
 end
