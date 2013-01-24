@@ -28,6 +28,7 @@ N   = 7;         % Somehow related to the number of centers.  For the ME points,
  errinfmat = zeros(70-7);
  err2mat   = zeros(70-7);
  kappamat  = zeros(70-7);
+ epsmat    = zeros(70-7);
  
 for N = 7:70
     
@@ -69,5 +70,6 @@ for N = 7:70
     errinfmat(N-6) = maxerr;
     err2mat(N-6)   = l2err;
     kappamat(N-6)  = kappa;
+    epsmat(N-6)    = epsilon;
     
 end
