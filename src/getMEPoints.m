@@ -44,8 +44,6 @@ else
     end
     X = load(sprintf('..\\me\\me%d.%d',N,(N+1)*(N+1)));
 end
-            
-X = X(:,1:3);
 
 
 end

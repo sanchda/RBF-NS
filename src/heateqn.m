@@ -36,34 +36,44 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     % Build the matrix for matrix-valued RBF interpolation.
     % This is a gigantic shitmess.  It's not yet obvious how it should be
     % cleaned up.
-    e2  = @(x,y) twoeps2*exp((-1 + dot(x,y))*twoeps2);  % Only for S2
-    PSI1 = @(x,y) [(-x(2)*y(2) - x(3)*y(3) + twoeps2*(x(3)*y(2) - x(2)*y(3))^2);y(1)*(x(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3)));(x(3)*y(1) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(x(3)*y(2) - x(2)*y(3)))]; 
-    PSI2 = @(x,y) [(x(1)*(y(2) + twoeps2*(x(1) - x(3) - y(1) + y(3))*(x(3)*y(2) - x(2)*y(3))));(2*x(1)*y(1)*(-1 - (-2 + x(2)*x(2) - 2*x(3)*y(1) + y(2)*y(2) + 2*x(1)*(x(3) + y(1) - y(3)) + twoeps2*(x(3) + y(1))*y(3))));(-x(1)*(-y(2) + twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3))))];
-    PSI3 = @(x,y) [((x(1)*y(3) - twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(3)*y(2) + x(2)*y(3))));(-y(1)*(-x(2)+twoeps2*(x(2)*y(1) - x(1)*y(2))*(-x(1) + x(3) + y(1) - y(3))));(-x(1)*y(1)-x(2)*y(2)+twoeps2*(x(2)*y(1)-x(1)*y(2))^2)];
-    PSI  = @(x,y) e2(x,y)*[PSI1(x,y)';PSI2(x,y)';PSI3(x,y)'];
     
-    dx   = @(x) (1/sqrt(1 - x(3)^2))*[(-x(3)*x(1)) (x(3)*x(2)) (1-x(3)*x(3))]';
-    ex   = @(x) (1/sqrt(1 - x(3)^2))*[-x(2) x(1) 0]';
-    
-    
-    mat1 = @(i,j) [-dot(ex(x(i,:)),ex(x(j,:))) dot(ex(x(i,:)),dx(x(j,:))); dot(dx(x(i,:)),ex(x(j,:))) -dot(dx(x(i,:)),dx(x(j,:)))];
-    mat2 = @(i,j) [dot(ex(x(i,:)),x(j,:)) + dot(ex(x(j,:)),x(i,:))  dot(ex(x(i,:)),x(j,:)) - dot(dx(x(j,:)),x(i,:));-dot(dx(x(i,:)),x(j,:)) + dot(ex(x(j,:)),x(i,:)) -dot(dx(x(i,:)),x(j,:)) - dot(dx(x(j,:)),x(i,:))];
-    eta1 = @(r) -twoeps2*exp(-r*r*eps*eps);
-    mu1  = @(r) twoeps2*twoeps2*exp(-r*r*eps*eps);
     r    = @(i,j) sqrt( (x(i,1) - x(j,1))^2 + (x(i,2) - x(j,2))^2 + (x(i,3) - x(j,3))^2);
-    eta  = @(i,j) eta1(r(i,j));
-    mu   = @(i,j) mu1(r(i,j));
+
     
-    A2   = @(i,j) eta(i,j)*mat1(i,j) + mu(i,j)*mat2(i,j);
+    % H is a function that accepts a vector in R3 and returns the
+    % Hessian matrix evaluated at that point.
+    % This is awful to compute and enter into Matlab, UNLESS you use the
+    % ToMatlab.m package for Mathematica :)
     
-    % TODO: build Adiv in a more intelligent way
-    Adiv = zeros(2*N,2*N);
+    H = @(x,y) [exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
+                -1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
+                1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).* ...
+                y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(2)+(-1).*y(2)),4.*exp(1).^((-1).* ...
+                eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).* ...
+                eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3));4.*exp(1).^((-1).*eps.^2.*(( ...
+                x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(1)+( ...
+                -1).*y(1)).*(x(2)+(-1).*y(2)),exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+( ...
+                x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(2)+( ...
+                -1).*y(2)).^2),4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1) ...
+                .*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)); ...
+                4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
+                -1).*y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3)),4.*exp(1).^(( ...
+                -1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)) ...
+                .*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)),exp(1).^((-1).*eps.^2.*(( ...
+                x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
+                eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
+
+    % Zonal and meridional bases
+    d = @(x) (1/sqrt(1-x(3)^2))*[(-x(3)*x(1)) (-x(3)*x(2)) (1-x(3)^2)];
+    e = @(x) (1/sqrt(1-x(3)^2))*[(-x(2)) x(1) 0];
+
+    % The function Q(x) generates the matrix which will project a vector in R3
+    % onto the tangent space of the sphere at x \in S2
+    Q = @(x) [0 x(3) (-x(2)); (-x(3)) 0 x(1);  x(2) (-x(1)) 0];
+   
+    PSI  = @(x,y) Q(x)*(-H(x,y))*(Q(y)');
     
-    for i = 1:N
-        for j = 1:N
-            Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = A2(i,j);
-        end
-    end
+    Adiv =  makeAdiv(x, PSI, d, e);   
     
     % TODO: build gamdel in a better way.  Also, seriously--did you wake
     % up on the retarded side of the bed when you named this array?
@@ -71,29 +81,36 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     buff = zeros(2,3);
 
     for i=1:N
-        buff(1,:) = dx(x(i,:))';
-        buff(2,:) = ex(x(i,:))';
+        buff(1,:) = d(x(i,:))';
+        buff(2,:) = e(x(i,:))';
         gamdel(2*i-1:2*i) = buff*U0(i,:)';
     end
     
-    albet = ((gamdel')/Adiv)';
+    albet = Adiv\gamdel;
     
-    % Now, recover the coefficients.
-    PSImat = zeros(3*N,3*N);
-    PSIarg = zeros(3*N,1);
+    dmat = zeros(N,3);
+    emat = zeros(N,3);
     
     for i = 1:N
-        for j = 1:N
-            PSImat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
-        end
-        PSIarg((3*i-2):(3*i),:) = albet(2*i-1)*dx(x(i,:)) + albet(2*i)*ex(x(i,:));
+        dmat(i,:) = d(x(:,1));
+        emat(i,:) = e(x(:,1));
     end
     
-    Udivbuff = PSImat*PSIarg;
+%    interpcoeffs = [albet(1:2:(2*N)) albet(1:2:(2*N)) albet(1:2:(2*N))].*dmat + [albet(2:2:(2*N)) albet(2:2:(2*N)) albet(2:2:(2*N))].*emat;
+ 
+    interpcoeffs = zeros(N,3);
     
-    Udivfree = reshape(Udivbuff,N,3);
+    for i = 1:N
+        interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
+    end
     
-    U = Udivfree;
+    % TODO:  Fix this up.
+    Udivfree = zeros(N,3);
+    for i = 1:N
+        for j = 1:N
+            Udivfree(i,:) = Udivfree(i,:) + (PSI(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
+        end
+    end
     
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere

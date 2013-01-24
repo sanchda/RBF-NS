@@ -1,12 +1,13 @@
 cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
 mu = 1;  % Parameter for the NS equation
-eps = 2;    % Shape paramater for the RBF kernel
-N = 8;     % Somehow related to the number of centers.  For the ME points,
+eps = 10;    % Shape paramater for the RBF kernel
+N = 12;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
 M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
 
 X = getMEPoints(N);
+X = X(:,1:3);
 % Rotate X through by a small angle
 t=0.5;
 theta = [1 0 0;0 cos(t) -sin(t);0 sin(t) cos(t)];
@@ -17,8 +18,7 @@ end
 % Div-free VFs can be given by curls of scalars.  Just use Qx*grad(u) =
 % curl_T(u) on the sphere.
 
-% u=x => curl = {0, z, -y}
-U0 = [0*X(:,1), X(:,3), -X(:,2)];
+U0 = [-X(:,2) + X(:,3), X(:,1), -X(:,1)];
 
 % u=(x+y+z) => curl = {y - x, z - x, -y + x}
 U0 = [X(:,2) - X(:,1), X(:,3) - X(:,1), -X(:,2) + X(:,1)];
