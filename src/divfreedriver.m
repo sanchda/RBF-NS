@@ -1,4 +1,4 @@
-cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
+cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 % GA RBF
 HGA =  @(x,y,eps) [exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
                 -1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
@@ -20,7 +20,7 @@ HGA =  @(x,y,eps) [exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)
 
             
             
-epsilon = 10;    % Shape paramater for the RBF kernel
+epsilon = 2.05;    % Shape paramater for the RBF kernel
 N   = 7;         % Somehow related to the number of centers.  For the ME points,
                  % the number of centers is (N+1)^2.
 
@@ -28,6 +28,7 @@ N   = 7;         % Somehow related to the number of centers.  For the ME points,
  errinfmat = zeros(70-7);
  err2mat   = zeros(70-7);
  kappamat  = zeros(70-7);
+ 
 for N = 7:70
     
     disp(N);
@@ -46,7 +47,7 @@ for N = 7:70
     % curl_T(u) on the sphere.
 
     % Test field 1
-    U1 = [0*X(:,1) (-X(:,3)) X(:,2)];
+    U1 = [(-X(:,2) + X(:,3)) (X(:,1) - X(:,3)) (-X(:,1) + X(:,2))];
 
     % Test field 2
     %U2 = [X(1,:).*(-X(2,:).^2 + X(3,:).^2) X(2,:).*(X(1,:)-X(3,:)).*(X(1,:) + X(3,:)), (-X(1,:).^2 + X(2,:).^2).*X(3,:)];
@@ -55,7 +56,14 @@ for N = 7:70
     %U3 = [X(:,3) -exp(X(:,1)).*X(3,:), -X(1,:) + exp(X(1,:)).*X(2,:)];
 
     % Run the divergence-free test
-    [maxerr l2err kappa] = testDivFree(X, W, U1, HGA, epsilon);
+    kappa = 10^5;
+    while kappa > 10^4
+        [maxerr l2err kappa] = testDivFree(X, W, U1, HGA, epsilon);
+        if kappa > 10^4
+            epsilon = 1.05*epsilon;
+            disp(epsilon);
+        end
+    end
     
     disp([maxerr l2err kappa])
     errinfmat(N-6) = maxerr;

@@ -1,4 +1,4 @@
-function [ Maxerr, L2err, kappa] = testDivFree(x, W, U0, H, eps )
+function [ Maxerr, L2err, kappa ] = testDivFree(x, W, U0, H, epsilon)
 % Tests the divergence-free code.
 
     N = size(U0,1);
@@ -11,11 +11,17 @@ function [ Maxerr, L2err, kappa] = testDivFree(x, W, U0, H, eps )
     % onto the tangent space of the sphere at x \in S2
     Q = @(x) [0 x(3) (-x(2)); (-x(3)) 0 x(1);  x(2) (-x(1)) 0];
    
-    PSI  = @(x,y) Q(x)*(-H(x,y,eps))*(Q(y)');
+    PSI  = @(x,y) (Q(x)')*(-H(x,y,epsilon))*Q(y);
     
     Adiv =  makeAdiv(x, PSI, d, e);
     
     kappa = cond(Adiv);
+    
+    if kappa > 10^4
+        L2err = 'error';
+        Maxerr = 'error';
+        return;
+    end
 
     % TODO: build gamdel in a better way.  Also, seriously--did you wake
     % up on the retarded side of the bed when you named this array?

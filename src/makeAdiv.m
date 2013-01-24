@@ -12,7 +12,7 @@ Adiv = zeros(2*N,2*N);
 
 for i=1:N
     for j=1:N
-        Adiv((2*i-1):(2*i),(2*j-1):(2*j))=[e(X(i,:)); d(X(i,:))]*PSI(X(i,:),X(j,:))*[e(X(j,:)); d(X(j,:))]';
+        Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = [d(X(i,:)); e(X(i,:))]*PSI(X(i,:),X(j,:))*[d(X(j,:)); e(X(j,:))]';
     end
 end
 
