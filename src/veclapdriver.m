@@ -26,25 +26,8 @@ N   = 7;           % Somehow related to the number of centers.  For the ME point
     end
 
     
-    % Define the VSH (in spherical surface coords)
-    Y01 = @(p,t) sqrt(3/(4*pi))*[-sin(t) sin(t) cos(t)];
-    
-    % Figure out the spherical coordinates of the data
-    Xsph = [acos(X(:,1)./(sqrt(X(:,1).^2 + X(:,2).^2))) atan(sqrt(X(:,1).^2 + X(:,2).^2)./X(:,3)) sqrt(X(:,1).^2 + X(:,2).^2 + X(:,3).^2)];
-    
-    % Evaluate the VSH at the data sites
-    U1sph = zeros(size(X,1),3);
-    for i = 1:size(X,1)
-        U1sph(i,:) = Y01(X(i,1),X(i,2));
-    end
-    
-    % Convert back to Cartesian coordinates
-    U1 = zeros(size(X,1),3);
-    for i = 1:size(X,1)
-        U1(i,:) = [(U1sph(i,3)*sin(U1sph(i,1))*cos(U1sph(i,2))) (U1sph(i,3)*sin(U1sph(i,1))*sin(U1sph(i,2))) (U1sph(i,3)*sin(U1sph(i,1)))];
-    end
-    
-    U1 = 2*X;
+    % A div-free VSH.  Check VecSphHarm.nb for details
+    U1 = [X(:,1).*X(:,2) (X(:,3).^2 - X(:,2).^2) X(:,2).*X(:,3)];
 
     
     % Run the test!
