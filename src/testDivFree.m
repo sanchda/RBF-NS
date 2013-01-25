@@ -64,6 +64,12 @@ function [ Maxerr, L2err, kappa ] = testDivFree(x, W, U0, H, epsilon)
     errsqrt = sqrt(err(:,1).^2 + err(:,2).^2 + err(:,3).^2);
     Maxerr = max(errsqrt);
     
+    % TODO:
+    % fit epsilon
+    % try different node sets (or just do the below and test a mixed VF)
+    % full projection
+    % vector lap use div-free vector curl of SVH
+    
     % Figure out the L-2 residual
     L2err = 0;
     for i = 1:N
