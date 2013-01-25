@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     10579,        342]
-NotebookOptionsPosition[      9961,        315]
-NotebookOutlinePosition[     10304,        330]
-CellTagsIndexPosition[     10261,        327]
+NotebookDataLength[     10402,        334]
+NotebookOptionsPosition[      9784,        307]
+NotebookOutlinePosition[     10127,        322]
+CellTagsIndexPosition[     10084,        319]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -263,7 +263,7 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"m", "=", "1"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"l", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"l", "=", "1"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Qx", "[", 
@@ -288,27 +288,19 @@ Cell[BoxData[{
        "z"}], "]"}]}], "}"}]}], "//", "FullSimplify"}]}], "Input",
  CellChangeTimes->{{3.5681198417049294`*^9, 3.5681198580508647`*^9}, {
   3.568119899857256*^9, 3.5681199660680428`*^9}, {3.568120045100563*^9, 
-  3.568120092437271*^9}}],
+  3.568120092437271*^9}, {3.5681266930810795`*^9, 3.568126693149083*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{
-   RowBox[{"4", " ", 
-    SqrtBox[
-     FractionBox["30", "\[Pi]"]], " ", "x", " ", "y"}], ",", 
-   RowBox[{"4", " ", 
-    SqrtBox[
-     FractionBox["30", "\[Pi]"]], " ", 
-    RowBox[{"(", 
-     RowBox[{
-      RowBox[{"-", 
-       SuperscriptBox["x", "2"]}], "+", 
-      SuperscriptBox["z", "2"]}], ")"}]}], ",", 
+  RowBox[{"0", ",", 
    RowBox[{
-    RowBox[{"-", "4"}], " ", 
     SqrtBox[
-     FractionBox["30", "\[Pi]"]], " ", "y", " ", "z"}]}], "}"}]], "Output",
- CellChangeTimes->{3.568120093226316*^9}]
+     FractionBox["6", "\[Pi]"]], " ", "z"}], ",", 
+   RowBox[{
+    RowBox[{"-", 
+     SqrtBox[
+      FractionBox["6", "\[Pi]"]]}], " ", "y"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.568120093226316*^9, 3.568126693650112*^9}]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -339,8 +331,8 @@ Cell[2786, 84, 4498, 137, 388, "Input"]
 Cell[CellGroupData[{
 Cell[7321, 226, 132, 3, 36, "Subsection"],
 Cell[CellGroupData[{
-Cell[7478, 233, 1914, 57, 172, "Input"],
-Cell[9395, 292, 526, 18, 54, "Output"]
+Cell[7478, 233, 1962, 57, 172, "Input"],
+Cell[9443, 292, 301, 10, 54, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
