@@ -30,7 +30,7 @@ N   = 7;         % Somehow related to the number of centers.  For the ME points,
  kappamat  = zeros(70-7);
  epsmat    = zeros(70-7);
  
-for N = 7:70
+for N = 7:7
     
     disp(N);
     X = getMEPoints(N);
@@ -46,9 +46,13 @@ for N = 7:70
 
     % Div-free VFs can be given by curls of scalars.  Just use Qx*grad(u) =
     % curl_T(u) on the sphere.
+    
+    % Curl-free VFs
 
-    % Test field 1
-    U1 = [(-X(:,2) + X(:,3)) (X(:,1) - X(:,3)) (-X(:,1) + X(:,2))];
+    % Test field 1, div-free component
+    U1div = [(-X(:,2) + X(:,3)) (X(:,1) - X(:,3)) (-X(:,1) + X(:,2))];
+    % Test field 1, curl-free component
+    U1crl = [1-X(:,1).*(X(:,1) + X(:,2) + X(:,3)),1-X(:,2).*(X(:,1) + X(:,2) + X(:,3)),1-X(:,3).*(X(:,1) + X(:,2) + X(:,3))];
 
     % Test field 2
     %U2 = [X(1,:).*(-X(2,:).^2 + X(3,:).^2) X(2,:).*(X(1,:)-X(3,:)).*(X(1,:) + X(3,:)), (-X(1,:).^2 + X(2,:).^2).*X(3,:)];
@@ -59,7 +63,7 @@ for N = 7:70
     % Run the divergence-free test
     kappa = 10^5;
     while kappa > 10^4
-        [maxerr l2err kappa] = testDivFree(X, W, U1, HGA, epsilon);
+        [maxerr l2err kappa] = testHelmHodge(X, W, U1div, U1crl, HGA, epsilon);
         if kappa > 10^4
             epsilon = 1.05*epsilon;
             disp(epsilon);
