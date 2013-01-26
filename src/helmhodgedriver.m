@@ -18,9 +18,16 @@
                     x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
                     eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
 
-    i=0;
-    for N = 5:5:50
-        geteps = @(n) -0.596239 + 0.113994*n;
+    j=0;
+    
+    % The function Q(x) generates the matrix which will project a vector in R3
+    % onto the tangent space of the sphere at x \in S2
+    Q = @(x) [0 x(3) (-x(2)); (-x(3)) 0 x(1);  x(2) (-x(1)) 0];
+    % P(x) projects into the normal space
+    P = @(x) eye(3) - [x(1);x(2);x(3)]*[x(1) x(2) x(3)];
+    
+    for N = 5:30:5
+        geteps = @(n) -0.519226 + 0.106809*(n+1);
         epsilon = geteps(N);
         X = getMEPoints(N);
         W = X(:,4);
@@ -48,11 +55,20 @@
         U2div = [(-1).*exp(1).^X(:,3).*X(:,2).*sin(2.*X(:,1)),(-2).*exp(1).^X(:,3).*X(:,3).*cos(2.*X(:,1))+(exp(1).^X(:,3).*X(:,1)+2.*X(:,3)).*sin(2.*X(:,1)),2.*X(:,2).*(exp(1).^X(:,3).*cos(2.*X(:,1))+(-1).*sin(2.*X(:,1)))];
         
         % Test field 3
-        %U3 = [X(:,3) -exp(X(:,1)).*X(3,:), -X(1,:) + exp(X(1,:)).*X(2,:)];
+        [Y,Dx,Dy,Dz] = dsph(10,X(:,1),X(:,2),X(:,3));
+        U3div = 0*X;
+        U3crl = 0*X;
+        Dx = Dx(:,3);
+        Dy = Dy(:,3);
+        Dz = Dz(:,3);
+        for i = 1:size(X,1)
+           U3div(i,:) = (Q(X(i,:))*[Dx(i,:);Dy(i,:);Dz(i,:)])';
+           U3crl(i,:) = (P(X(i,:))*[Dx(i,:);Dy(i,:);Dz(i,:)])';
+        end
+        
 
         % Run the divergence-free test
-        [maxerr l2err kappa] = testHelmHodge(X, W, U2div, U2crl, HGA, epsilon);
-
+        [maxerr l2err kappa] = testHelmHodge(X, W, U3div, U3crl, HGA, epsilon);
         disp([maxerr l2err])
         j = j+1;
         errinfmat(j) = maxerr;
