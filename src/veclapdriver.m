@@ -29,6 +29,8 @@ N   = 10;           % Somehow related to the number of centers.  For the ME poin
     
     % A div-free VSH.  Check VecSphHarm.nb for details
     U1 = [X(:,1).*X(:,2) (X(:,3).^2 - X(:,2).^2) -X(:,2).*X(:,3)];
+    U1 = [0*X(:,1) X(:,3) -X(:,2)];
+    U1 = [X(:,3) -X(:,2) 0*X(:,1)];
     
     % Run the test!
     [maxerr l2err kappa] = testVecLap(X, W, U1, epsilon);
