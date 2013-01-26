@@ -18,23 +18,10 @@
                     x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
                     eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
 
-
-
-                
-    % Epsilon was fit against N
-    eps = @(N) -1.37119 + 0.556389*sqrt(N);
-    N   = 20;         % Somehow related to the number of centers.  For the ME points,
-                      % the number of centers is (N+1)^2.
-    epsilon = eps(N);    % Shape paramater for the RBF kernel
-
-
-     errinfmat = zeros(70-7);
-     err2mat   = zeros(70-7);
-     kappamat  = zeros(70-7);
-     epsmat    = zeros(70-7);
-
-    for N = 7:30
-        epsilon = eps(N);
+    i=0;
+    for N = 5:5:50
+        geteps = @(n) -0.596239 + 0.113994*n;
+        epsilon = geteps(N);
         X = getMEPoints(N);
         W = X(:,4);
         X = X(:,1:3);
@@ -57,18 +44,20 @@
         U1crl = [1-X(:,1).*(X(:,1) + X(:,2) + X(:,3)),1-X(:,2).*(X(:,1) + X(:,2) + X(:,3)),1-X(:,3).*(X(:,1) + X(:,2) + X(:,3))];
 
         % Test field 2
-        %U2 = [X(1,:).*(-X(2,:).^2 + X(3,:).^2) X(2,:).*(X(1,:)-X(3,:)).*(X(1,:) + X(3,:)), (-X(1,:).^2 + X(2,:).^2).*X(3,:)];
-
+        U2crl = [(-2).*exp(1).^X(:,3).*((-1)+X(:,1).^2).*cos(2.*X(:,1))+((-2)+2.*X(:,1).^2+(-1).*exp(1).^X(:,3).*X(:,1).*X(:,3)).*sin(2.*X(:,1)),(-1).*X(:,2).*(2.*exp(1).^X(:,3).*X(:,1).*cos(2.*X(:,1))+((-2).*X(:,1)+exp(1).^X(:,3).*X(:,3)).*sin(2.*X(:,1))),(-2).*exp(1).^X(:,3).*X(:,1).*X(:,3).*cos(2.*X(:,1))+(2.*X(:,1).*X(:,3)+(-1).*exp(1).^X(:,3).*((-1)+X(:,3).^2)).*sin(2.*X(:,1))];
+        U2div = [(-1).*exp(1).^X(:,3).*X(:,2).*sin(2.*X(:,1)),(-2).*exp(1).^X(:,3).*X(:,3).*cos(2.*X(:,1))+(exp(1).^X(:,3).*X(:,1)+2.*X(:,3)).*sin(2.*X(:,1)),2.*X(:,2).*(exp(1).^X(:,3).*cos(2.*X(:,1))+(-1).*sin(2.*X(:,1)))];
+        
         % Test field 3
         %U3 = [X(:,3) -exp(X(:,1)).*X(3,:), -X(1,:) + exp(X(1,:)).*X(2,:)];
 
         % Run the divergence-free test
-        [maxerr l2err kappa] = testHelmHodge(X, W, U1div, U1crl, HGA, epsilon);
+        [maxerr l2err kappa] = testHelmHodge(X, W, U2div, U2crl, HGA, epsilon);
 
-    %    disp([maxerr l2err kappa])
-        errinfmat(N-6) = maxerr;
-        err2mat(N-6)   = l2err;
-        kappamat(N-6)  = kappa;
-        epsmat(N-6)    = epsilon;
+        disp([maxerr l2err])
+        j = j+1;
+        errinfmat(j) = maxerr;
+        err2mat(j)   = l2err;
+        kappamat(j)  = kappa;
+        epsmat(j)    = epsilon;
 
     end
