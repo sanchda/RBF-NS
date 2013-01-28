@@ -1,0 +1,313 @@
+<html>
+<head>
+<title>Extremal points on the sphere</title>
+</head>
+<body>
+<p><center><a NAME="ExtSys"></a>
+<table WIDTH="750" BORDER="0" PADDING = "0" BGCOLOR="#FFFFFF">
+<tr><td COLSPAN="3" ALIGN="CENTER"><a href="http://www.unsw.edu.au/"><img SRC="UNSWtext.gif"></a></td></tr>
+<tr><td COLSPAN="3" ALIGN="CENTER"><a href="http://www.maths.unsw.edu.au/"><img SRC="soms.jpg"></a></td></tr>
+<tr><td><img SRC="me100det.jpg"></td>
+    <td ALIGN="CENTER">
+    <font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+    Extremal (Maximum Determinant)<br>
+    points on the sphere S<sup>2</sup>
+    </font></b>
+    <p>
+    <a href="http://www.maths.unsw.edu.au/~rsw">
+    <font face="Arial, Helvetica, sans-serif" size="+1" color="#330099"><b>
+    Rob Womersley</b></font></a>
+    <p>
+    <font face="Arial, Helvetica, sans-serif" size="+1" color="#0000CC"><b>
+    Last updated 17-Oct-2007
+    </td>
+   <td><img SRC="me100pts.jpg"></td>
+</tr>
+<tr><td> </td>
+    <td><font face="Arial, Helvetica, sans-serif" size="+1" color="#990033"><b> Contents</b></font>
+    <ul>
+    <li> <a HREF="#S:ExtSys">Extremal Systems</a></li>
+    <li> <a HREF="#S:CubW">Interpolatory Cubature</a></li>
+    <li> <a HREF="#S:EVal">Eigenvalues and Condition Numbers</a></li>
+    <li> <a HREF="#S:LagNrm">Lagrangian norms, Lebesgue constant</a></li>
+    <li> <a HREF="#S:Geom">Geometric Properties</a></li>
+    <li> <a HREF="#S:Notes">Notes on point sets</a></li>
+    <li> <a HREF="#S:Vals">Tables of Points and Values</a></li>
+    <li> <a HREF="#S:Refs">References</a></li>
+    <li> <a HREF="#S:Ack">Acknowledgements</a></li>
+    </ul>
+    </td>
+    <td> </td>
+</tr>
+</table></center>
+<p><center><table WIDTH="750" BORDER="0" PADDING = "0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=CENTER COLSPAN=2>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:ExtSys">Extremal systems</a>
+</font></b>
+<tr VALIGN=TOP>
+<td WIDTH="410">
+<ul>
+<li> Unit sphere S<sup>2</sup> in R<sup>3</sup> has area |S<sup>2</sup>| = 4 <font FACE="SYMBOL">p</font>.</li>
+<li> The space P<sub>n</sub> of polynomials of degree at most n on S<sup>2</sup>
+     has dimension <p><center> d<sub>n</sub> = (n+1)<sup>2</sup>.</center></p></li>
+<li> <a href="extremal1.html#ExtSys">Extremal Systems</a> are sets of d<sub>n</sub> points x<sub>j</sub> on S<sup>2</sup> that
+     maximize the determinant of a basis matrix.</li>
+<li> The points are independent of the choice of basis.</li>
+<li> For a <b>global</b> maximum, it follows that the <a HREF="extremal2.html#LC">Lebesgue constant</a> is at most d<sub>n</sub> = (n+1)<sup>2</sup>.</li>
+<li> There are <b>many</b> local maxima, often with objective values close to the global maximum.</li>
+<li> Here the reproducing kernel basis functions <p><center>g<sub>j</sub>(x), &nbsp; j = 1,...,d<sub>n</sub></center></p>
+and associated Gram matrix G <p><center>G<sub>ij</sub> = g<sub>j</sub>(x<sub>i</sub>)</center></p> are used.</li>
+<li> G is symmetric positive semidefinite and for any fundamental system of points nonsingular (hence positive definite).</li>
+<li> A <a href="extremal1.html#LDLB">lower bound</a> on log det G is
+<p><center>log (d<sub>n</sub>! &nbsp;/&nbsp; |S<sup>2</sup>|<sup>d<sub>n</sub></sup>).</center></p></li>
+<li> An <a href="extremal1.html#LDUB">upper bound</a> on log det G is
+<p><center>d<sub>n</sub> log (d<sub>n</sub> / |S<sup>2</sup>|).</center></p></li>
+<li> For n >= 3 the upper bound cannot be achieved.</li>
+<li> The <a HREF="extremal1.html#LDG">norm of the gradient</a> with respect to a spherical parametrization of the points
+gives an idea how close it is to a stationary point (gradient = 0).
+Keep in mind the size of the objective when thinking about how small it is numerically possible to get this.</li>
+</ul>
+</td>
+<td ALIGN="top">
+<center>
+<img SRC="ld.png" ALT="log det G"><p>
+<img SRC="ldub.png" ALT="(Upper bound - log det G)/ dn"><p>
+<img SRC="ldg.png" ALT="infinity norm of gradient of log det G">
+</center>
+</td>
+</tr>
+</table>
+</center>
+<p>
+<p>
+<center>
+<table WIDTH="750" BORDER="0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=CENTER COLSPAN=2>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:CubW">Interpolatory Cubature</a>
+</b></font>
+<tr VALIGN=TOP>
+<td WIDTH="410">
+<ul>
+<li> Cubature rule sum<sub>j = 1 to d<sub>n</sub></sub> &nbsp; w<sub>j</sub> f(x<sub>j</sub>)
+     approximates the integral of f(x) over the surface of the unit sphere.</li>
+<li> Cubature weights w such that the cubature rule is exact for all polynomials of degree <= n
+     satsify <p><center>G w = e</center></p> e = vector of 1s.</li>
+<li> Cubature rule exact for p(x) = 1 implies that the sum of cubature weights = |S<sup>2</sup>|,
+     <p><center>e<sup>T</sup> w = |S<sup>2</sup>|</center></p>.</li>
+<li> The average, or equal, cubature weight is<p><center>w<sub>avg</sub> = |S<sup>2</sup>| / d<sub>n</sub></center></p></li>
+<li> Scaled cubature weights are w<sub>i</sub> / w<sub>avg</sub>,</li>     <p><ul>
+     <li> smallest &nbsp; w<sub>min</sub> / w<sub>avg</sub> <= 1,</li>
+     <li> largest &nbsp; &nbsp; w<sub>max</sub> / w<sub>avg</sub> >= 1.</li>
+     </ul></p>
+<li> <b> Conjecture: For extremal systems the cubature weights are always positive.</b></li>
+<li> Extremal points provide good starting points for numerically finding spherical designs
+     of degree n with d<sub>n</sub> = (n+1)<sup>2</sup> points for which
+     <p><center> w<sub>i</sub> = w<sub>avg</sub> &nbsp; for &nbsp; i = 1,...,d<sub>n</sub>.</center></p></li>
+</ul>
+</td>
+<td>
+<img SRC="wmins.png" ALT="Scaled minimum and maximum cubature weights" ALIGN=CENTER>
+<img SRC="wce.png" ALT="Worst case cubature error in Sobolev space H<sup>3/2</sup>" ALIGN=CENTER>
+</td>
+</tr>
+</table>
+</center>
+<p>
+<p>
+<center>
+<table WIDTH="750" BORDER="0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=CENTER COLSPAN=2>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:EVal">Eigenvalues and condition numbers</a>
+</b></font>
+<tr VALIGN=TOP>
+<td WIDTH="410">
+<ul>
+<li> <b>Many</b> systems of d<sub>n</sub> = (n+1)<sup>2</sup> points on S<sup>2</sup>
+ have very large condition numbers,
+ making solving a linear system for interpolation or cubature weights unreliable.</li>
+<li>Extremal systems have excellent conditioning, making the cubature weiights reliable</li>
+<li>1-norm condition number
+    <p><center> <a HREF="extremal1.html#Cond1">cond<sub>1</sub>(G)</a>
+    = || G ||<sub>1</sub> &nbsp; || G<sup>-1</sup> ||<sub>1</sub>.</center></p></li>
+<li>As G<sub>ii</sub> = d<sub>n</sub> / |S<sup>2</sup>|,
+    <p><center>trace(G) = sum of eigenvalues of G = d<sub>n</sub><sup>2</sup> / |S<sup>2</sup>|.</center></p></li>
+<li><font FACE="SYMBOL">l</font><sub>min</sub>(G) = smallest eigenvalue.<br>
+<font FACE="SYMBOL">l</font><sub>avg</sub>(G) = average eigenvalue = d<sub>n</sub> / |S<sup>2</sup>|, <br>
+<font FACE="SYMBOL">l</font><sub>max</sub>(G) = largest eigenvalue.</li>
+<li>2-norm condition number
+    <p><center> <a HREF="extremal2.html#EV">cond<sub>2</sub>(G)</a>
+    = <font FACE="SYMBOL">l</font><sub>max</sub>(G) / <font FACE="SYMBOL">l</font><sub>min</sub>(G)</center></p></li>
+<li>The 2-norm condition number is generally an order of magnitude less than the 1-norm condition number</li>
+<li>Maximizing the product of the eigenvalues,
+while keeping the sum of the eigenvalues fixed,
+tries to make all eigenvalues equal, improving the condition number.</li>
+</ul>
+</td>
+<td>
+<img SRC="ev.png" ALT="Eigenvalues of G" ALIGN=CENTER>
+<img SRC="cond1.png" ALT="1-norm condition number of G" ALIGN=CENTER>
+</td>
+</tr>
+</table>
+</center>
+<p>
+<p>
+<center>
+<table WIDTH="750" BORDER="0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=CENTER COLSPAN=2>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:LagNrm">Lagrangian norms, Lebesgue constant</a>
+</b></font>
+<tr VALIGN=TOP>
+<td WIDTH="410">
+<ul>
+<li>Lagranians
+    <p><center> L<sub>j</sub>(x) = e<sub>j</sub><sup>T</sup> G<sup>-1</sup> <b>g</b>(x) &nbsp; j = 1,...,d<sub>n</sub></center> </p>
+    for x in S<sup>2</sup>.</li>
+<li><a HREF="extremal2.html#LC">Lebesgue constant</a> = ||<font FACE="SYMBOL">L</font><sub>n</sub>|| = 
+interpolation operator norm (as a map from C(S<sup>2</sup>) to C(S<sup>2</sup>)) is<p>
+<p><center>max<sub>x in S<sup>2</sup></sub> &nbsp; ||L(x)||<sub>1</sub>.</center></p> </li>
+<li><a HREF="extremal2.html#Rub">Reimer upper bound</a> on the Lebesgue constant is
+    <p><center>R = (n+1) sqrt(<font FACE="SYMBOL">l</font><sub>avg</sub> / <font FACE="SYMBOL">l</font><sub>min</sub>).</center></p> </li>
+<li>All calculated extremal point systems have <a HREF="extremal2.html#LC">Lebesgue constant</a> closer to (n+1) than the known upper bound of (n+1)<sup>2</sup>.</li>
+<li>Lagrangian <a HREF="extremal2.html#Lnrm">2-norm</a>,<p>
+  <p><center>max<sub>x in S<sup>2</sup></sub> &nbsp; || L(x) ||<sub>2</sub></center></p>
+  and <a HREF="extremal2.html#Lnrm">infinity norm</a>,<p>
+  <p><center>max<sub>x in S<sup>2</sup></sub> &nbsp max<sub>j = 1,...,d<sub>n</sub></sub> | L<sub>j</sub>(x) |,</center></p>
+are calculated by finding global maximum over S<sup>2</sup>.
+As L<sub>j</sub>(x<sub>j</sub>) = 1 and L<sub>i</sub>(x<sub>j</sub>) = 0 for i not equal to j,
+the infinity norm of the Lagrangians is >= 1, and should be 1 for extremal systems.</li>
+</ul>
+</td>
+<td>
+<img SRC="lagnrm1.png" ALT="Lagrangian 1-norm (Lebesgue constant)" ALIGN=CENTER>
+<img SRC="lagnrm2.png" ALT="Lagrangian 2-norm" ALIGN=CENTER>
+</td>
+</tr>
+</table>
+</center>
+<p>
+<p>
+<center>
+<table WIDTH="750" BORDER="0" PADDING = "0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=CENTER COLSPAN=2>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:Geom">Geometric Properties</a>
+</b></font>
+<tr VALIGN=TOP>
+<td WIDTH="410">
+<ul>
+<li>The geodesic distance between two points x and y on the unit sphere S<sup>2</sup> is
+dist(x,y) = cos<sup>-1</sup>(x<sup>T</sup> y).</li>
+<li>The sphere packing problem is to place m points on a sphere to as to maximize the
+the <a HREF="extremal3.html#MinDist">minimal distance</a>, or minimal separation, between them.</li>
+<li>For extremal systems the minimum distance between points is known to be asymptotially greater than <font FACE="SYMBOL">p</font>/(2n).
+Numerically the minimum angle is closer to <font FACE="SYMBOL">p</font>/n.</li>
+<li><a HREF="extremal3.html#MeshN">Mesh norm</a> is
+<p><center>h = max<sub>x in S<sup>2</sup></sub> &nbsp; min<sub>j=1,...,d<sub>n</sub></sub> &nbsp; dist(x, x<sub>j</sub>).</center></p>
+This is also the covering radius for covering the sphere by spherical caps.</li>
+<li><a HREF="extremal3.html#PE">Potential energy</a> is sum over all distinct points x<sub>i</sub> and x<sub>j</sub> of 1 / ||x<sub>i</sub> - x<sub>j</sub>||<sub>2</sub></li>
+<li><a HREF="extremal3.html#CFDisc">Cui and Freeden discrepancy</a> is
+<p>D = 
+(1/(2 d<sub>n</sub> sqrt(<font FACE="SYMBOL">p</font>)))<br>
+&nbsp; &nbsp; &nbsp; [ sum<sub>j=1,...,d<sub>n</sub></sub>  sum<sub>k=1,...,d<sub>n</sub></sub><br>
+&nbsp; &nbsp; &nbsp; (1 - 2 log(1 + sqrt((1 - x<sub>j</sub><sup>T</sup> x<sub>k</sub>)/2)) ]<sup>1/2</sup>.</p></li>
+<li><a HREF="extremal3.html#CHvol">Volume of the convex hull</a> of a set of points on S<sup>2</sup> is always less than the volume of the unit sphere
+ = 4 <font FACE="SYMBOL">p</font> / 3 = 4.18879...</li>
+</ul>
+<img SRC="vcell.png" ALT="Voronoi cells" ALIGN=CENTER>
+<p>
+</td>
+<td>
+<img SRC="ang.png" ALT="Minimum angle between points" ALIGN=CENTER>
+<p>
+<img SRC="meshn.png" ALT="Mesh norm (covering radius)" ALIGN=CENTER>
+<img SRC="meshr.png" ALT="Mesh ratio (covering radius/packing radius)" ALIGN=CENTER>
+</td>
+</tr>
+</table>
+</center>
+<p>
+<center>
+<table WIDTH="750" BORDER="0" PADDING = "0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=LEFT>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:Notes">Notes on point sets</a>
+</b></font>
+<p><font face="Arial, Helvetica, sans-serif" SIZE="+1" color="#CC0000" ><b>
+Caveat: All points are only approximate local maximizers of det(G).
+Attempts to find global extrema have been made, with decreasing reliability as n increases.</li>
+</b></font>
+<p>
+<ul>
+<li>For each point set, the text file has four items per row:
+the x<sub>j</sub>, y<sub>j</sub>, and z<sub>j</sub> cartesian coordinates in [-1, 1],
+and the cubature weight w<sub>j</sub> for that point.
+The number of rows is equal to the number of points.</li>
+<li>All points are on the unit sphere so should have
+x<sub>j</sub><sup>2</sup> + y<sub>j</sub><sup>2</sup> + z<sub>j</sub><sup>2</sup> = 1.</li>
+<li>The file names have three components: point set, degree, number of points.</li>
+<li>Background programs to search for global extrema are run. This web page and tables are updated when a better system is found.</li>
+<li>A gzipped tar file of the current set of extremal points is in
+<a HREF="md.tar.gz">md.tar.gz</a> (61 Mb compressed, 155 Mb uncompressed!).
+The main differences are for degrees 80 and above.
+&nbsp;<b><font COLOR="#008800">Last updated 17-Oct-2007</font></b></li>
+</ul>
+<p><font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:Vals">Tables of values</a>
+</b></font>
+<ul>
+<li><a href="extremal1.html">Points, determinant, cubature weights</a></li>
+<li><a href="extremal2.html">Eigenvalues and Lagrangian norms</a></li>
+<li><a href="extremal3.html">Geometrical properties</a></li>
+</ul>
+</td>
+</tr>
+</table>
+</center>
+<p>
+<center>
+<table WIDTH="750" BORDER="0" PADDING = "0" BGCOLOR="#FFFFFF">
+<tr><td ALIGN=LEFT>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:Refs">References</a>
+</font></b>
+<p>
+<ul>
+<li> R. S. Womersley and I. H. Sloan,
+<i>How good can polynomial interpolation on the sphere be?</i>
+Advances in Computational Mathematics <b> 14 </b> (2001) 195--226.</li>
+<li>I. H. Sloan and R. S. Womersley,
+<i>Extremal systems of points and numerical integration on the sphere</i>,
+Advances in Computational Mathematics <b> 21 </b> (2004) 107--125.
+<a HREF="http://www.maths.unsw.edu.au/~rsw/Papers/extremal.pdf">extremal.pdf</a>
+</ul>
+<p><font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="S:Ack">Acknowlegements </a>
+</font></b>
+<p>
+The use of the high performance computing facilities of
+<ul>
+<li><a HREF="http://matrix.maths.unsw.edu.au">Matrix</a>
+    the School of Mathematics AMD Opteron Linux computational cluster</li>
+<li>The School of Mathematics Condor pool</li>
+<li><a HREF="http://www.ac3.edu.au"><b>ac3</b></a>,
+The Australian Center for Advanced Computing and Communication;</li>
+<li><a HREF="http://nf.apac.edu.au"><b>APAC</b></a>,
+Australian Partnership for Advanced Computing;</li>
+</ul>
+is gratefully acknowledged.
+<p><hr>
+<center>
+Last updated 17-Oct-2007 &nbsp | &nbsp Page contact: R.Womersley (AT) unsw.edu.au &nbsp | &nbsp <a HREF="#ExtSys">Top</a>
+</center>
+</td>
+</tr>
+</table>
+</center>
+
+</body>
+</html>

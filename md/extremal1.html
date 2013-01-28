@@ -1,0 +1,2531 @@
+<html>
+<head>
+<title>Extremal points on the sphere</title>
+</head>
+<body>
+<center>
+<font face="Arial, Helvetica, sans-serif" size="+2" color="#990033"><b>
+<a NAME="Top">Extremal (Maximum Determinant)</a><br>
+points on the sphere S<sup>2</sup>
+</b></font>
+<p>
+<font face="Arial, Helvetica, sans-serif" size="+1" color="#0000CC"><b>
+Last updated 17-Oct-2007
+</b></font>
+</center>
+<p>
+<p><center><table BORDER=1 WIDTH=750>
+<tr BGCOLOR="#FFFFFF">
+  <td ALIGN=CENTER COLSPAN="13">
+<font SIZE="+2" COLOR="#990033">
+  <a NAME="MD">Extremal systems</a> -- <a NAME="LD">Determinants</a> and <a NAME="CubW">cubature weights</a>
+  </font></center>
+</td>
+</tr>
+<tr>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b>Deg.</b></font> </td>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b>No. of points</b></font> </td>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b>Files</b></font> </td>
+   <td ALIGN=CENTER COLSPAN="5"> <font SIZE="-1"> <b>f = log det G </b></font> </td>
+  <td ALIGN=CENTER COLSPAN="2"> <font SIZE="-1"> <b>Cubature weights</b></font> </td>
+  <td ALIGN=CENTER COLSPAN="3"> <font SIZE="-1"> <b><center>1-norms and condition number</b></font> </td>
+</tr>
+<tr>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b>n</b></font> </td>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b> d<sub>n</sub> = (n+1)<sup>2</sup></b></font> </td>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b> Points and weights </b></font> </td>
+   <td ALIGN=CENTER> <font SIZE="-1"> <b> Lower bound </b></font> </td>
+  <td ALIGN=CENTER BGCOLOR="#DD88DD"> <font SIZE="-1"> <b> Value f</b></font> </td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> Upper bound </font> </td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> (Upper bound - f)/m </font> </td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> <a NAME="LDG">Infinity norm grad f</a> </font> </td>
+  <td ALIGN=CENTER BGCOLOR = "AAAAFF"> <font SIZE="-1"> <b> w<sub>min</sub><hr WIDTH="20">w<sub>avg</sub></font> </td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> w<sub>max</sub><hr WIDTH="20">w<sub>avg</sub></font> </td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> ||G||<sub>1</sub></font> </td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> ||G<sup>-1</sup>||<sub>1</sub></font></td>
+  <td ALIGN=CENTER> <font SIZE="-1"> <b> cond<sub>1</sub>(G)</font> </td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">      4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md001.00004">md001.00004</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    -6.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                   -4.58 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    -4.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0000 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e-16 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 1.0000 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0000 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.2e-01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.142 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+00 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">      9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md002.00009">md002.00009</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   -10.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                   -3.21 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    -3.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0233 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.0e-15 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.9824 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0352 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+00 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.427 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.6e+00 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">     16 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md003.00016">md003.00016</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    -9.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                    3.39 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                     3.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0299 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.3e-15 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.9422 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1734 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+00 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.651 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.8e+00 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">     25 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md004.00025">md004.00025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    -5.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                   16.14 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    17.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0423 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.6e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.8170 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0582 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.4e+00 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.599 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+00 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">     36 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md005.00036">md005.00036</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                     4.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                   36.17 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    37.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0477 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.8430 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0872 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.5e+00 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.372 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">     49 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md006.00049">md006.00049</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    20.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                   64.09 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    66.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0527 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.1e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7839 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1799 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.333 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">     64 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md007.00064">md007.00064</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    43.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  100.69 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   104.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0545 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.8e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.8822 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1326 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.157 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">     81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md008.00081">md008.00081</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                    73.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  146.19 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   150.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0586 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.7e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7736 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1407 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.127 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">    9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    100 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md009.00100">md009.00100</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   110.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  201.56 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   207.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0586 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.6e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.8530 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0804 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.8e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.042 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.9e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   10 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    121 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md010.00121">md010.00121</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   156.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  266.32 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   274.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0638 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7553 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2428 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.9e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.066 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.1e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   11 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    144 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md011.00144">md011.00144</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   210.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  342.16 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   351.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0627 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.5e-14 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.8409 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1251 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.6e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.734 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.4e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   12 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    169 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md012.00169">md012.00169</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   273.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  428.03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   439.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0661 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7673 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1901 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.878 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.4e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   13 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    196 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md013.00196">md013.00196</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   346.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  525.16 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   538.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0677 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.8032 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1526 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.9e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.879 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.9e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   14 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md014.00225">md014.00225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   427.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  633.52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   649.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0694 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7315 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2343 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e+01 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.938 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.7e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   15 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    256 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md015.00256">md015.00256</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   519.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  753.48 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   771.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0709 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.9e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7507 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1720 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.957 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   16 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    289 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md016.00289">md016.00289</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   620.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                  885.59 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   906.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0711 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.5e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7211 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2224 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.750 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e+01 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   17 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    324 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md017.00324">md017.00324</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   732.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 1029.33 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1052.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0728 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.4e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7695 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2307 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.921 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   18 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    361 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md018.00361">md018.00361</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   855.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 1185.65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1212.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0735 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.1e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6781 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2364 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.815 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   19 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    400 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md019.00400">md019.00400</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                   988.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 1354.16 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1384.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0750 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.8e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7102 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2226 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.752 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   20 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    441 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md020.00441">md020.00441</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1132.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 1535.65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1569.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0758 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.5e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6480 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2252 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.794 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   21 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    484 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md021.00484">md021.00484</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1287.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 1730.07 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1767.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0765 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.3e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7394 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2282 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.734 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   22 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    529 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md022.00529">md022.00529</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1453.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 1937.53 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1978.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0773 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6846 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2596 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.8e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.798 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   23 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    576 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md023.00576">md023.00576</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1631.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 2158.52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2203.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0777 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7034 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2583 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.1e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.737 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   24 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    625 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md024.00625">md024.00625</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  1820.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 2392.58 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2441.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0786 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.7e-13 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6819 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2744 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.5e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.700 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.4e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   25 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    676 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md025.00676">md025.00676</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2022.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 2640.70 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2694.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0788 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6886 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2668 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.8e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.691 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.7e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   26 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    729 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md026.00729">md026.00729</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2235.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 2902.53 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2960.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0791 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6957 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2700 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.3e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.708 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.0e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   27 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    784 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md027.00784">md027.00784</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2460.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 3178.04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  3240.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0798 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6869 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2694 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.8e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.686 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.3e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   28 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    841 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md028.00841">md028.00841</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2698.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 3467.88 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  3535.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0801 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6731 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2604 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.1e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.733 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.7e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   29 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    900 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md029.00900">md029.00900</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  2948.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 3771.93 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  3844.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0803 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.6e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7172 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2589 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.7e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.648 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.7e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   30 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">    961 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md030.00961">md030.00961</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  3211.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 4090.72 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  4167.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0802 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6708 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2573 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.673 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.1e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   31 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1024 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md031.01024">md031.01024</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  3486.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 4423.34 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  4506.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0808 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7052 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3496 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.6e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.720 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.7e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   32 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1089 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md032.01089">md032.01089</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  3774.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 4770.96 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  4859.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0809 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.0e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6899 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2608 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.3e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.684 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.0e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   33 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1156 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md033.01156">md033.01156</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  4075.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 5132.73 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  5227.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0816 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.7e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6828 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2356 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.7e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.777 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.0e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   34 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md034.01225">md034.01225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  4389.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 5510.22 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  5610.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0815 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.0e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7049 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2648 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.4e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.683 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.8e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   35 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1296 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md035.01296">md035.01296</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  4716.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 5902.10 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  6008.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0819 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.5e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6960 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2686 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.703 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.3e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   36 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1369 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md036.01369">md036.01369</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  5057.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 6309.12 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  6421.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0823 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.8e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6819 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2383 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e+02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.854 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.2e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   37 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1444 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md037.01444">md037.01444</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  5411.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 6731.22 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  6850.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0826 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.8e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6629 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2627 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.802 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   38 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1521 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md038.01521">md038.01521</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  5778.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 7168.69 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  7294.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0830 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.8e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7110 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2592 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.644 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   39 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1600 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md039.01600">md039.01600</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  6159.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 7622.09 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  7754.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0829 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.0e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6899 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2774 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.700 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   40 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1681 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md040.01681">md040.01681</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  6554.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 8089.86 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  8230.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0836 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.8e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6900 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2749 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.792 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   41 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1764 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md041.01764">md041.01764</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  6962.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 8573.82 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  8721.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0839 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.7e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7048 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2713 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.665 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   42 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1849 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md042.01849">md042.01849</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  7384.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 9073.48 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  9229.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0841 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.9e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6901 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2669 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.681 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.6e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   43 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   1936 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md043.01936">md043.01936</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  7821.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                 9588.87 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  9752.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0844 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6871 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2835 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.659 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e+02 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   44 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md044.02025">md044.02025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  8271.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                10120.72 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 10291.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0844 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.2e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6700 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2809 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.6e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.661 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   45 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2116 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md045.02116">md045.02116</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  8735.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                10667.82 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 10847.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0848 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6574 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2612 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.681 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   46 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2209 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md046.02209">md046.02209</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  9214.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                11231.65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 11418.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0848 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.6e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6773 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2625 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.608 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   47 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2304 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md047.02304">md047.02304</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                  9707.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                11810.52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 12007.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0853 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.7167 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2587 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.606 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   48 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2401 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md048.02401">md048.02401</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 10215.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                12406.70 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 12611.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0853 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.8e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6419 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2874 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.603 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   49 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2500 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md049.02500">md049.02500</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 10737.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                13019.29 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 13232.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0853 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-12 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6634 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2761 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.602 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   50 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2601 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md050.02601">md050.02601</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 11274.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                13648.51 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 13870.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0852 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6692 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2749 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.641 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   51 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2704 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md051.02704">md051.02704</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 11825.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                14292.81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 14524.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0857 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6621 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2933 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.643 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2809 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md052.02809">md052.02809</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 12391.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                14954.28 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 15195.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0859 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6369 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2600 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.723 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   53 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   2916 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md053.02916">md053.02916</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 12972.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                15632.37 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 15883.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0860 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6585 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2809 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.622 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.6e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   54 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md054.03025">md054.03025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 13567.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                16327.17 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 16588.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0862 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6366 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2815 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.7e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.660 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   55 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3136 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md055.03136">md055.03136</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 14178.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                17038.81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 17309.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0864 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.6e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6858 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2503 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.9e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.677 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   56 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3249 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md056.03249">md056.03249</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 14804.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                17767.76 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 18048.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0864 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6523 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2783 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.0e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.674 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   57 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3364 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md057.03364">md057.03364</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 15445.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                18513.31 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 18804.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0865 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6359 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3154 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.0e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.635 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   58 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3481 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md058.03481">md058.03481</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 16101.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                19275.91 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 19577.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0866 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.5e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6262 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2890 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.2e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.709 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   59 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3600 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md059.03600">md059.03600</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 16772.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                20055.10 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 20367.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0868 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6427 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3077 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.669 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   60 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3721 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md060.03721">md060.03721</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 17459.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                20852.36 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 21175.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0868 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.9e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6173 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2971 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.5e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.638 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   61 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3844 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md061.03844">md061.03844</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 18161.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                21665.43 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 22000.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0871 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6605 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3201 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.6e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.690 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   62 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   3969 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md062.03969">md062.03969</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 18878.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                22495.58 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 22842.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0874 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.8e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6164 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2896 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.8e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.665 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.6e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   63 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4096 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md063.04096">md063.04096</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 19611.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                23344.79 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 23702.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0873 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.1e-11 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6369 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2774 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.9e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.695 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   64 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md064.04225">md064.04225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 20360.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                24209.60 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 24580.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0877 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6457 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2981 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.669 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.9e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4356 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md065.04356">md065.04356</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 21124.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                25092.82 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 25475.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0878 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6583 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2857 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.2e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.780 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   66 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4489 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md066.04489">md066.04489</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 21904.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                25994.47 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 26388.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0877 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.5e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6490 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3114 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.782 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   67 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4624 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md067.04624">md067.04624</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 22699.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                26912.29 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 27318.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0879 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.6e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6573 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2722 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.5e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.835 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   68 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4761 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md068.04761">md068.04761</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 23511.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                27847.11 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 28267.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0882 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.5e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6759 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2772 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.8e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.835 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.0e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   69 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   4900 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md069.04900">md069.04900</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 24338.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                28801.07 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 29233.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0882 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6524 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2948 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.0e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.697 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.3e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   70 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5041 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md070.05041">md070.05041</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 25181.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                29771.09 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 30217.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0885 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.4e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6804 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3256 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.832 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   71 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5184 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md071.05184">md071.05184</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 26040.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                30760.81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 31219.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0885 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6611 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2913 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.682 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   72 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5329 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md072.05329">md072.05329</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 26916.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                31767.91 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 32239.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0886 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.3e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6336 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3022 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.5e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.731 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.9e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   73 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5476 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md073.05476">md073.05476</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 27807.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                32792.42 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 33278.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0887 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6464 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2919 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.7e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.715 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   74 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5625 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md074.05625">md074.05625</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 28715.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                33834.32 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 34334.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0890 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.5e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6174 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2756 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.9e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.762 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   75 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5776 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md075.05776">md075.05776</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 29638.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                34894.50 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 35409.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0892 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6534 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2950 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.721 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.3e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   76 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   5929 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md076.05929">md076.05929</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 30578.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                35973.34 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 36502.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0892 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6260 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3074 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.3e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.726 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   77 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   6084 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md077.06084">md077.06084</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 31535.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                37069.69 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 37613.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0894 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.2e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6466 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2943 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.776 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.0e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   78 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   6241 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md078.06241">md078.06241</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 32507.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                38185.46 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 38743.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0894 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.6e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6715 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3027 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.8e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.906 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.0e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   79 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   6400 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md079.06400">md079.06400</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 33496.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                39319.30 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 39891.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0894 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6132 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3187 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.9e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.738 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.4e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   80 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   6561 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md080.06561">md080.06561</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 34502.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                40473.38 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 41057.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0891 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.5e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6072 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2935 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.631 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.5e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   6724 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md081.06724">md081.06724</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 35524.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                41639.55 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 42243.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0897 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.4e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6073 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2951 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.894 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   82 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   6889 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md082.06889">md082.06889</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 36562.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                42827.70 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 43446.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0898 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6471 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3494 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.6e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.896 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.5e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   83 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   7056 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md083.07056">md083.07056</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 37618.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                44034.65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 44668.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0899 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.3e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6542 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2963 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.8e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.807 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.8e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   84 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   7225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md084.07225">md084.07225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 38690.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                45259.53 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 45909.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0900 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.6e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5871 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3073 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.961 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.7e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   85 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   7396 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md085.07396">md085.07396</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 39778.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                46504.75 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 47169.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0898 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.6e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6094 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3258 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.060 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   86 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   7569 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md086.07569">md086.07569</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 40884.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                47765.82 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 48447.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0901 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6142 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2883 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.5e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.752 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.6e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   87 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   7744 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md087.07744">md087.07744</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 42006.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                49045.76 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 49744.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0903 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6004 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3127 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.825 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.8e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   88 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   7921 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md088.07921">md088.07921</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 43145.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                50345.86 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 51060.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0903 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.2e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6345 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2999 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.1e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.778 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   89 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   8100 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md089.08100">md089.08100</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 44301.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                51663.81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 52395.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0903 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.7e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6202 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3125 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.771 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   90 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   8281 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md090.08281">md090.08281</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 45473.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                53000.42 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 53749.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0905 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6062 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3247 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e+03 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.933 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   91 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   8464 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md091.08464">md091.08464</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 46663.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                54355.70 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 55122.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0906 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.6e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6396 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3273 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.767 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   92 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   8649 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md092.08649">md092.08649</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 47870.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                55731.71 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 56514.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0905 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5992 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3235 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.841 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.0e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   93 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   8836 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md093.08836">md093.08836</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 49094.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                57124.12 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 57925.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0906 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.7e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5989 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3048 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.725 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.6e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   94 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   9025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md094.09025">md094.09025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 50335.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                58537.79 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 59355.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0905 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6323 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3211 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.834 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.8e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   95 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   9216 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md095.09216">md095.09216</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 51593.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                59969.39 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 60804.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0906 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6168 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3010 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.015 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   96 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   9409 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md096.09409">md096.09409</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 52869.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                61420.11 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 62272.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0906 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6340 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3071 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.930 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   97 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   9604 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md097.09604">md097.09604</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 54161.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                62889.17 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 63760.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0907 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6182 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3297 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.760 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e+03 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   98 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">   9801 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md098.09801">md098.09801</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 55471.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                64375.39 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 65267.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0910 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.1e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6360 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3182 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.971 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">   99 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  10000 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md099.10000">md099.10000</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 56798.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                65884.18 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 66793.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0909 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-05 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5868 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.865 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  100 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  10201 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md100.10201">md100.10201</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 58143.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                67410.50 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 68338.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0910 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6303 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3277 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.111 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  101 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  10404 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md101.10404">md101.10404</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 59505.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                68956.81 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 69903.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0910 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.2e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6080 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3227 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.042 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  102 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  10609 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md102.10609">md102.10609</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 60884.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                70520.38 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 71488.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0912 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6465 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3231 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.866 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  103 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  10816 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md103.10816">md103.10816</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 62281.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                72103.40 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 73091.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0914 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.4e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5916 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3521 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.023 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  104 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  11025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md104.11025">md104.11025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 63695.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                73711.18 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 74715.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0911 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.5e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5949 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3383 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.106 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  105 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  11236 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md105.11236">md105.11236</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 65127.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                75329.13 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 76358.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0916 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6324 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3532 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.467 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  106 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  11449 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md106.11449">md106.11449</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 66577.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                76975.10 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 78020.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0913 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6232 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3310 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.162 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  107 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  11664 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md107.11664">md107.11664</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 68044.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                78632.83 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 79702.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0917 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6449 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3434 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.135 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  108 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  11881 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md108.11881">md108.11881</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 69529.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                80315.27 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 81404.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0917 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5985 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3221 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.367 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  109 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  12100 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md109.12100">md109.12100</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 71031.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                82015.65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 83126.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0918 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.7e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5717 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3487 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.5e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.240 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  110 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  12321 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md110.12321">md110.12321</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 72552.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                83732.39 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 84867.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0921 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6019 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3305 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.6e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.417 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  111 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  12544 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md111.12544">md111.12544</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 74090.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                85472.82 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 86628.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0921 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6104 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3215 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.6e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.301 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  112 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  12769 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md112.12769">md112.12769</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 75646.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                87236.38 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 88409.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0919 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.8e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5885 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3432 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.242 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  113 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  12996 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md113.12996">md113.12996</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 77219.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                89014.61 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 90210.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0920 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5957 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3153 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.513 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  114 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  13225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md114.13225">md114.13225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 78811.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                90815.83 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 92030.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0919 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5782 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3146 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.7e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.309 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  115 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  13456 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md115.13456">md115.13456</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 80420.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                92633.22 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 93871.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0920 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4e-03 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6151 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3543 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.498 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  116 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  13689 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md116.13689">md116.13689</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 82048.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                94466.40 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 95731.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0924 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6234 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3104 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.334 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  117 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  13924 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md117.13924">md117.13924</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 83693.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                96326.53 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 97612.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0923 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5807 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3472 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.373 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  118 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  14161 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md118.14161">md118.14161</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 85357.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">                98196.75 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 99512.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0929 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.2e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6128 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3790 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.468 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  119 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  14400 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md119.14400">md119.14400</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 87038.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               100095.18 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                101433.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0929 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.6e-04 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5637 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3368 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.9e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.160 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  120 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  14641 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md120.14641">md120.14641</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 88738.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               102009.84 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                103373.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0931 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5936 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3621 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.045 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  121 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  14884 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md121.14884">md121.14884</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 90456.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               103947.94 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                105334.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0931 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.1e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5735 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3445 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.217 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  122 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  15129 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md122.15129">md122.15129</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 92191.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               105905.87 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                107315.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0932 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.0e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5992 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3674 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.0e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.073 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  123 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  15376 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md123.15376">md123.15376</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 93946.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               107885.14 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                109316.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0931 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.5e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5899 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3172 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.1e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.477 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  124 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  15625 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md124.15625">md124.15625</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 95718.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               109880.76 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                111337.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0932 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5939 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3772 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.1e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.155 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  125 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  15876 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md125.15876">md125.15876</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 97508.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               111900.04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                113379.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0932 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3488 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.226 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  126 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  16129 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md126.16129">md126.16129</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                 99317.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               113935.47 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                115440.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0933 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.3e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5716 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4426 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.2e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.125 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.7e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  127 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  16384 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md127.16384">md127.16384</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                101144.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               115996.19 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                117523.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0932 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6181 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4041 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.372 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.7e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  128 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  16641 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md128.16641">md128.16641</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                102990.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               118079.09 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                119625.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0929 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5859 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3410 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.3e+04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.444 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  129 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  16900 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md129.16900">md129.16900</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                104854.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               120189.35 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                121748.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0922 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5828 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3711 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 2.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  130 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  17161 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md130.17161">md130.17161</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                106736.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               122288.26 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                123891.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0934 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.2e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5583 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3647 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  131 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  17424 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md131.17424">md131.17424</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                108637.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               124425.59 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                126055.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0935 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.7e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5793 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3643 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  132 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  17689 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md132.17689">md132.17689</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                110556.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               126586.94 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                128239.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0934 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.0e-01 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.6211 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3825 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.3e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  133 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  17956 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md133.17956">md133.17956</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                112494.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               128766.67 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                130444.2 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0934 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5546 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3810 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.6e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  134 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  18225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md134.18225">md134.18225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                114450.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               130959.44 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                132669.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0938 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.2e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5818 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3332 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.6e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  135 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  18496 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md135.18496">md135.18496</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                116424.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               133176.59 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                134915.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0940 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5821 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3615 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  136 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  18769 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md136.18769">md136.18769</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                118418.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               135422.51 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                137181.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0937 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5612 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3651 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  137 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  19044 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md137.19044">md137.19044</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                120430.3 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               137683.24 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                139468.4 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0937 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.7e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5482 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3676 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  138 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  19321 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md138.19321">md138.19321</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                122460.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               139966.73 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                141776.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0936 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5977 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3328 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  139 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  19600 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md139.19600">md139.19600</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                124510.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               142269.05 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                144104.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0936 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5588 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3381 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  140 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  19881 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md140.19881">md140.19881</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                126578.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               144591.61 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                146453.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0936 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.4e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5909 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3527 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.0e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  141 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  20164 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md141.20164">md141.20164</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                128664.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               146928.34 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                148823.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0940 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5530 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3576 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  142 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  20449 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md142.20449">md142.20449</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                130770.4 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               149295.92 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                151213.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0938 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5712 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3807 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.3e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  143 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  20736 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md143.20736">md143.20736</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                132894.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               151674.42 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                153624.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0941 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.6e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5406 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3814 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 3.9e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  144 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  21025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md144.21025">md144.21025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                135037.8 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               154081.04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                156056.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0940 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5400 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3642 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  145 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  21316 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md145.21316">md145.21316</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                137199.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               156504.54 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                158509.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0941 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5743 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3510 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  146 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  21609 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md146.21609">md146.21609</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                139380.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               158952.83 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                160983.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0940 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5792 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3748 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  147 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  21904 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md147.21904">md147.21904</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                141580.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               161421.33 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                163478.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0939 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.6e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5491 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4057 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 4.6e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  148 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  22201 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md148.22201">md148.22201</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                143798.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               163907.45 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                165994.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0940 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5364 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3777 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.9e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  149 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  22500 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md149.22500">md149.22500</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                146036.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               166418.59 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                168530.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0939 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.2e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5431 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3781 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  150 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  22801 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md150.22801">md150.22801</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                148293.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               168948.29 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                171088.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0938 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.5e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5593 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3743 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.9e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  151 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  23104 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md151.23104">md151.23104</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                150568.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               171500.73 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                173666.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0937 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.4e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5172 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3511 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  152 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  23409 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md152.23409">md152.23409</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                152863.2 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               174063.52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                176266.3 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0941 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.4e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5565 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3469 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.7e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  153 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  23716 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md153.23716">md153.23716</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                155176.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               176665.75 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                178887.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0937 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.0e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5601 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3459 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  154 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  24025 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md154.24025">md154.24025</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                157509.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               179267.52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                181528.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0941 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.7e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5365 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3891 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 5.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  155 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  24336 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md155.24336">md155.24336</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                159861.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               181896.59 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                184191.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0943 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.8e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5736 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3330 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  156 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  24649 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md156.24649">md156.24649</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                162232.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               184552.02 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                186875.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0943 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.7e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5438 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4291 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  157 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  24964 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md157.24964">md157.24964</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                164622.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               187225.75 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                189580.8 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0943 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.0e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5914 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3546 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  158 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  25281 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md158.25281">md158.25281</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                167032.1 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               189933.90 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                192307.1 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0939 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5422 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3832 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.3e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  159 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  25600 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md159.25600">md159.25600</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                169460.7 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               192641.77 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                195054.7 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0943 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.6e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5468 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3647 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  160 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  25921 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md160.25921">md160.25921</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                171908.5 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               195380.65 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                197823.5 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0942 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.3e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5264 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3699 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.8e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  161 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  26244 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md161.26244">md161.26244</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                174375.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               198138.00 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                200613.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0943 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.1e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5365 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4239 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.4e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  162 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  26569 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md162.26569">md162.26569</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                176861.9 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               200924.18 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                203424.9 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0941 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.1e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5412 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3622 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.2e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  163 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  26896 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md163.26896">md163.26896</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                179367.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               203726.04 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                206257.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0941 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 9.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5387 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3642 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  164 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  27225 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md164.27225">md164.27225</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                181892.6 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               206552.42 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                209111.6 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0940 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 6.2e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5430 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.4376 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.5e+04 </font></td>
+</tr>
+<tr>
+    <td ALIGN=RIGHT> <font SIZE="-1">  165 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">  27556 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-2"> <a HREF="md165.27556">md165.27556</a> </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                184437.0 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#DD88DD"> <font SIZE="-1">               209385.52 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1">                211987.0 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 0.0944 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 8.9e-02 </font></td>
+    <td ALIGN=RIGHT BGCOLOR="#AAAAFF"> <font SIZE="-1"> 0.5199 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 1.3890 </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> NaN </font></td>
+    <td ALIGN=RIGHT> <font SIZE="-1"> 7.1e+04 </font></td>
+</tr>
+</table></center>
+<p><hr>
+<center>
+Last updated 17-Oct-2007 &nbsp | &nbsp Page contact: R.Womersley (AT) unsw.edu.au &nbsp | &nbsp 
+<a HREF="#Top">Top</a> &nbsp | &nbsp <a HREF="index.html">Contents</a>
+</center>
+
+</body>
+</html>
