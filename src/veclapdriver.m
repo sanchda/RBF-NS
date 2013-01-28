@@ -1,6 +1,7 @@
 % cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
-cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
-            
+%cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
+cd '/home/sanchez/RBF-NS/src'; 
+
 eps = @(N) -0.519226 + 0.106809*(N+1);
 N   = 10;           % Somehow related to the number of centers.  For the ME points,
                    % the number of centers is (N+1)^2.
@@ -9,7 +10,8 @@ N   = 10;           % Somehow related to the number of centers.  For the ME poin
  Q = @(x) [0 x(3) (-x(2)); (-x(3)) 0 x(1);  x(2) (-x(1)) 0];
 
  c=0;
- %for N = 7:70
+
+ for N = 5:70
  
     epsilon = eps(N);
     disp(N);
@@ -52,4 +54,4 @@ N   = 10;           % Somehow related to the number of centers.  For the ME poin
     kappamat(c)  = kappa;
     epsmat(c)    = epsilon;
     
-%end
+end

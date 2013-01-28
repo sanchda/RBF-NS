@@ -14,22 +14,22 @@ Np1sq = (N+1)*(N+1);
 if N < 10
     % i.e., N = 1,2
     if Np1sq < 10
-        X = load(sprintf('..\\md\\md00%d.0000%d',N,(N+1)*(N+1)));
+        X = load(sprintf('../md/md00%d.0000%d',N,(N+1)*(N+1)));
     % N = 3,4,5,6,7,8
     elseif Np1sq < 100
-        X = load(sprintf('..\\md\\md00%d.000%d',N,(N+1)*(N+1)));
+        X = load(sprintf('../md/md00%d.000%d',N,(N+1)*(N+1)));
     % N = 9
     else
-        X = load(sprintf('..\\md\\md00%d.00%d',N,(N+1)*(N+1)));
+        X = load(sprintf('../md/md00%d.00%d',N,(N+1)*(N+1)));
     end
 
 elseif N < 100
     % i.e., N is in [10,30]
     if Np1sq < 1000
-        X = load(sprintf('..\\md\\md0%d.00%d',N,(N+1)*(N+1)));
+        X = load(sprintf('../md/md0%d.00%d',N,(N+1)*(N+1)));
     % N = N is in [31, 98], is = 99 or 100 (no more 0s to pad with!)
     else
-        X = load(sprintf('..\\md\\md0%d.0%d',N,(N+1)*(N+1)));
+        X = load(sprintf('../md/md0%d.0%d',N,(N+1)*(N+1)));
     end
 
 % Above N=99, the generated distributions include only:
@@ -42,7 +42,7 @@ else
     else
         N = 191;
     end
-    X = load(sprintf('..\\md\\md%d.0%d',N,(N+1)*(N+1)));
+    X = load(sprintf('../md/md%d.0%d',N,(N+1)*(N+1)));
 end
 
 
