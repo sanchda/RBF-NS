@@ -142,7 +142,8 @@ function [ Maxerr, L2err, kappa ] = testVecLap( x, W, U0, epsilon )
 %    U = [(lapux*U0(:,1)+lapvx*U0(:,2)+lapwx*U0(:,3)) (lapuy*U0(:,1)+lapvy*U0(:,2)+lapwy*U0(:,3)) (lapuz*U0(:,1)+lapvz*U0(:,2)+lapwz*U0(:,3))];
 
     % Figure out the L-infty residual
-    err = abs(2*U0 - U);
+    avg = mean(mean(U0./U));
+    err = abs(U0 - avg*U);
     errsqrt = sqrt(err(:,1).^2 + err(:,2).^2 + err(:,3).^2);
     Maxerr = max(errsqrt);
     
