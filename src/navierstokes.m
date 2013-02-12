@@ -1,4 +1,4 @@
-function U = rbf_ns(U0, x, h, M, alpha, eps)
+function U = navierstokes(x, U0, H, h, M, epsilon, nu, omega)
 % Solves the NS equations on the surface of the sphere using an RBF
 % embedded, narrow-band method.  In this method, the differential operators
 % are expressed in R3, but restricted to acting on the surface of the
@@ -20,98 +20,42 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     % TODO:  return error
     N = size(U0,1);
     
-    % Parameter to all the RBF calls.  This parameter will have to be
-    % changed if a different RBF kernel is used.
-    twoeps2 = 2*eps*eps;
-   
-
-    % Build the distance matrix.  Simplification is due to the centers
-   
-    % being on the surface of the sphere.
-    
-    r2 = 2*(1 - x(:,1)*x(:,1).' - x(:,2)*x(:,2).' - x(:,3)*x(:,3).');
-    r2 = eps*eps*r2;
-    A = exp(-r2);
-    
-    % Build the matrix for matrix-valued RBF interpolation.
-    % This is a gigantic shitmess.  It's not yet obvious how it should be
-    % cleaned up.
-    
-    r    = @(i,j) sqrt( (x(i,1) - x(j,1))^2 + (x(i,2) - x(j,2))^2 + (x(i,3) - x(j,3))^2);
-
-    
-    % H is a function that accepts a vector in R3 and returns the
-    % Hessian matrix evaluated at that point.
-    % This is awful to compute and enter into Matlab, UNLESS you use the
-    % ToMatlab.m package for Mathematica :)
-    
-    H = @(x,y) [exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
-                -1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
-                1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).* ...
-                y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(2)+(-1).*y(2)),4.*exp(1).^((-1).* ...
-                eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).* ...
-                eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3));4.*exp(1).^((-1).*eps.^2.*(( ...
-                x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(1)+( ...
-                -1).*y(1)).*(x(2)+(-1).*y(2)),exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+( ...
-                x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(2)+( ...
-                -1).*y(2)).^2),4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1) ...
-                .*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)); ...
-                4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
-                -1).*y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3)),4.*exp(1).^(( ...
-                -1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)) ...
-                .*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)),exp(1).^((-1).*eps.^2.*(( ...
-                x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
-                eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
+%==========================================================================
+%                             Setup Leray Projector
+%==========================================================================
 
     % Zonal and meridional bases
     d = @(x) (1/sqrt(1-x(3)^2))*[(-x(3)*x(1)) (-x(3)*x(2)) (1-x(3)^2)];
     e = @(x) (1/sqrt(1-x(3)^2))*[(-x(2)) x(1) 0];
-
+    
     % The function Q(x) generates the matrix which will project a vector in R3
     % onto the tangent space of the sphere at x \in S2
     Q = @(x) [0 x(3) (-x(2)); (-x(3)) 0 x(1);  x(2) (-x(1)) 0];
-   
-    PSI  = @(x,y) Q(x)*(-H(x,y))*(Q(y)');
     
-    Adiv =  makeAdiv(x, PSI, d, e);   
+    % P(x) projects into the normal space
+    P = @(x) eye(3) - [x(1);x(2);x(3)]*[x(1) x(2) x(3)];
     
-    % TODO: build gamdel in a better way.  Also, seriously--did you wake
-    % up on the retarded side of the bed when you named this array?
-    gamdel = zeros(2*N,1);
-    buff = zeros(2,3);
+    % Construct the matrix RBF
+    PSIdiv  = @(x,y) (Q(x)')*(-H(x,y,epsilon))*Q(y);
+%    PSIcrl  = @(x,y) (P(x)')*(-H(x,y,epsilon))*P(y);
+    PSI     = @(x,y) PSIdiv(x,y) + PSIcrl(x,y);
+    
+    Adiv =  makeAdiv(x, PSI, d, e);
+    
+%==========================================================================
+%                         Setup Diff. Operators
+%==========================================================================  
+    
+    % Parameter to all the RBF calls.  This parameter will have to be
+    % changed if a different RBF kernel is used.
+    twoeps2 = 2*epsilon*epsilon;
 
-    for i=1:N
-        buff(1,:) = d(x(i,:))';
-        buff(2,:) = e(x(i,:))';
-        gamdel(2*i-1:2*i) = buff*U0(i,:)';
-    end
-    
-    albet = Adiv\gamdel;
-    
-    dmat = zeros(N,3);
-    emat = zeros(N,3);
-    
-    for i = 1:N
-        dmat(i,:) = d(x(:,1));
-        emat(i,:) = e(x(:,1));
-    end
-    
-%    interpcoeffs = [albet(1:2:(2*N)) albet(1:2:(2*N)) albet(1:2:(2*N))].*dmat + [albet(2:2:(2*N)) albet(2:2:(2*N)) albet(2:2:(2*N))].*emat;
- 
-    interpcoeffs = zeros(N,3);
-    
-    for i = 1:N
-        interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
-    end
-    
-    % TODO:  Fix this up.
-    Udivfree = zeros(N,3);
-    for i = 1:N
-        for j = 1:N
-            Udivfree(i,:) = Udivfree(i,:) + (PSI(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
-        end
-    end
-    
+    % Build the distance matrix.  Simplification is due to the centers
+    % being on the surface of the sphere.
+    r2 = 2*(1 - x(:,1)*x(:,1).' - x(:,2)*x(:,2).' - x(:,3)*x(:,3).');
+    r2 = epsilon*epsilon*r2;
+    A = exp(-r2);
+
     % Initialize the differentiation matrices
     % ASSERT:  X contains only points on the surface of the unit sphere
     
@@ -131,7 +75,6 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     
     zdiff1 = reshape(x(:,3),1,N,1);
     zdiff2 = reshape(x(:,3),N,1,1);
-    
     
     xdiff = -xdiff1(ones(N,1),:,:) + xdiff2(:,ones(N,1),:);
     ydiff = -ydiff1(ones(N,1),:,:) + ydiff2(:,ones(N,1),:);
@@ -181,7 +124,8 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     clear('zdiff1','zdiff2','zdiff');
     
 
-    % Initialize the vector Laplacian.
+%=====================Initialize the vector Laplacian=====================
+
     % ASSERT:  X contains only points on the surface of the unit sphere
     %
     % Since U = (u,v,w) is a vector, we write veclapU in terms of the
@@ -193,48 +137,105 @@ function U = rbf_ns(U0, x, h, M, alpha, eps)
     X = diag(x(:,1));
     Y = diag(x(:,2));
     Z = diag(x(:,3));
-  
-    lapux = -Z*Lz + Y*Y*Lzz - Y*Ly - 2*Y*Z*Lyz + 2*Z*Z*Lyy;
+    
+    % Need this later for the coriolis force.  Let's just define it now.
+    zsqrt = 1 - Z.*Z;
+    zsqrt = sqrt(zsqrt);
+ 
+    lapux = -Z*Lz + Y*Y*Lzz - Y*Ly - 2*Y*Z*Lyz + Z*Z*Lyy;
     lapuy = -X*Y*Lzz + X*Z*Lyz + Y*Lx + Y*Z*Lxz - Z*Z*Lxy;
     lapuz =  X*Y*Lyz - X*Z*Lyy + Z*Lx - Y*Y*Lxz + Y*Z*Lxy;
-    
-    lapvx =  X*Ly + X*Z*Lyz - X*Y*Lyy + Y*Z*Lxz + Z*Z*Lxy;
-    lapvy = -Z*Lz + X*X*Lzz - X*Lx - 2*X*Z*Lx + Z*Z*Lxx;
-    lapvz =  Z*Ly - X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
-    
-    lapwx =  X*Lz + X*Y*Lyz - X*Z*Lyy + Y*Y*Lxz + Y*Z*Lxy;
-    lapwy =  Y*Lz + X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
-    lapwz = -Y*Ly + X*X*Lyy - X*Lx + 2*X*Y*Lxy + Y*Y*Lxx;
-       
-    % TODO: multiply the result of lap(U) by mu.
-    
-    
-    % Clear up the unused matrices
-%    clear('X','Y','Z');
-%    clear('Lx','Ly','Lz');
-%    clear('Lxy','Lxz','Lyz');
-%    clear('Lxx','Lyy','Lzz');
- 
-	% Get the first timestep
-    U = U0;
- 
-	% Now commence timestepping.  This is the standard RK4 method, which
-	% may or may not be well-suited for this problem.
-    for i=1:M
-        disp(i);
-        rk1 = h*rkfun(U, lapu);
-        rk2 = h*rkfun(U + (1/2)*rk1, lapu);
-        rk3 = h*rkfun(U + (1/2)*rk2, lapu);
-        rk4 = h*rkfun(U + rk3, lapu);
-        
-        U = U + (1/6)*(rk1 + 2*rk2 + 2*rk3 + rk4);
-    end
-    
-    function Un = rkfun(U, lapu)
-       Un = alpha*lapu*U;
-    end
 
-    % TODO: visualization, analysis, etc.  Currently on the final timestep
-    % is visualized from the driver.
+    lapvx = X*Ly - X*Y*Lzz + X*Z*Lyz + Y*Z*Lxz - Z*Z*Lxy;
+    lapvy = -X*Lx + X*X*Lzz - Z*Lz - 2*X*Z*Lxz + Z*Z*Lxx;
+    lapvz = -X*X*Lyz + X*Y*Lxz + Z*Ly + X*Z*Lxy - Y*Z*Lxx;  
+
+    lapwx =  X*Lz + X*Y*Lyz - X*Z*Lyy - Y*Y*Lxz + Y*Z*Lxy;
+    lapwy =  Y*Lz - X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
+    lapwz = -Y*Ly + X*X*Lyy - X*Lx - 2*X*Y*Lxy + Y*Y*Lxx;
+    
+    
+%=====================Initialize covariant Derivative======================
+
+    % Reuses information from the above section 
+    covdux = X*Y*Lz - X*Z*Ly;
+    covduy = -X*X*Lz + X*Z*Lx;
+    covduz = X*X*Ly - X*Y*Lx;
+    
+    covdvx = Y*Y*Lz - Y*Z*Ly;
+    covdvy = -X*Y*Lz + Y*Z*Lx;
+    covdvz = X*Y*Ly - Y*Y*Lx;
+    
+    covdwx = Y*Z*Lz - Z*Z*Ly;
+    covdwy = -X*Z*Lz + Z*Z*Lx;
+    covdwz = X*Z*Ly - Y*Z*Lx;
+    
+    
+%==========================================================================
+%                             Begin Timestepping
+%==========================================================================  
+ 
+% pre-defines
+U = U0;
+gamdel = zeros(2*N,1);
+buff = zeros(2,3);
+dmat = zeros(N,3);
+emat = zeros(N,3);
+
+for i = 1:N
+    dmat(i,:) = d(x(:,1));
+    emat(i,:) = e(x(:,1));
+end
+
+for c = 1:M
+
+    %=======================Solve approximate system=======================
+    
+    % Compute the Laplacian
+    lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
+
+    % Compute the covariant derivative
+    covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+lapvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covd*U(:,3))];
+    covrep = (U(:,1).*Lx*(U(:,1)) + U(:,2).*Ly*(U(:,2)) + U(:,3).*Ly*(U(:,3)));
+    covU = covU + repmat(covrep,1,3);
+    
+    % Compute the coriolis force
+    coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(2,:))];
+    coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+    
+    fU = -covU + nu*lapu - coriolis + f;
+    U = U + h*fU;
+       
+    %========================Project onto div-free=========================
+    
+    % TODO: build gamdel in a vectorized way.
+
+    for i=1:N
+        buff(1,:) = d(x(i,:))';
+        buff(2,:) = e(x(i,:))';
+        gamdel(2*i-1:2*i) = buff*U(i,:)';
+    end
+    
+    albet = Adiv\gamdel;
+   
+    % recover the interpolation coefficients
+    interpcoeffs = zeros(N,3);
+    for i = 1:N
+        interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
+    end
+    
+    % TODO:  improve performance
+    Udivfree = zeros(N,3);
+    for i = 1:N
+        for j = 1:N
+            Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
+        end
+    end
+    
+    %==========================Determine error=============================
+   
+end
+    
+
 
 end
