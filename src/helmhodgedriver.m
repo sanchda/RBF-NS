@@ -26,7 +26,7 @@
     % P(x) projects into the normal space
     P = @(x) eye(3) - [x(1);x(2);x(3)]*[x(1) x(2) x(3)];
     
-    for N = 5:30:5
+    for N = 5:5:35
         geteps = @(n) -0.519226 + 0.106809*(n+1);
         epsilon = geteps(N);
         X = getMEPoints(N);
