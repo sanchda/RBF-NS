@@ -1,45 +1,51 @@
 cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
+
+%==========================================================================
+%                         Parameters and Constants                        
+%==========================================================================
+
 nu = 1;     % Parameter for the NS equation
+omega=1;    % Strength of coriolis force
 eps = 10;   % Shape paramater for the RBF kernel
 N = 12;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
 M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
 
+%==========================================================================
+%                            Generate RBF nodes                        
+%==========================================================================
+
 X = getMEPoints(N);
 X = X(:,1:3);
-% Rotate X through by a small angle
+% Rotate X through by a small angle to avoid poles
 t=0.5;
 theta = [1 0 0;0 cos(t) -sin(t);0 sin(t) cos(t)];
 for i = 1:(N+1)^2
     X(i,:) = (theta*X(i,:)')';
 end
 
-% Div-free VFs can be given by curls of scalars.  Just use Qx*grad(u) =
-% curl_T(u) on the sphere.
+%==========================================================================
+%                            Generate initial VF                       
+%==========================================================================
+% The initial vector field is defined as in GaneshGiaSloan2009 in their
+% first numerical trial (eqn 5.1)
+%
+% U0   = g(0)(W1(x) - W2(x))
+% g(t) = nu*exp(-t)(sin(5t) + cos(10t))
+% W1   = Y_0^1 + 2Y_1^1
+% W2   = Y_0^2 + 2Y_1^2 + 2Y_2^2
 
-U0 = [-X(:,2) + X(:,3), X(:,1), -X(:,1)];
+Y1 = dsph(1,X(:,1),X(:,2),X(:,3));
+Y2 = dsph(2,X(:,1),X(:,2),X(:,3));
 
-% u=(x+y+z) => curl = {y - x, z - x, -y + x}
-U0 = [X(:,2) - X(:,1), X(:,3) - X(:,1), -X(:,2) + X(:,1)];
+U0 = Y1(:,2) + 2*Y1(:,3) - Y2(:,3) - 2*Y2(:,4) - 2*Y2(:,5);
+U0 = nu*U0;
 
 
-onemat = ones((N+1)*(N+1)-1,1);
-% Div-only VFs can be given by gradients of scalars.  Px*grad(u):
-U0 = [onemat-X(:,1).*X(:,1), -X(:,1).*X(:,2), -X(:,1).*X(:,3)];
-
-% Debug!
-% heateqn should be rewritten to remove the assumption that the points in X
-% lie on the sphere.  This test is to see how the differential operators
-% act on the plane.
-% N=600;
-% p = haltonset(2);
-% p = haltonset(3,'Skip',1e3,'Leap',1e2);
-% x = net(p,N);
-% z = zeros(N,1);
-% X = [x(:,1) x(:,2) z];
-% U0 = X(:,1).*X(:,1);
-% 
+%==========================================================================
+%                          Generate reference VF                       
+%==========================================================================
 
 U = heateqn(U0, X, h, M, alpha, eps);
 % 
