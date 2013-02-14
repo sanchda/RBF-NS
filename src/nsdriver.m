@@ -1,4 +1,5 @@
 cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
+cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 
 %==========================================================================
 %                         Parameters and Constants                        
@@ -9,6 +10,7 @@ omega=1;    % Strength of coriolis force
 eps = 10;   % Shape paramater for the RBF kernel
 N = 12;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
+N0 = N;     % Highest spherical harmonic in the test
 M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
 
@@ -33,8 +35,8 @@ end
 %
 % U0   = g(0)(W1(x) - W2(x))
 % g(t) = nu*exp(-t)(sin(5t) + cos(10t))
-% W1   = Y_0^1 + 2Y_1^1
-% W2   = Y_0^2 + 2Y_1^2 + 2Y_2^2
+% W1   = Z_0^1 + 2Z_1^1
+% W2   = Z_0^2 + 2Z_1^2 + 2Z_2^2
 
 Y1 = dsph(1,X(:,1),X(:,2),X(:,3));
 Y2 = dsph(2,X(:,1),X(:,2),X(:,3));
@@ -46,6 +48,23 @@ U0 = nu*U0;
 %==========================================================================
 %                          Generate reference VF                       
 %==========================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 U = heateqn(U0, X, h, M, alpha, eps);
 % 
