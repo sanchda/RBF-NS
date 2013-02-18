@@ -1,24 +1,73 @@
 function U = navierstokes(x, U0, H, h, M, epsilon, nu, omega)
-% Solves the NS equations on the surface of the sphere using an RBF
-% embedded, narrow-band method.  In this method, the differential operators
-% are expressed in R3, but restricted to acting on the surface of the
-% sphere.  The centers x are assumed to be on the surface of the sphere
-% (in a "narrow band" about this surface), thus preserving the action of
-% the operators.  These operators (in this case, only the scalar Laplacian)
-% have been expressed in terms of differential operators on the surface of
-% the sphere (TODO: link to Mathematica notebook or derived .pdf).  The
-% differential operators are implemented as RBF differentiation matrices
-% following the method described in Fasshauer "RBF Collocation Methods and
-% Pseudospectral Methods" (http://www.math.iit.edu/~fass/RBFPS.pdf as of
-% 9/22/10).  The kernel used is the Gaussian.
+%==========================================================================
+%                               Description
+%==========================================================================
+% TODO
 
-% TODO: lit citation
 
+    
+%==========================================================================
+%                         Assumptions & Operation
+%==========================================================================
+%
+%==========================WARNING WARNING WARNING=========================
+% THIS IS ALL A MASSIVE TODO.  NONE OF THIS IS CURRENTLY IMPLEMENTED.
+% (2/18/2013)
+%
+% The values in x are assumed to be on the unit sphere, with coordinates
+% given in Cartesian x,y,z (i.e., x^2 + y^2 + z^2 = 1).  This code does not
+% check where these values lie, but will probably give incorrect solutions
+% if this assumption is broken.
+%
+% U0 is assumed to be a velocity field with values corresponding to the
+% values in x.
+%
+% H is a handle to a function evaluating the Hessian of the desired RBF at
+% a point (i.e., H([x1,x2,x3],[y1,y2,y3],epsilon) = [z1,z2,z3]).  This is a
+% rather awkward interface and should be able to be fixed by utilizing
+% Matlab's symbolic toolkit to compute derivatives.
+%
+% epsilon is the shape parameter.  Care must be taken to choose the shape
+% parameter appropriately for a given size(x,1).
+%
+% nu, omega are viscocity and coriolis force coefficients, respectively.
+% It should be noted that values of nu can dramatically rescale the
+% dominance of certain terms (see referenced paper (TODO: write paper))
+%
+% debugvec is an optional parameter which engages unit tests.  These tests
+% are designed to check various properties of the inputs and this
+% function's internal routines.
+%
+% debugvec = [isDivFree, isDFVSH, getLaplacianErr, getHodgeErr]
+%
+% isDivFree - engages code to verify that the input U0 is divergence-free.
+%             will force function to return with as little code execution
+%             as possible.  Blocks Navier-Stokes simulation.
+%
+% isDFVSH   - verifies that the input is a vector spherical harmonic.  will
+%             force function to return while executing as little unrelated
+%             code as possible.  Blocks Navier-Stokes simulation.
+%
+% getLaplacianErr - Assumes that the input U0 is a divergence-free vector
+%                   spherical harmonic, returning the error in the surface
+%                   Laplacian.  Blocks Navier-Stokes simulation.
+%
+% getHodgeErr     - Checks the error of splitting U0 into curl-free and
+%                   divergence-free components.  TODO:  check the recovery
+%                   of strictly curl- or div-free vector fields.
+%
+%
+
+
+%==========================================================================
+%                               Initialization
+%==========================================================================
     % Sense the size of the problem from the initial conditions.  The
     % scalars in U0 are assumed to identify with the R3 vectors in X.  If
     % these are not the same length, function should return error.
     % TODO:  return error
     N = size(U0,1);
+    
     
 %==========================================================================
 %                             Setup Leray Projector

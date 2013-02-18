@@ -1,5 +1,8 @@
-cd 'C:\Users\david\Documents\GitHub\RBF-NS\src\';
-cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
+% Simplify the execution by changing current directory to the script's
+% local directory.  There's probably a better way, but for now this should
+% be sufficient (given one uses a sufficiently nice pathname).
+[cur_dir,~,~] = fileparts(which('nsdriver.m'));
+cd(cur_dir);
 
 %==========================================================================
 %                         Parameters and Constants                        
@@ -14,11 +17,16 @@ N0 = N;     % Highest spherical harmonic in the test
 M = 1;      % how many iterations to run the simulation for
 h = 0.01;   % timestep
 
+%==============================debug parameters============================
+% Check the version of the vector Laplacian saved in testVecLap.m
+test_lap = 0;
+
 %==========================================================================
 %                            Generate RBF nodes                        
 %==========================================================================
 
 X = getMEPoints(N);
+W = X(:,4);
 X = X(:,1:3);
 % Rotate X through by a small angle to avoid poles
 t=0.5;
@@ -26,6 +34,22 @@ theta = [1 0 0;0 cos(t) -sin(t);0 sin(t) cos(t)];
 for i = 1:(N+1)^2
     X(i,:) = (theta*X(i,:)')';
 end
+
+%==========================================================================
+%                         Optional Test: Laplacian                        
+%==========================================================================
+if test_lap == 1
+    
+   divFree_L = 1;                                     % how high is the degree of the VSH
+   divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);  % empirically fitted shape parameter for the vector Laplacian
+   divFree_U0  = getDivFree(2,X); 
+   divFree_U0  = divFree_U0(:,1:3);                   % use a divergence-free VSH
+   divFree_eps = divFree_geteps(N);
+   [~, divFree_Maxerr, divFree_L2err, divFree_kappa] = testVecLap(X, W, divFree_U0, divFree_eps);
+   [divFree_L2err divFree_Maxerr]
+   
+end
+
 
 %==========================================================================
 %                            Generate initial VF                       

@@ -3,7 +3,6 @@
 % trivariate polynomial form of the spherical harmonics.
 function [Y,Dx,Dy,Dz] = dsph(mu,x,y,z)
 
-binom = @(a,b) factorial(a)./factorial(a-b)./factorial(b);
 nd = length(x);
 
 Dx = zeros(nd,2*mu+1); 

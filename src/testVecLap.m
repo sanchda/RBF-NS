@@ -1,4 +1,4 @@
-function [ Maxerr, L2err, kappa ] = testVecLap( x, W, U0, epsilon )
+function [U, Maxerr, L2err, kappa ] = testVecLap( x, W, U0, epsilon )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
