@@ -9,28 +9,27 @@ function U = makeGaneshTest1(N0, X, t, nu)
 % core = sum Y_0^L + 2*Y_{1:L}^L, for L = 1:N0
 
 %==========================================================================
-%                          Inline defines                       
+%                             Inline defines                       
 %==========================================================================
 g  = @(t) nu*exp(-t)*(sin(5*t)+cos(10*t));
 
-[Z1x, Z1y, Z1z] = getDivFree(1,X);
+Z = getDivFree(1,X);
+W1 = [Z(:,4) Z(:,5) Z(:,6)] + 2*[Z(:,7) Z(:,8) Z(:,9)];
 
-W1 = dsph(1,X(:,1),X(:,2),X(:,3)); % gather up the spharms
-W1 = W1(:,2) + 2*W1(:,3);          % add them together
-W2 = dsph(2,X(:,1),X(:,2),X(:,3));
-W2 = W2(:,3) + 2*sum(W2(:,4:5),2);
+Z = getDivFree(2,X);
+W2 = [Z(:,7) Z(:,8) Z(:,9)] + 2*[Z(:,10) Z(:,11) Z(:,12)] + 2*[Z(:,13) Z(:,14) Z(:,15)];
 
 U = 0*X;
 
-
 %==========================================================================
-%                          Spharm loop                       
+%                            svharms loop                       
 %==========================================================================
 for L = 1:N0
-    s2Harms = dsph(L,X(:,1),X(:,2),X(:,3));
-    U = U + sum(s2Harms(:,(L+2):end),2) + s2Harms(:,L+1);
+    Z = getDivFree(L,X);
+    Z = Z(:,(3*L+1):end);
+    U = Z(:,1:3) + [2*sum(Z(:,4:3:end),2),2*sum(Z(:,5:3:end),2),2*sum(Z(:,6:3:end),2)];
 end
 
-    U = t*g(t)*core + g(t)*W1 + (t-1)*g(t)*W2;
+    U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
 end
 
