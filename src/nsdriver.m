@@ -62,43 +62,36 @@ end
 % W1   = Z_0^1 + 2Z_1^1
 % W2   = Z_0^2 + 2Z_1^2 + 2Z_2^2
 
-Y1 = dsph(1,X(:,1),X(:,2),X(:,3));
-Y2 = dsph(2,X(:,1),X(:,2),X(:,3));
+g  = @(t) nu*exp(-t)*(sin(5*t)+cos(10*t));
 
-U0 = Y1(:,2) + 2*Y1(:,3) - Y2(:,3) - 2*Y2(:,4) - 2*Y2(:,5);
-U0 = nu*U0;
+Z = getDivFree(1,X);
+W1 = [Z(:,4) Z(:,5) Z(:,6)] + 2*[Z(:,7) Z(:,8) Z(:,9)];
+
+Z = getDivFree(2,X);
+W2 = [Z(:,7) Z(:,8) Z(:,9)] + 2*[Z(:,10) Z(:,11) Z(:,12)] + 2*[Z(:,13) Z(:,14) Z(:,15)];
+
+clear(W1,W2,Z);
+U = nu*(W1 - W2);
 
 
 %==========================================================================
-%                          Generate reference VF                       
+%                          Timestep + Check                       
 %==========================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-U = heateqn(U0, X, h, M, alpha, eps);
 % 
-% title('function of x');
-% subplot(2,1,1);
-% scatter3(X(:,1),X(:,2),U0,30,U0,'.')
-% 
-% subplot(2,1,2);
-% scatter3(X(:,1),X(:,2),U,30,U,'.')
-% title('derivative');
+% Run the simulation and check the output against the reference timestep in
+% makeGaneshTest1.
+%
+
+U = navierstokes(X,U,H,h,1,epsilon,nu,omega);
+U_ref = makeGaneshTest1(N0, X, c*h, nu);
+
+
+
+
+
+
+
+
 
 
 % Convert the Cartesian coordinates to longitudinal/latitudinal coordinates
