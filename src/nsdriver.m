@@ -79,10 +79,10 @@ U = nu*(W1 - W2);
 %==========================================================================
 % 
 % Run the simulation and check the output against the reference timestep in
-% makeGaneshTest1.
+% makeGaneshTest1.  Note that this test has no explicit Coriolis force.
 %
 
-U = navierstokes(X,U,H,h,1,epsilon,nu,omega);
+U = navierstokes(X,U,H,h,1,epsilon,nu,0);
 U_ref = makeGaneshTest1(N0, X, c*h, nu);
 
 

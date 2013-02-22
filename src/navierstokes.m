@@ -237,9 +237,20 @@ for i = 1:N
 end
 
 for c = 1:M
-
-    %=======================Solve approximate system=======================
+    for i=1:M
+        disp(i);
+        rk1 = h*rkfun(U, lapu);
+        rk2 = h*rkfun(U + (1/2)*rk1, lapu);
+        rk3 = h*rkfun(U + (1/2)*rk2, lapu);
+        rk4 = h*rkfun(U + rk3, lapu);
+        
+        U = U + (1/6)*(rk1 + 2*rk2 + 2*rk3 + rk4);
+    end
     
+    %==============================Begin RK4===============================
+    %
+    % Solve approximate system
+    %
     % Compute the Laplacian
     lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
 
@@ -255,7 +266,7 @@ for c = 1:M
     fU = -covU + nu*lapu - coriolis + f;
     U = U + h*fU;
        
-    %========================Project onto div-free=========================
+    %Leray Projection
     
     % TODO: build gamdel in a vectorized way.
 
@@ -280,6 +291,7 @@ for c = 1:M
             Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
         end
     end
+    %=============================RK4 part 1===============================
     
     %==========================Determine error=============================
    
