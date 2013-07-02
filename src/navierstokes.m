@@ -1,4 +1,4 @@
-function U = navierstokes(x, U0, H, h, M, epsilon, nu, omega)
+function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
 %==========================================================================
 %                               Description
 %==========================================================================
@@ -69,156 +69,16 @@ function U = navierstokes(x, U0, H, h, M, epsilon, nu, omega)
     N = size(U0,1);
     
     
-%==========================================================================
-%                             Setup Leray Projector
-%==========================================================================
+    timesMatVec = @(A,b) bsxfun(@times,A,b(:));
 
-    % Zonal and meridional bases
-    d = @(x) (1/sqrt(1-x(3)^2))*[(-x(3)*x(1)) (-x(3)*x(2)) (1-x(3)^2)];
-    e = @(x) (1/sqrt(1-x(3)^2))*[(-x(2)) x(1) 0];
+    % Zonal and meridional bases.  Works on column-vectors as well as
+    % arrays.
+    d = @(x) timesMatVec([(-x(:,3).*x(:,1)) (-x(:,3).*x(:,2)) ...
+        (1-x(:,3).^2)],(1./sqrt(1-x(:,3).^2)));
     
-    % The function Q(x) generates the matrix which will project a vector in R3
-    % onto the tangent space of the sphere at x \in S2
-    Q = @(x) [0 x(3) (-x(2)); (-x(3)) 0 x(1);  x(2) (-x(1)) 0];
-    
-    % P(x) projects into the normal space
-    P = @(x) eye(3) - [x(1);x(2);x(3)]*[x(1) x(2) x(3)];
-    
-    % Construct the matrix RBF
-    PSIdiv  = @(x,y) (Q(x)')*(-H(x,y,epsilon))*Q(y);
-%    PSIcrl  = @(x,y) (P(x)')*(-H(x,y,epsilon))*P(y);
-    PSI     = @(x,y) PSIdiv(x,y) + PSIcrl(x,y);
-    
-    Adiv =  makeAdiv(x, PSI, d, e);
-    
-%==========================================================================
-%                         Setup Diff. Operators
-%==========================================================================  
-    
-    % Parameter to all the RBF calls.  This parameter will have to be
-    % changed if a different RBF kernel is used.
-    twoeps2 = 2*epsilon*epsilon;
+    e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
+        0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
 
-    % Build the distance matrix.  Simplification is due to the centers
-    % being on the surface of the sphere.
-    r2 = 2*(1 - x(:,1)*x(:,1).' - x(:,2)*x(:,2).' - x(:,3)*x(:,3).');
-    r2 = epsilon*epsilon*r2;
-    A = exp(-r2);
-
-    % Initialize the differentiation matrices
-    % ASSERT:  X contains only points on the surface of the unit sphere
-    
-    % In order to write things like (x1-y1)*A (see accompanying Mathematica
-    % notebook), we need to form some distance matrices.  The following
-    % method was inspired by Joseph Kirk, author of distmat.
-    % (http://www.mathworks.com/matlabcentral/fileexchange/15145-distance-m
-    % atrix/content/distmat.m case 2)
-
-    % TODO: time whether a similar method would yield more efficient
-    % initialization for A.
-    xdiff1 = reshape(x(:,1),1,N,1);
-    xdiff2 = reshape(x(:,1),N,1,1);
-    
-    ydiff1 = reshape(x(:,2),1,N,1);
-    ydiff2 = reshape(x(:,2),N,1,1);
-    
-    zdiff1 = reshape(x(:,3),1,N,1);
-    zdiff2 = reshape(x(:,3),N,1,1);
-    
-    xdiff = -xdiff1(ones(N,1),:,:) + xdiff2(:,ones(N,1),:);
-    ydiff = -ydiff1(ones(N,1),:,:) + ydiff2(:,ones(N,1),:);
-    zdiff = -zdiff1(ones(N,1),:,:) + zdiff2(:,ones(N,1),:);
-    
-    % To form Lx, a matrix differential operator, the same process as
-    % before is used, but where the RBF kernel is the derivative (in x)
-    % of the one before.  Since this function is the exponential, we can
-    % reuse some of the previous data in the derivative (this intermediate
-    % matrix should really be called something like Bx, but we reuse Lx
-    % here).  Finally, Lx = Bx*inv(A), but inv() isn't stable so we do a
-    % right-division.
-   
-    Lx = -twoeps2*A.*xdiff;
-    Lx = Lx/A;
-
-    Ly = -twoeps2*A.*ydiff;  	
-    Ly = Ly/A;
- 	
-    Lz = -twoeps2*A.*zdiff;  	
-    Lz = Lz/A;
-    
-    
-    Lxy = twoeps2*twoeps2*A.*xdiff.*ydiff;
-    Lxy = Lxy/A;
-  	
-    Lxz = twoeps2*twoeps2*A.*xdiff.*zdiff;
-    Lxz = Lxz/A;
-    
-    Lyz = twoeps2*twoeps2*A.*ydiff.*zdiff;
-    Lyz = Lyz/A;
-
-    
-    Lxx = twoeps2*A.*(-1 + twoeps2*(xdiff.*xdiff)); 	
-    Lxx = Lxx/A;	  	
-    
-    Lyy = twoeps2*A.*(-1 + twoeps2*(ydiff.*ydiff));  	
-    Lyy = Lyy/A;
-
-    Lzz = twoeps2*A.*(-1 + twoeps2*(zdiff.*zdiff));
-    Lzz = Lzz/A;
-
-    
-    % Clear out the unused matrices
-    clear('xdiff1','xdiff2','xdiff');
-    clear('ydiff1','ydiff2','ydiff');
-    clear('zdiff1','zdiff2','zdiff');
-    
-
-%=====================Initialize the vector Laplacian=====================
-
-    % ASSERT:  X contains only points on the surface of the unit sphere
-    %
-    % Since U = (u,v,w) is a vector, we write veclapU in terms of the
-    % action of the vector Laplacian on each individual component of U.
-    % Moreover, since the action of each component relies on contributions
-    % from each coordinate, we write the three componentwise Laplacians
-    % in three parts, for a total of nine operators.
-    
-    X = diag(x(:,1));
-    Y = diag(x(:,2));
-    Z = diag(x(:,3));
-    
-    % Need this later for the coriolis force.  Let's just define it now.
-    zsqrt = 1 - Z.*Z;
-    zsqrt = sqrt(zsqrt);
- 
-    lapux = -Z*Lz + Y*Y*Lzz - Y*Ly - 2*Y*Z*Lyz + Z*Z*Lyy;
-    lapuy = -X*Y*Lzz + X*Z*Lyz + Y*Lx + Y*Z*Lxz - Z*Z*Lxy;
-    lapuz =  X*Y*Lyz - X*Z*Lyy + Z*Lx - Y*Y*Lxz + Y*Z*Lxy;
-
-    lapvx = X*Ly - X*Y*Lzz + X*Z*Lyz + Y*Z*Lxz - Z*Z*Lxy;
-    lapvy = -X*Lx + X*X*Lzz - Z*Lz - 2*X*Z*Lxz + Z*Z*Lxx;
-    lapvz = -X*X*Lyz + X*Y*Lxz + Z*Ly + X*Z*Lxy - Y*Z*Lxx;  
-
-    lapwx =  X*Lz + X*Y*Lyz - X*Z*Lyy - Y*Y*Lxz + Y*Z*Lxy;
-    lapwy =  Y*Lz - X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
-    lapwz = -Y*Ly + X*X*Lyy - X*Lx - 2*X*Y*Lxy + Y*Y*Lxx;
-    
-    
-%=====================Initialize covariant Derivative======================
-
-    % Reuses information from the above section 
-    covdux = X*Y*Lz - X*Z*Ly;
-    covduy = -X*X*Lz + X*Z*Lx;
-    covduz = X*X*Ly - X*Y*Lx;
-    
-    covdvx = Y*Y*Lz - Y*Z*Ly;
-    covdvy = -X*Y*Lz + Y*Z*Lx;
-    covdvz = X*Y*Ly - Y*Y*Lx;
-    
-    covdwx = Y*Z*Lz - Z*Z*Ly;
-    covdwy = -X*Z*Lz + Z*Z*Lx;
-    covdwz = X*Z*Ly - Y*Z*Lx;
-    
     
 %==========================================================================
 %                             Begin Timestepping
@@ -227,76 +87,352 @@ function U = navierstokes(x, U0, H, h, M, epsilon, nu, omega)
 % pre-defines
 U = U0;
 gamdel = zeros(2*N,1);
-buff = zeros(2,3);
-dmat = zeros(N,3);
-emat = zeros(N,3);
-
-for i = 1:N
-    dmat(i,:) = d(x(:,1));
-    emat(i,:) = e(x(:,1));
-end
-
+dmat = d(x);
+emat = e(x);
+t=0;
+    
 for c = 1:M
-    for i=1:M
-        disp(i);
-        rk1 = h*rkfun(U, lapu);
-        rk2 = h*rkfun(U + (1/2)*rk1, lapu);
-        rk3 = h*rkfun(U + (1/2)*rk2, lapu);
-        rk4 = h*rkfun(U + rk3, lapu);
-        
-        U = U + (1/6)*(rk1 + 2*rk2 + 2*rk3 + rk4);
-    end
-    
+
     %==============================Begin RK4===============================
-    %
-    % Solve approximate system
-    %
-    % Compute the Laplacian
-    lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
+    t = t + h;
 
-    % Compute the covariant derivative
-    covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+lapvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covd*U(:,3))];
-    covrep = (U(:,1).*Lx*(U(:,1)) + U(:,2).*Ly*(U(:,2)) + U(:,3).*Ly*(U(:,3)));
-    covU = covU + repmat(covrep,1,3);
+    %================================RK4 Stage 1===========================
+    arg = U;
     
-    % Compute the coriolis force
-    coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(2,:))];
-    coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
-    
-    fU = -covU + nu*lapu - coriolis + f;
-    U = U + h*fU;
-       
-    %Leray Projection
-    
-    % TODO: build gamdel in a vectorized way.
+    %Vector Laplacian
+    lapU = lap*reshape(arg,[],1);
+    lapU = reshape(lapU,[],3);
 
-    for i=1:N
-        buff(1,:) = d(x(i,:))';
-        buff(2,:) = e(x(i,:))';
-        gamdel(2*i-1:2*i) = buff*U(i,:)';
-    end
+    %Covariant Derivative
+    covu = grad*arg(:,1);
+    covu = reshape(covu,[],3);
+    covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
+
+    covv = grad*arg(:,2);
+    covv = reshape(covv,[],3);
+    covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
+
+    covw = grad*arg(:,3);
+    covw = reshape(covw,[],3);
+    covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
+
+    % Pxmat acts on the row-vectorized form, so the transposition below is
+    % necessary.
+    covU = Pxmat*reshape([covu covv covw]',[],1);
+    covU = reshape(covU,3,[])';
+
+    %Stick it all together
+    RK1 = nu*lapU - covU;
+    RK1 = getDivFree(RK1, dmat, emat, Afull, PSIdiv);
+
+    %================================RK4 Stage 2===========================
+    arg = U + 0.5*h*RK1;
     
-    albet = Adiv\gamdel;
-   
-    % recover the interpolation coefficients
-    interpcoeffs = zeros(N,3);
-    for i = 1:N
-        interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
-    end
+    %Vector Laplacian
+    lapU = lap*reshape(arg,[],1);
+    lapU = reshape(lapU,[],3);
+
+    %Covariant Derivative
+    covu = grad*arg(:,1);
+    covu = reshape(covu,[],3);
+    covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
+
+    covv = grad*arg(:,2);
+    covv = reshape(covv,[],3);
+    covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
+
+    covw = grad*arg(:,3);
+    covw = reshape(covw,[],3);
+    covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
+
+    % Pxmat acts on the row-vectorized form, so the transposition below is
+    % necessary.
+    covU = Pxmat*reshape([covu covv covw]',[],1);
+    covU = reshape(covU,3,[])';
+
+    %Stick it all together
+    RK2 = nu*lapU - covU;
+    RK2 = getDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
-    % TODO:  improve performance
-    Udivfree = zeros(N,3);
-    for i = 1:N
-        for j = 1:N
-            Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
-        end
-    end
-    %=============================RK4 part 1===============================
+    %================================RK4 Stage 3===========================
+    arg = U + 0.5*h*RK2;
+    %Vector Laplacian
+    lapU = lap*reshape(arg,[],1);
+    lapU = reshape(lapU,[],3);
+
+    %Covariant Derivative
+    covu = grad*arg(:,1);
+    covu = reshape(covu,[],3);
+    covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
+
+    covv = grad*arg(:,2);
+    covv = reshape(covv,[],3);
+    covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
+
+    covw = grad*arg(:,3);
+    covw = reshape(covw,[],3);
+    covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
+
+    % Pxmat acts on the row-vectorized form, so the transposition below is
+    % necessary.
+    covU = Pxmat*reshape([covu covv covw]',[],1);
+    covU = reshape(covU,3,[])';
+
+    %Stick it all together
+    RK3 = nu*lapU - covU;
+    RK3 = getDivFree(RK3, dmat, emat, Afull, PSIdiv);
+    
+    %================================RK4 Stage 4===========================
+    arg = U + h*RK3;
+    
+    %Vector Laplacian
+    lapU = lap*reshape(arg,[],1);
+    lapU = reshape(lapU,[],3);
+
+    %Covariant Derivative
+    covu = grad*arg(:,1);
+    covu = reshape(covu,[],3);
+    covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
+
+    covv = grad*arg(:,2);
+    covv = reshape(covv,[],3);
+    covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
+
+    covw = grad*arg(:,3);
+    covw = reshape(covw,[],3);
+    covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
+
+    % Pxmat acts on the row-vectorized form, so the transposition below is
+    % necessary.
+    covU = Pxmat*reshape([covu covv covw]',[],1);
+    covU = reshape(covU,3,[])';
+    
+    %Stick it all together
+    RK4 = nu*lapU - covU;
+    RK4 = getDivFree(RK4, dmat, emat, Afull, PSIdiv);
+
+    %============================Stitch Together===========================
+
+    U = U + (1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
+
+%U = Uthis;
+    
+%     
+%     %=============================RK4 part 1===============================
+%     % Compute the Laplacian
+%     lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
+% 
+%     % Compute the covariant derivative
+%     covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+covdvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covdwz*U(:,3))];
+%     covrep = (U(:,1).*(Lx*U(:,1)) + U(:,2).*(Ly*U(:,2)) + U(:,3).*(Lz*U(:,3)));
+%     covU = covU + repmat(covrep,1,3);
+%     
+%     % Compute the coriolis force
+%     coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(:,2))];
+%     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+%     
+%     fU = makeGaneshForcing1(N0, x, t, nu, Lx, Ly, Lz, covdux, covduy, covduz, covdvx, covdvy, covdvz, covdwx, covdwy, covdwz);
+%     
+%     U = -covU + nu*lapu - coriolis + fU;
+% U = -covU + nu*lapu;
+%     %-----Leray Projection
+%     % TODO: build gamdel in a vectorized way.
+% 
+%     for i=1:N
+%         buff(1,:) = d(x(i,:))';
+%         buff(2,:) = e(x(i,:))';
+%         gamdel(2*i-1:2*i) = buff*U(i,:)';
+%     end
+%     
+%     albet = Adiv\gamdel;
+%    
+%     % recover the interpolation coefficients
+%     interpcoeffs = zeros(N,3);
+%     for i = 1:N
+%         interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
+%     end
+%     
+%     % TODO:  improve performance
+%     Udivfree = zeros(N,3);
+%     for i = 1:N
+%         for j = 1:N
+%             Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
+%         end
+%     end
+%     
+%     U = Udivfree;
+%     k1 = U;
+%     
+%     U = Ubuff + (h/2)*k1;
+%     %=============================RK4 part 2===============================
+%     % Compute the Laplacian
+%     lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
+% 
+%     % Compute the covariant derivative
+%     covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+covdvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covdwz*U(:,3))];
+%     covrep = (U(:,1).*(Lx*U(:,1)) + U(:,2).*(Ly*U(:,2)) + U(:,3).*(Lz*U(:,3)));
+%     covU = covU + repmat(covrep,1,3);
+%     
+%     % Compute the coriolis force
+%     coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(:,2))];
+%     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+%     
+%     fU = makeGaneshForcing1(N0, x, t, nu, Lx, Ly, Lz, covdux, covduy, covduz, covdvx, covdvy, covdvz, covdwx, covdwy, covdwz);
+%     
+%     U = -covU + nu*lapu - coriolis + fU;
+% U = -covU + nu*lapu;
+%     %-----Leray Projection
+%     % TODO: build gamdel in a vectorized way.
+% 
+%     for i=1:N
+%         buff(1,:) = d(x(i,:))';
+%         buff(2,:) = e(x(i,:))';
+%         gamdel(2*i-1:2*i) = buff*U(i,:)';
+%     end
+%     
+%     albet = Adiv\gamdel;
+%    
+%     % recover the interpolation coefficients
+%     interpcoeffs = zeros(N,3);
+%     for i = 1:N
+%         interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
+%     end
+%     
+%     % TODO:  improve performance
+%     Udivfree = zeros(N,3);
+%     for i = 1:N
+%         for j = 1:N
+%             Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
+%         end
+%     end
+%     
+%     U = Udivfree;
+%     k2 = U;
+%     
+%     U = Ubuff + (h/2)*k2;
+%     %=============================RK4 part 3===============================
+%     % Compute the Laplacian
+%     lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
+% 
+%     % Compute the covariant derivative
+%     covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+covdvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covdwz*U(:,3))];
+%     covrep = (U(:,1).*(Lx*U(:,1)) + U(:,2).*(Ly*U(:,2)) + U(:,3).*(Lz*U(:,3)));
+%     covU = covU + repmat(covrep,1,3);
+%     
+%     % Compute the coriolis force
+%     coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(:,2))];
+%     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+%     
+%     fU = makeGaneshForcing1(N0, x, t, nu, Lx, Ly, Lz, covdux, covduy, covduz, covdvx, covdvy, covdvz, covdwx, covdwy, covdwz);
+%     
+%     U = -covU + nu*lapu - coriolis + fU;
+% U = -covU + nu*lapu;
+%     %-----Leray Projection
+%     % TODO: build gamdel in a vectorized way.
+% 
+%     for i=1:N
+%         buff(1,:) = d(x(i,:))';
+%         buff(2,:) = e(x(i,:))';
+%         gamdel(2*i-1:2*i) = buff*U(i,:)';
+%     end
+%     
+%     albet = Adiv\gamdel;
+%    
+%     % recover the interpolation coefficients
+%     interpcoeffs = zeros(N,3);
+%     for i = 1:N
+%         interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
+%     end
+%     
+%     % TODO:  improve performance
+%     Udivfree = zeros(N,3);
+%     for i = 1:N
+%         for j = 1:N
+%             Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
+%         end
+%     end
+%     
+%     U = Udivfree;
+%     k3 = U;
+%     
+%     U = Ubuff + h*k3;
+%     %=============================RK4 part 4===============================
+%     % Compute the Laplacian
+%     lapu = -[(lapux*U(:,1)+lapuy*U(:,2)+lapuz*U(:,3)) (lapvx*U(:,1)+lapvy*U(:,2)+lapvz*U(:,3)) (lapwx*U(:,1)+lapwy*U(:,2)+lapwz*U(:,3))];
+% 
+%     % Compute the covariant derivative
+%     covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+covdvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covdwz*U(:,3))];
+%     covrep = (U(:,1).*(Lx*U(:,1)) + U(:,2).*(Ly*U(:,2)) + U(:,3).*(Lz*U(:,3)));
+%     covU = covU + repmat(covrep,1,3);
+%     
+%     % Compute the coriolis force
+%     coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(:,2))];
+%     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+%     
+%     fU = makeGaneshForcing1(N0, x, t, nu, Lx, Ly, Lz, covdux, covduy, covduz, covdvx, covdvy, covdvz, covdwx, covdwy, covdwz);
+%     
+%     U = -covU + nu*lapu - coriolis + fU;
+% U = -covU + nu*lapu;
+%     %-----Leray Projection
+%     % TODO: build gamdel in a vectorized way.
+% 
+%     for i=1:N
+%         buff(1,:) = d(x(i,:))';
+%         buff(2,:) = e(x(i,:))';
+%         gamdel(2*i-1:2*i) = buff*U(i,:)';
+%     end
+%     
+%     albet = Adiv\gamdel;
+%    
+%     % recover the interpolation coefficients
+%     interpcoeffs = zeros(N,3);
+%     for i = 1:N
+%         interpcoeffs(i,:) = albet(2*i-1)*d(x(i,:)) + albet(2*i)*e(x(i,:));
+%     end
+%     
+%     % TODO:  improve performance
+%     Udivfree = zeros(N,3);
+%     for i = 1:N
+%         for j = 1:N
+%             Udivfree(i,:) = Udivfree(i,:) + (PSIdiv(x(i,:),x(j,:))*(interpcoeffs(j,:)'))';
+%         end
+%     end
+%     
+%     U = Udivfree;
+%     k4 = U;
+%     
+%     %======================Stitch it all together==========================
+%     U = Ubuff + (h/6)*(k1 + 2*k2 + 2*k3 + k4);
+%     
+    %==============================Visualize===============================
+
     
     %==========================Determine error=============================
-   
-end
     
+    
+%     Uganesh = makeGaneshTest1(N0, X, t, nu);
+%     
+%     error = (Uganesh-U).^2;
+%     error = sum(sqrt(sum(error,2)));
+%     disp(error);
+%     U = sqrt(sum((U - Uganesh).^2,2));
+end
 
+    function Udiv = getDivFree(U, dmat, emat, Afull, PSIdiv)
+        % Get coefficients
+        for i = 1:size(U,1)
+            gamdel((2*i-1):(2*i)) = [dmat(i,:);emat(i,:)]*(U(i,:).');
+        end
+
+        albet = Afull\gamdel;
+
+        coeffs = repmat(albet(1:2:size(albet,1)),1,3).*dmat + ...
+                 repmat(albet(2:2:size(albet,1)),1,3).*emat;
+
+        % Finally, recover the div-free part.
+        Udiv = PSIdiv*reshape(coeffs',size(coeffs,1)*size(coeffs,2),[]);
+        Udiv = reshape(Udiv,3,[])';
+        
+    end
 
 end

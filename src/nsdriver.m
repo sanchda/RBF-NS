@@ -1,21 +1,20 @@
-% Simplify the execution by changing current directory to the script's
-% local directory.  There's probably a better way, but for now this should
-% be sufficient (given one uses a sufficiently nice pathname).
-[cur_dir,~,~] = fileparts(which('nsdriver.m'));
-cd(cur_dir);
+cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
 
 %==========================================================================
 %                         Parameters and Constants                        
 %==========================================================================
 
 nu = 1;     % Parameter for the NS equation
-omega=1;    % Strength of coriolis force
-eps = 10;   % Shape paramater for the RBF kernel
+omega=0;    % Strength of coriolis force
 N = 12;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
-N0 = N;     % Highest spherical harmonic in the test
+N0 = 3;     % Highest spherical harmonic in the test
 M = 1;      % how many iterations to run the simulation for
-h = 0.01;   % timestep
+h = 1/(2*N);   % timestep
+divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
+epsLeray = divFree_geteps(N);
+epsPDE   = 3;
+surfeps = 3;
 
 %==============================debug parameters============================
 % Check the version of the vector Laplacian saved in testVecLap.m
@@ -34,7 +33,31 @@ theta = [1 0 0;0 cos(t) -sin(t);0 sin(t) cos(t)];
 for i = 1:(N+1)^2
     X(i,:) = (theta*X(i,:)')';
 end
+X = sortrows(X,3);
 
+
+%==========================================================================
+%                            Hessian for matrix RBF                        
+%==========================================================================
+HGA =  @(x,y,eps) [exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
+                    -1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
+                    1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).* ...
+                    y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(2)+(-1).*y(2)),4.*exp(1).^((-1).* ...
+                    eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).* ...
+                    eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3));4.*exp(1).^((-1).*eps.^2.*(( ...
+                    x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(1)+( ...
+                    -1).*y(1)).*(x(2)+(-1).*y(2)),exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+( ...
+                    x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(2)+( ...
+                    -1).*y(2)).^2),4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1) ...
+                    .*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)); ...
+                    4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
+                    -1).*y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3)),4.*exp(1).^(( ...
+                    -1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)) ...
+                    .*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)),exp(1).^((-1).*eps.^2.*(( ...
+                    x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
+                    eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
+
+[lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfull PSIcrl PSIdiv Pxmat] = nsInitS2(X, HGA, 1.05*epsLeray);
 %==========================================================================
 %                     Optional Test: Vector Laplacian                         
 %==========================================================================
@@ -54,61 +77,70 @@ end
 %==========================================================================
 %                            Generate initial VF                       
 %==========================================================================
-% The initial vector field is defined as in GaneshGiaSloan2009 in their
-% first numerical trial (eqn 5.1)
-%
-% U0   = g(0)(W1(x) - W2(x))
-% g(t) = nu*exp(-t)(sin(5t) + cos(10t))
-% W1   = Z_0^1 + 2Z_1^1
-% W2   = Z_0^2 + 2Z_1^2 + 2Z_2^2
-
-g  = @(t) nu*exp(-t)*(sin(5*t)+cos(10*t));
-
-Z = getDivFree(1,X);
-W1 = [Z(:,4) Z(:,5) Z(:,6)] + 2*[Z(:,7) Z(:,8) Z(:,9)];
-
-Z = getDivFree(2,X);
-W2 = [Z(:,7) Z(:,8) Z(:,9)] + 2*[Z(:,10) Z(:,11) Z(:,12)] + 2*[Z(:,13) Z(:,14) Z(:,15)];
-
-clear(W1,W2,Z);
-U = nu*(W1 - W2);
-
-
+U0 = makeGaneshTest1(1, X, t, nu);
+U0  = getDivFree(2,X); 
+U0  = U0(:,1:3);
+U = U0;
 %==========================================================================
-%                          Timestep + Check                       
+%                        Initialize Visualization Stuff                       
 %==========================================================================
 % 
-% Run the simulation and check the output against the reference timestep in
-% makeGaneshTest1.  Note that this test has no explicit Coriolis force.
-%
+% Parametrized surface and constants.  -q suffix denotes it's for the
+% quiver plot
+eps = 1.0;
+epsq = 0.1;
+phi = @(r2) exp(-eps*eps*r2);
+phiq = @(r2) exp(-epsq*epsq*r2);
 
-U = navierstokes(X,U,H,h,1,epsilon,nu,0);
-U_ref = makeGaneshTest1(N0, X, c*h, nu);
+s2 = @(t,p) [cos(t).*sin(p) sin(t).*sin(p) cos(p)];
+sz = [101, 201];
+szq = [25 25];
+MM = prod(sz);  
+MMq = prod(szq);  
+NN = size(X,1);
+
+% surface grid parameters
+[ll,tt]=meshgrid(linspace(-pi,pi,sz(2)),linspace(-pi,pi,sz(1)));
+[llq,ttq]=meshgrid(linspace(-pi,pi,szq(2)),linspace(-pi,pi,szq(1)));
+xx=s2(ll(:),tt(:));
+xxq=s2(llq(:),ttq(:));
+
+% Interpolate to the grid
+re2=(repmat(xx(:,1),[1 NN])-repmat(X(:,1).',[MM 1])).^2;
+re2=re2+(repmat(xx(:,2),[1 NN])-repmat(X(:,2).',[MM 1])).^2;
+re2=re2+(repmat(xx(:,3),[1 NN])-repmat(X(:,3).',[MM 1])).^2;
+
+re2q=(repmat(xxq(:,1),[1 NN])-repmat(X(:,1).',[MMq 1])).^2;
+re2q=re2q+(repmat(xxq(:,2),[1 NN])-repmat(X(:,2).',[MMq 1])).^2;
+re2q=re2q+(repmat(xxq(:,3),[1 NN])-repmat(X(:,3).',[MMq 1])).^2;
+yy=reshape(xx(:,2),sz);
+zz=reshape(xx(:,3),sz);
+xx=reshape(xx(:,1),sz);
+
+yyq=reshape(xxq(:,2),szq);
+zzq=reshape(xxq(:,3),szq);
+xxq=reshape(xxq(:,1),szq);
 
 
+% Simulate!
+for c = 1:1
+    
+U = navierstokes(X, U0, h, 2, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 
+% Note that RBFs can't capture constant fields very well, so make sure that
+% the field isn't nearly constant (i.e., the zero field) before calling.
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uu1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uu2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uu3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
 
+% Plot the results
+hold on
+quiv = quiver3(xxq,yyq,zzq,uu1,uu2,uu3,1);
+htop = surf(xx,yy,zz,uu);
+shading interp;
+set(htop, 'edgecolor','none')
+daspect([1 1 1]);
+hold off
+end
 
-
-
-
-
-
-% Convert the Cartesian coordinates to longitudinal/latitudinal coordinates
-% for visualization
-[p,t] = cart2sph(X(:,1), X(:,2), X(:,3));
-
-% Display U according to p,t coordinates
-subplot(2,3,1);
-scatter3(p,t,U(:,1),30,U(:,1),'.')
-subplot(2,3,2);
-scatter3(p,t,U(:,2),30,U(:,2),'.')
-subplot(2,3,3);
-scatter3(p,t,U(:,3),30,U(:,3),'.')
-
-subplot(2,3,4);
-scatter3(p,t,U0(:,1),30,U0(:,1),'.')
-subplot(2,3,5);
-scatter3(p,t,U0(:,2),30,U0(:,2),'.')
-subplot(2,3,6);
-scatter3(p,t,U0(:,3),30,U0(:,3),'.')
