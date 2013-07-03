@@ -309,9 +309,9 @@ clf;
 U = x;
 
 U = getDivFree(2,x); 
-U  = U(:,1:3);
+U  = U(:,4:6);
 
-% Just pick a direction, since grad accepts only vectors.
+% Apply the Laplacian
 lapU = lap*reshape(U,[],1);
 lapU = reshape(lapU,[],3);
 U = lapU;
@@ -330,8 +330,130 @@ set(htop, 'edgecolor','none')
 daspect([1 1 1]);
 hold off
 
+%% Case 4a:  behavior of covariant derivative (normal field)
+% Clear current figure
+clf;
 
-%% Case 4:  pxmat is idempotent
+U = x;
+
+% Apply the covariant derivative
+covu = gradS2*U(:,1);
+covu = reshape(covu,[],3);
+covu = U(:,1).*covu(:,1) + U(:,2).*covu(:,2) + U(:,3).*covu(:,3);
+
+covv = gradS2*U(:,2);
+covv = reshape(covv,[],3);
+covv = U(:,1).*covv(:,1) + U(:,2).*covv(:,2) + U(:,3).*covv(:,3);
+
+covw = gradS2*U(:,3);
+covw = reshape(covw,[],3);
+covw = U(:,1).*covw(:,1) + U(:,2).*covw(:,2) + U(:,3).*covw(:,3);
+
+% Pxmat acts on the row-vectorized form, so the transposition below is
+% necessary.
+covU = Pxmat*reshape([covu covv covw]',[],1);
+covU = reshape(covU,3,[])';
+U = covU;
+
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+
+% Plot the results
+hold on
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
+htop = surf(xx,yy,zz,uu);
+shading interp;
+set(htop, 'edgecolor','none')
+daspect([1 1 1]);
+hold off
+
+%% Case 4b:  behavior of covariant derivative (x-directed field)
+% Clear current figure
+clf;
+
+U = x;
+
+% Apply the gradient to the x-component of the normal vectors to produce a
+% vector field that is polarized to one direction
+U = gradS2*U(:,1);
+U = reshape(U,[],3);
+
+% Apply the covariant derivative
+covu = gradS2*U(:,1);
+covu = reshape(covu,[],3);
+covu = U(:,1).*covu(:,1) + U(:,2).*covu(:,2) + U(:,3).*covu(:,3);
+
+covv = gradS2*U(:,2);
+covv = reshape(covv,[],3);
+covv = U(:,1).*covv(:,1) + U(:,2).*covv(:,2) + U(:,3).*covv(:,3);
+
+covw = gradS2*U(:,3);
+covw = reshape(covw,[],3);
+covw = U(:,1).*covw(:,1) + U(:,2).*covw(:,2) + U(:,3).*covw(:,3);
+
+% Pxmat acts on the row-vectorized form, so the transposition below is
+% necessary.
+covU = Pxmat*reshape([covu covv covw]',[],1);
+covU = reshape(covU,3,[])';
+U = covU;
+
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+
+% Plot the results
+hold on
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
+htop = surf(xx,yy,zz,uu);
+shading interp;
+set(htop, 'edgecolor','none')
+daspect([1 1 1]);
+hold off
+
+%% Case 4c:  behavior of covariant derivative (VSH)
+% Clear current figure
+clf;
+
+U = getDivFree(2,x); 
+U  = U(:,4:6);
+
+% Apply the covariant derivative
+covu = gradS2*U(:,1);
+covu = reshape(covu,[],3);
+covu = U(:,1).*covu(:,1) + U(:,2).*covu(:,2) + U(:,3).*covu(:,3);
+
+covv = gradS2*U(:,2);
+covv = reshape(covv,[],3);
+covv = U(:,1).*covv(:,1) + U(:,2).*covv(:,2) + U(:,3).*covv(:,3);
+
+covw = gradS2*U(:,3);
+covw = reshape(covw,[],3);
+covw = U(:,1).*covw(:,1) + U(:,2).*covw(:,2) + U(:,3).*covw(:,3);
+
+% Pxmat acts on the row-vectorized form, so the transposition below is
+% necessary.
+covU = Pxmat*reshape([covu covv covw]',[],1);
+covU = reshape(covU,3,[])';
+U = covU;
+
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+
+% Plot the results
+hold on
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
+htop = surf(xx,yy,zz,uu);
+shading interp;
+set(htop, 'edgecolor','none')
+daspect([1 1 1]);
+hold off
+
+%% Case 5:  pxmat is idempotent
 % Clear current figure
 clf;
 

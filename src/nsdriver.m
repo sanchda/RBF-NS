@@ -1,17 +1,19 @@
 %cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
+
+%% Initialization
 cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 
 %==========================================================================
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1;     % Parameter for the NS equation
+nu = 1/10;     % Parameter for the NS equation
 omega=0;    % Strength of coriolis force
 N = 12;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
 N0 = 3;     % Highest spherical harmonic in the test
 M = 1;      % how many iterations to run the simulation for
-h = 1/(2*N);   % timestep
+h = 1/(N+1);   % timestep
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
 epsLeray = divFree_geteps(N);
 epsPDE   = 3;
@@ -126,7 +128,7 @@ xxq=reshape(xxq(:,1),szq);
 %% Simulate!
 for c = 1:1
     
-U = navierstokes(X, U0, h, 1, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+U = navierstokes(X, U0, h, 4, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -142,6 +144,8 @@ htop = surf(xx,yy,zz,uu);
 shading interp;
 set(htop, 'edgecolor','none')
 daspect([1 1 1]);
+box off
+axis off
 hold off
 end
 

@@ -47,7 +47,7 @@ function Udiv = projectDivFree(U, dmat, emat, Afull, PSIdiv)
     end
 
     % Solve for x
-    albet = Afull\gamdel;
+    albet = Afull\gamdel';
 
     coeffs = repmat(albet(1:2:size(albet,1)),1,3).*dmat + ...
              repmat(albet(2:2:size(albet,1)),1,3).*emat;

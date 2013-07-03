@@ -126,7 +126,7 @@ for c = 1:M
 
     %Stick it all together
     RK1 = nu*lapU - covU;
- %   RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
+    RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
 
     %================================RK4 Stage 2===========================
     arg = U + 0.5*h*RK1;
@@ -155,7 +155,7 @@ for c = 1:M
 
     %Stick it all together
     RK2 = nu*lapU - covU;
-%    RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
+    RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 3===========================
     arg = U + 0.5*h*RK2;
@@ -183,7 +183,7 @@ for c = 1:M
 
     %Stick it all together
     RK3 = nu*lapU - covU;
-%    RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
+    RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 4===========================
     arg = U + h*RK3;
@@ -212,16 +212,15 @@ for c = 1:M
     
     %Stick it all together
     RK4 = nu*lapU - covU;
-%    RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
+    RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
 
     %============================Stitch Together===========================
 
-    RK1 = (1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
-    RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
     U = U + (1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
     U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
+    
 
-%U = Uthis;
+
     
 %     
 %     %=============================RK4 part 1===============================
@@ -423,6 +422,9 @@ for c = 1:M
 %     disp(error);
 %     U = sqrt(sum((U - Uganesh).^2,2));
 end
+
+max(max(U))
+min(min(U))
 
 
 end
