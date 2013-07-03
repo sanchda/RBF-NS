@@ -1,4 +1,4 @@
-function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
+function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat, X, Y, Z)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
 % MODIFIED: 7/3/2013
@@ -82,6 +82,15 @@ function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, L
     
     e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
         0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
+    
+    % Needed to compute coriolis force
+    X = diag(x(:,1));
+    Y = diag(x(:,2));
+    Z = diag(x(:,3));
+    
+    % Need this later for the coriolis force.  Let's just define it now.
+    zsqrt = 1 - x(:,3).*x(:,3);
+    zsqrt = sqrt(zsqrt);
 
     
 %==========================================================================
@@ -123,9 +132,13 @@ for c = 1:M
     % necessary.
     covU = Pxmat*reshape([covu covv covw]',[],1);
     covU = reshape(covU,3,[])';
+    
+    % Coriolis force
+    coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
+    coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     %Stick it all together
-    RK1 = nu*lapU - covU;
+    RK1 = nu*lapU - covU - omega*coriolis;
     RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
 
     %================================RK4 Stage 2===========================
@@ -152,13 +165,18 @@ for c = 1:M
     % necessary.
     covU = Pxmat*reshape([covu covv covw]',[],1);
     covU = reshape(covU,3,[])';
+    
+    % Coriolis force
+    coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
+    coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     %Stick it all together
-    RK2 = nu*lapU - covU;
+    RK2 = nu*lapU - covU - omega*coriolis;
     RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 3===========================
     arg = U + 0.5*h*RK2;
+    
     %Vector Laplacian
     lapU = lap*reshape(arg,[],1);
     lapU = reshape(lapU,[],3);
@@ -181,8 +199,12 @@ for c = 1:M
     covU = Pxmat*reshape([covu covv covw]',[],1);
     covU = reshape(covU,3,[])';
 
+    % Coriolis force
+    coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
+    coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
+   
     %Stick it all together
-    RK3 = nu*lapU - covU;
+    RK3 = nu*lapU - covU - omega*coriolis;
     RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 4===========================
@@ -210,18 +232,20 @@ for c = 1:M
     covU = Pxmat*reshape([covu covv covw]',[],1);
     covU = reshape(covU,3,[])';
     
+    % Coriolis force
+    coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
+    coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+    
     %Stick it all together
-    RK4 = nu*lapU - covU;
+    RK4 = nu*lapU - covU - omega*coriolis;
     RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
 
     %============================Stitch Together===========================
 
-    U = U + (1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
+    U = U + h*(1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
     U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
     
 
-
-    
 %     
 %     %=============================RK4 part 1===============================
 %     % Compute the Laplacian
@@ -232,9 +256,7 @@ for c = 1:M
 %     covrep = (U(:,1).*(Lx*U(:,1)) + U(:,2).*(Ly*U(:,2)) + U(:,3).*(Lz*U(:,3)));
 %     covU = covU + repmat(covrep,1,3);
 %     
-%     % Compute the coriolis force
-%     coriolis = [(-Z*U(:,2) + Y*U(:,3)) (Z*U(:,1) - X*U(:,3)) (-Y*U(:,1) + X*U(:,2))];
-%     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+%     
 %     
 %     fU = makeGaneshForcing1(N0, x, t, nu, Lx, Ly, Lz, covdux, covduy, covduz, covdvx, covdvy, covdvz, covdwx, covdwy, covdwz);
 %     

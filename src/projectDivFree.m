@@ -6,6 +6,10 @@ function Udiv = projectDivFree(U, dmat, emat, Afull, PSIdiv)
     % Perform RBF-based projection onto the divergence-free component of a
     % vector field on a boundary-free 2-manifold.
     %
+    % OBSERVATION:
+    % This function should be idempotent, up to numerical accuracy (which
+    % will be around machine precision for n>=12^2 on the sphere).
+    %
     %-------------------------------ARGUMENTS------------------------------
     %
     % U is the vector-field, a matrix with 3 columns and N rows, where N is

@@ -144,10 +144,6 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     X = diag(x(:,1));
     Y = diag(x(:,2));
     Z = diag(x(:,3));
-    
-    % Need this later for the coriolis force.  Let's just define it now.
-%     zsqrt = 1 - x(:,3).*x(:,3);
-%     zsqrt = sqrt(zsqrt);
  
     lapux = -Z*Lz + Y*Y*Lzz - Y*Ly - 2*Y*Z*Lyz + Z*Z*Lyy;
     lapuy = -X*Y*Lzz + X*Z*Lyz + Y*Lx + Y*Z*Lxz - Z*Z*Lxy;

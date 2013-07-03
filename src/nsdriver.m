@@ -8,7 +8,7 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %==========================================================================
 
 nu = 1/10;     % Parameter for the NS equation
-omega=0;    % Strength of coriolis force
+omega = 0.5;  % Strength of coriolis force
 N = 12;     % Somehow related to the number of centers.  For the ME points,
             % the number of centers is (N+1)^2.
 N0 = 3;     % Highest spherical harmonic in the test
@@ -81,9 +81,8 @@ end
 %                            Generate initial VF                       
 %==========================================================================
 U0 = makeGaneshTest1(1, X, t, nu);
-U0  = getDivFree(2,X); 
-U0  = U0(:,1:3);
-U = U0;
+%U0  = getDivFree(2,X); 
+%U0  = U0(:,1:3);
 %==========================================================================
 %                        Initialize Visualization Stuff                       
 %==========================================================================
@@ -126,9 +125,10 @@ xxq=reshape(xxq(:,1),szq);
 
 
 %% Simulate!
+U = U0;
 for c = 1:1
     
-U = navierstokes(X, U0, h, 4, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+U = navierstokes(X, U, h, 1, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -138,6 +138,8 @@ uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq);
 uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
 
 % Plot the results
+
+clf
 hold on
 quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
 htop = surf(xx,yy,zz,uu);
@@ -147,5 +149,8 @@ daspect([1 1 1]);
 box off
 axis off
 hold off
+
+F(c) = getframe;
 end
 
+movie(F,10)
