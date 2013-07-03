@@ -1,4 +1,8 @@
 function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
+% AUTHOR:   David Sanchez
+% DATE:     August 2012
+% MODIFIED: 7/3/2013
+    
 %==========================================================================
 %                               Description
 %==========================================================================
@@ -11,8 +15,8 @@ function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, L
 %==========================================================================
 %
 %==========================WARNING WARNING WARNING=========================
-% THIS IS ALL A MASSIVE TODO.  NONE OF THIS IS CURRENTLY IMPLEMENTED.
-% (2/18/2013)
+% THIS IS ALL A MASSIVE TODO.  NONE OF THE DEBUG ROUTINES ARE IS CURRENTLY
+% IMPLEMENTED (2/18/2013)
 %
 % The values in x are assumed to be on the unit sphere, with coordinates
 % given in Cartesian x,y,z (i.e., x^2 + y^2 + z^2 = 1).  This code does not
@@ -86,7 +90,6 @@ function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, L
  
 % pre-defines
 U = U0;
-gamdel = zeros(2*N,1);
 dmat = d(x);
 emat = e(x);
 t=0;
@@ -123,7 +126,7 @@ for c = 1:M
 
     %Stick it all together
     RK1 = nu*lapU - covU;
-    RK1 = getDivFree(RK1, dmat, emat, Afull, PSIdiv);
+ %   RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
 
     %================================RK4 Stage 2===========================
     arg = U + 0.5*h*RK1;
@@ -152,7 +155,7 @@ for c = 1:M
 
     %Stick it all together
     RK2 = nu*lapU - covU;
-    RK2 = getDivFree(RK2, dmat, emat, Afull, PSIdiv);
+%    RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 3===========================
     arg = U + 0.5*h*RK2;
@@ -180,7 +183,7 @@ for c = 1:M
 
     %Stick it all together
     RK3 = nu*lapU - covU;
-    RK3 = getDivFree(RK3, dmat, emat, Afull, PSIdiv);
+%    RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 4===========================
     arg = U + h*RK3;
@@ -209,11 +212,14 @@ for c = 1:M
     
     %Stick it all together
     RK4 = nu*lapU - covU;
-    RK4 = getDivFree(RK4, dmat, emat, Afull, PSIdiv);
+%    RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
 
     %============================Stitch Together===========================
 
+    RK1 = (1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
+    RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
     U = U + (1/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
+    U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
 
 %U = Uthis;
     
@@ -418,21 +424,5 @@ for c = 1:M
 %     U = sqrt(sum((U - Uganesh).^2,2));
 end
 
-    function Udiv = getDivFree(U, dmat, emat, Afull, PSIdiv)
-        % Get coefficients
-        for i = 1:size(U,1)
-            gamdel((2*i-1):(2*i)) = [dmat(i,:);emat(i,:)]*(U(i,:).');
-        end
-
-        albet = Afull\gamdel;
-
-        coeffs = repmat(albet(1:2:size(albet,1)),1,3).*dmat + ...
-                 repmat(albet(2:2:size(albet,1)),1,3).*emat;
-
-        % Finally, recover the div-free part.
-        Udiv = PSIdiv*reshape(coeffs',size(coeffs,1)*size(coeffs,2),[]);
-        Udiv = reshape(Udiv,3,[])';
-        
-    end
 
 end

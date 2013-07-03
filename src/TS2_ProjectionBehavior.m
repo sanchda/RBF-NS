@@ -1,10 +1,14 @@
-% This is a test to reproduce the following bug:
-% Pxmat should project onto the tangent space on the sphere, but doesn't in
-% at least this case.
-%
-% Operating hypotheses:
-% Pxmat is idempotent(tested; see case 4)
-% Pxmat projects onto tangent space (hypothesis)
+% Test suite for checking various features of the code.  This test suite is
+% currently intended for developers and should not be exposed to users.
+
+% TODO:
+% Develop quantitative tests for Laplacian, gradient, and covariant
+% derivative.
+% Use the initialization and building routines utilized by navierstokes.m
+% itself--until then WARNING:  routines used herein may not reflect those
+% used in live code!
+
+cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 
 %% Get cell centers
 N = 12;
@@ -71,6 +75,25 @@ Ly = (Ly/Achol)/Achol.';
 Lz = -twoeps2*A.*zdist;  	
 Lz = (Lz/Achol)/Achol.';
 
+Lxy = twoeps2*twoeps2*A.*xdist.*ydist;
+Lxy = (Lxy/Achol)/Achol.';
+
+Lxz = twoeps2*twoeps2*A.*xdist.*zdist;
+Lxz = (Lxz/Achol)/Achol.';
+
+Lyz = twoeps2*twoeps2*A.*ydist.*zdist;
+Lyz = (Lyz/Achol)/Achol.';
+
+
+Lxx = twoeps2*A.*(-1 + twoeps2*(xdist.*xdist)); 	
+Lxx = (Lxx/Achol)/Achol.';	  	
+
+Lyy = twoeps2*A.*(-1 + twoeps2*(ydist.*ydist));  	
+Lyy = (Lyy/Achol)/Achol.';
+
+Lzz = twoeps2*A.*(-1 + twoeps2*(zdist.*zdist));
+Lzz = (Lzz/Achol)/Achol.';
+
 %% Define the gradient in R3
 gradR3 = [Lx;Ly;Lz];
 
@@ -84,6 +107,35 @@ grady = -X*Y*Lx + (eye(size(X,1))-Y*Y)*Ly - Y*Z*Lz;
 gradz = -X*Z*Lx - Y*Z*Ly + (eye(size(X,1))-Z*Z)*Lz;
 
 gradS2 = [gradx;grady;gradz];
+
+%% Define the vector Laplacian in S2
+
+% ASSERT:  X contains only points on the surface of the unit sphere
+%
+% Since U = (u,v,w) is a vector, we write veclapU in terms of the
+% action of the vector Laplacian on each individual component of U.
+% Moreover, since the action of each component relies on contributions
+% from each coordinate, we write the three componentwise Laplacians
+% in three parts, for a total of nine operators.
+
+X = diag(x(:,1));
+Y = diag(x(:,2));
+Z = diag(x(:,3));
+
+lapux = -Z*Lz + Y*Y*Lzz - Y*Ly - 2*Y*Z*Lyz + Z*Z*Lyy;
+lapuy = -X*Y*Lzz + X*Z*Lyz + Y*Lx + Y*Z*Lxz - Z*Z*Lxy;
+lapuz =  X*Y*Lyz - X*Z*Lyy + Z*Lx - Y*Y*Lxz + Y*Z*Lxy;
+
+lapvx = X*Ly - X*Y*Lzz + X*Z*Lyz + Y*Z*Lxz - Z*Z*Lxy;
+lapvy = -X*Lx + X*X*Lzz - Z*Lz - 2*X*Z*Lxz + Z*Z*Lxx;
+lapvz = -X*X*Lyz + X*Y*Lxz + Z*Ly + X*Z*Lxy - Y*Z*Lxx;  
+
+lapwx =  X*Lz + X*Y*Lyz - X*Z*Lyy - Y*Y*Lxz + Y*Z*Lxy;
+lapwy =  Y*Lz - X*X*Lyz + X*Y*Lxz + X*Z*Lxy - Y*Z*Lxx;
+lapwz = -Y*Ly + X*X*Lyy - X*Lx - 2*X*Y*Lxy + Y*Y*Lxx;
+
+lap = [lapux lapuy lapuz; lapvx lapvy lapvz; lapwx lapwy lapwz];
+
 
 %% Initialize visualization parameters
 %-q suffix denotes it is for the quiver arrows; otherwise, for surface
@@ -125,6 +177,9 @@ xxq=reshape(xxq(:,1),szq);
 
 
 %% Case 1a:  visualization check:  normal vectors
+% Clear current figure
+clf;
+
 % Note that the colormap is normalized.
 U = x;
 max(max(U))
@@ -145,6 +200,9 @@ daspect([1 1 1]);
 hold off
 
 %% Case 1b:  visualization check:  vector spherical harmonics are tangent
+% Clear current figure
+clf;
+
 U  = getDivFree(2,x); 
 U  = U(:,1:3);
 
@@ -155,7 +213,7 @@ uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq);
 
 % Plot the results
 hold on
-quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
 htop = surf(xx,yy,zz,uu);
 shading interp;
 set(htop, 'edgecolor','none')
@@ -165,6 +223,10 @@ hold off
 %% Case 2:  projection check:  projection of normals is tiny
 % Note that the resulting field is so small the normalized visualization is
 % pointless
+
+% Clear current figure
+clf;
+
 U = x;
 
 U = Pxmat*reshape(U',[],1);
@@ -180,7 +242,7 @@ uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq);
 
 % Plot the results
 hold on
-quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
 htop = surf(xx,yy,zz,uu);
 shading interp;
 set(htop, 'edgecolor','none')
@@ -188,6 +250,9 @@ daspect([1 1 1]);
 hold off
 
 %% Case 3a:  behavior of algebraic synthesis with Px and grad (i.e., gradS2)
+% Clear current figure
+clf;
+
 % The result does not appear restricted to the tangent space
 U = x;
  
@@ -195,7 +260,8 @@ U = x;
 U = gradS2*U(:,1);
 U = reshape(U,[],3);
  
-uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz);
+uu=reshape(phi(re2)*(Achol\(Achol.'\U(:,1))),sz);
 uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
 uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
 uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
@@ -211,6 +277,9 @@ daspect([1 1 1]);
 hold off
 
 %% Case 3b:  behavior of projected gradR3
+% Clear current figure
+clf;
+
 U = x;
 
 % Just pick a direction, since grad accepts only vectors.
@@ -226,14 +295,45 @@ uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq);
 
 % Plot the results
 hold on
-quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
 htop = surf(xx,yy,zz,uu);
 shading interp;
 set(htop, 'edgecolor','none')
 daspect([1 1 1]);
 hold off
 
+%% Case 3c:  behavior of lap
+% Clear current figure
+clf;
+
+U = x;
+
+U = 
+
+% Just pick a direction, since grad accepts only vectors.
+lapU = lap*reshape(U,[],1);
+lapU = reshape(lapU,[],3);
+U = lapU;
+
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+
+% Plot the results
+hold on
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
+htop = surf(xx,yy,zz,uu);
+shading interp;
+set(htop, 'edgecolor','none')
+daspect([1 1 1]);
+hold off
+
+
 %% Case 4:  pxmat is idempotent
+% Clear current figure
+clf;
+
 U = x;
 
 % Just pick a direction, since grad accepts only vectors.
@@ -252,7 +352,7 @@ uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq);
 
 % Plot the results
 hold on
-quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
+quiv = quiver3(x(:,1),x(:,2),x(:,3),U(:,1),U(:,2),U(:,3),1)
 htop = surf(xx,yy,zz,uu);
 shading interp;
 set(htop, 'edgecolor','none')

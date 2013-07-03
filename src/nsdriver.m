@@ -1,4 +1,5 @@
-cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
+%cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
+cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 
 %==========================================================================
 %                         Parameters and Constants                        
@@ -122,21 +123,21 @@ zzq=reshape(xxq(:,3),szq);
 xxq=reshape(xxq(:,1),szq);
 
 
-% Simulate!
+%% Simulate!
 for c = 1:1
     
-U = navierstokes(X, U0, h, 2, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+U = navierstokes(X, U0, h, 1, eps, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
 uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
-uu1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
-uu2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
-uu3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
 
 % Plot the results
 hold on
-quiv = quiver3(xxq,yyq,zzq,uu1,uu2,uu3,1);
+quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
 htop = surf(xx,yy,zz,uu);
 shading interp;
 set(htop, 'edgecolor','none')
