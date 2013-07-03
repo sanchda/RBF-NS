@@ -308,7 +308,8 @@ clf;
 
 U = x;
 
-U = 
+U = getDivFree(2,x); 
+U  = U(:,1:3);
 
 % Just pick a direction, since grad accepts only vectors.
 lapU = lap*reshape(U,[],1);
