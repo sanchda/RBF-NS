@@ -11,7 +11,7 @@ nu = 1/8;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
 N = 23;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
-N0 = 3;        % Highest spherical harmonic in the test
+N0 = 5;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
 h = 1/(N+1);   % timestep
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
@@ -82,7 +82,7 @@ end
 %==========================================================================
 %                            Generate initial VF                       
 %==========================================================================
-U0 = makeGaneshTest1(N0, X, t, nu);
+U0 = makeGaneshTest1(N0, X, 0, nu);
 %U0  = getDivFree(2,X); 
 %U0  = U0(:,1:3);
 
@@ -99,8 +99,8 @@ phi = @(r2) exp(-eps*eps*r2);
 phiq = @(r2) exp(-epsq*epsq*r2);
 
 s2 = @(t,p) [cos(t).*sin(p) sin(t).*sin(p) cos(p)];
-sz = [101, 201];
-szq = [25 25];
+sz = [201, 351];
+szq = [35 35];
 MM = prod(sz);  
 MMq = prod(szq);  
 NN = size(X,1);
@@ -128,7 +128,7 @@ zzq=reshape(xxq(:,3),szq);
 xxq=reshape(xxq(:,1),szq);
 
 disp('Visualization parameters set')
-%% Simulate!
+%% Simulate with RBF
 U = U0;
 
 % Initial camera parameters
@@ -136,9 +136,8 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:50
-    
-U = navierstokes(X, U, h, 1, eps, nu, omega, N0, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+for c = 1:100
+% Start with the visualization first, so the initial condition is seen.
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -174,18 +173,25 @@ text(-1.23,0,-0.85,sprintf('nu: %f',nu),'Fontsize',12)
 text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
 F(c) = getframe(gcf);
+
+U = navierstokes(X, U, h, 1, eps, nu, omega, N0, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 end
 
 
 movie(gcf,F,1);
 %% Save movie
-movie2avi(F, 'NS_576DAS_7.4.13_trial2.avi')
+movie2avi(F, 'NS_576DAS_7.4.13_trial3.avi')
 
 %% View corresponding Ganesh solution
-for c = 1:50
-t = h*c;
+U = U0;
 
-U = makeGaneshTest1(N0, X, t, nu);
+% Initial camera parameters
+cpos = [-0.031 -21.392 9.115];
+ctarg = [-0.031 0.122 -0.009];
+cview = 4.0;
+
+for c = 1:100
+t = h*c;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -221,8 +227,11 @@ text(-1.23,0,-0.85,sprintf('nu: %f',nu),'Fontsize',12)
 text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
 G(c) = getframe(gcf);
+
+
+U = makeGaneshTest1(N0, X, t, nu);
 end
 
 movie(gcf,G,1)
 %% Save movie
-movie2avi(G, 'NS_576GAN_7.4.13_trial2.avi')
+movie2avi(G, 'NS_576GAN_7.4.13_trial3.avi')
