@@ -1,4 +1,4 @@
-function f = makeGaneshForcing1(N0, X, t, nu, Lx, Ly, Lz, covdux, covduy, covduz, covdvx, covdvy, covdvz, covdwx, covdwy, covdwz)
+function f = makeGaneshForcing1(N0, X, t, nu, grad, Pxmat)
 % Returns f(x,t) evaluated at all x in X at the prescribed t, where f is
 % the forcing corresponding to the reference solution in Ganesh 2009.
 
@@ -45,9 +45,22 @@ end
     
     % Compute the covariant derivative
     % TODO: write this out directly in terms of the spherical harmonics
-    covU = -[(covdux*U(:,1)+covduy*U(:,2)+covduz*U(:,3)) (covdvx*U(:,1)+covdvy*U(:,2)+covdvz*U(:,3)) (covdwx*U(:,1)+covdwy*U(:,2)+covdwz*U(:,3))];
-    covrep = (U(:,1).*(Lx*U(:,1)) + U(:,2).*(Ly*U(:,2)) + U(:,3).*(Lz*U(:,3)));
-    covU = covU + repmat(covrep,1,3);
+    covu = grad*U(:,1);
+    covu = reshape(covu,[],3);
+    covu = U(:,1).*covu(:,1) + U(:,2).*covu(:,2) + U(:,3).*covu(:,3);
+
+    covv = grad*U(:,2);
+    covv = reshape(covv,[],3);
+    covv = U(:,1).*covv(:,1) + U(:,2).*covv(:,2) + U(:,3).*covv(:,3);
+
+    covw = grad*U(:,3);
+    covw = reshape(covw,[],3);
+    covw = U(:,1).*covw(:,1) + U(:,2).*covw(:,2) + U(:,3).*covw(:,3);
+
+    % Pxmat acts on the row-vectorized form, so the transposition below is
+    % necessary.
+    covU = Pxmat*reshape([covu covv covw]',[],1);
+    covU = reshape(covU,3,[])';
     
     f = Ut + covU - nu*Ulap;
 end

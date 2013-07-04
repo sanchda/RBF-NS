@@ -1,4 +1,4 @@
-function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat Pxmat] = nsInitS2(x, H, epsilon)
+function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
 % Initializes everything needed by the Navier-Stokes spherical code.
 
 %==========================================================================
@@ -9,64 +9,7 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     % these are not the same length, function should return error.
     % TODO:  return error
     N = size(x,1);
-    twoeps2 = 2*epsilon*epsilon;
-    
-    
-%==========================================================================
-%                             Setup Leray Projector
-%==========================================================================
-
-    % Efficient element-wise multiplication of the columns of A against the
-    % vector v.
-    timesMatVec = @(A,b) bsxfun(@times,A,b(:));
-
-    % Zonal and meridional bases.  Works on column-vectors as well as
-    % arrays.
-    d = @(x) timesMatVec([(-x(:,3).*x(:,1)) (-x(:,3).*x(:,2)) ...
-        (1-x(:,3).^2)],(1./sqrt(1-x(:,3).^2)));
-    
-    e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
-        0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
-    
-    % The function Q(x) generates the matrix which will project a vector
-    % in R3 onto the tangent space of the sphere at x in S2
-    Q = @(x) [0*x(:,1) x(:,3) (-x(:,2));...
-              (-x(:,3)) 0*x(:,1) x(:,1);...
-                x(:,2) (-x(:,1)) 0*x(:,3)];
-            
-    % explicit indexing in case numel(x)>3 for some reason
-    P = @(x) eye(3) - [x(:,1);x(:,2);x(:,3)]*[x(:,1) x(:,2) x(:,3)];
-    
-    
-    % Make a sparse, block-diagonal matrix with copies of P.
-    Pxmat = zeros(3*size(x,1),3*size(x,1));
-    for i = 1:size(x,1)
-       %TODO:  built in a sparse way?
-       Pxmat((3*i-2):(3*i),(3*i-2):(3*i)) = P(x(i,:));
-    end
-    Pxmat = sparse(Pxmat);
-    
-    % Construct the matrix RBF
-    PSIdiv  = @(x,y) (Q(x)')*(-H(x,y,epsilon))*Q(y);
-    PSIcrl  = @(x,y) (P(x)')*(-H(x,y,epsilon))*P(y);
-    PSI     = @(x,y) PSIdiv(x,y) + PSIcrl(x,y);
-    
-    Afull =  makeSBFKernel(x, PSI, d, e);
-    Acrl =   makeSBFKernel(x, PSIcrl, d, e);
-    Adiv =   makeSBFKernel(x, PSIdiv, d, e);
-    
-    PSIfullmat = zeros(3*size(x,1),3*size(x,1));
-    PSIdivmat = PSIfullmat;
-    PSIcrlmat = PSIfullmat;
-    
-    for i=1:size(x,1)
-        for j=1:size(x,1)
-            PSIfullmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
-            PSIdivmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIdiv(x(i,:),x(j,:));
-            PSIcrlmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIcrl(x(i,:),x(j,:));
-        end
-    end
-    
+    twoeps2 = 2*eps_PDE*eps_PDE;    
     
 %==========================================================================
 %                         Setup Diff. Operators
@@ -75,7 +18,7 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     % Scalar RBF kernel and its derivative
     syms r;
 
-    phi = @(r2) exp(-epsilon*epsilon*r2);
+    phi = @(r2) exp(-eps_PDE*eps_PDE*r2);
 
     % Build the distance matrix.
     xdist = repmat(x(:,1),[1 size(x,1)]);
@@ -170,20 +113,69 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     
     grad = [gradx;grady;gradz];
     
+    disp('Differential operators created')
     
-%     covux = X*Y*Lz - X*Z*Ly;
-%     covuy = -X*X*Lz + X*Z*Lx;
-%     covuz = X*X*Ly - X*Y*Lx;
-%     
-%     covvx = Y*Y*Lz - Y*Z*Ly;
-%     covvy = -X*Y*Lz + Y*Z*Lx;
-%     covvz = X*Y*Ly - Y*Y*Lx;
-%     
-%     covwx = Y*Z*Lz - Z*Z*Ly;
-%     covwy = -X*Z*Lz + Z*Z*Lx;
-%     covwz = X*Z*Ly - Y*Z*Lx;
-%     
-%     cov = [covux covuy covuz; covvx covvy covvz; covwx covwy covwz];
+%==========================================================================
+%                             Setup Leray Projector
+%==========================================================================
+
+    % Efficient element-wise multiplication of the columns of A against the
+    % vector v.
+    timesMatVec = @(A,b) bsxfun(@times,A,b(:));
+
+    % Zonal and meridional bases.  Works on column-vectors as well as
+    % arrays.
+    d = @(x) timesMatVec([(-x(:,3).*x(:,1)) (-x(:,3).*x(:,2)) ...
+        (1-x(:,3).^2)],(1./sqrt(1-x(:,3).^2)));
+    
+    e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
+        0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
+    
+    % The function Q(x) generates the matrix which will project a vector
+    % in R3 onto the tangent space of the sphere at x in S2
+    Q = @(x) [0*x(:,1) x(:,3) (-x(:,2));...
+              (-x(:,3)) 0*x(:,1) x(:,1);...
+                x(:,2) (-x(:,1)) 0*x(:,3)];
+            
+    % explicit indexing in case numel(x)>3 for some reason
+    P = @(x) eye(3) - [x(:,1);x(:,2);x(:,3)]*[x(:,1) x(:,2) x(:,3)];
+    
+    
+    % Make a sparse, block-diagonal matrix with copies of P.
+    Pxmat = zeros(3*size(x,1),3*size(x,1));
+    for i = 1:size(x,1)
+       %TODO:  built in a sparse way?
+       Pxmat((3*i-2):(3*i),(3*i-2):(3*i)) = P(x(i,:));
+    end
+    Pxmat = sparse(Pxmat);
+    disp('Pxmat created');
+    
+    % Construct the matrix RBF
+    PSIdiv  = @(x,y) (Q(x)')*(-H(x,y,eps_Leray))*Q(y);
+    PSIcrl  = @(x,y) (P(x)')*(-H(x,y,eps_Leray))*P(y);
+    PSI     = @(x,y) PSIdiv(x,y) + PSIcrl(x,y);
+    
+    Afull =  makeSBFKernel(x, PSI, d, e);
+    disp('Afull matrix initialized')
+    Acrl =   makeSBFKernel(x, PSIcrl, d, e);
+    disp('Acrl matrix initialized')
+    Adiv =   makeSBFKernel(x, PSIdiv, d, e);
+    disp('Adiv matrix initialized')
+    
+    PSIfullmat = zeros(3*size(x,1),3*size(x,1));
+    PSIdivmat = PSIfullmat;
+    PSIcrlmat = PSIfullmat;
+    
+    disp('Matrix RBF functions created')
+    for i=1:size(x,1)
+        for j=1:size(x,1)
+            PSIfullmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
+            PSIdivmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIdiv(x(i,:),x(j,:));
+            PSIcrlmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIcrl(x(i,:),x(j,:));
+        end
+    end
+    
+    disp('PSI matrices populated')
 
     
 end

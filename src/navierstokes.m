@@ -1,4 +1,4 @@
-function U = navierstokes(x, U0, h, M, epsilon, nu, omega, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat, X, Y, Z)
+function U = navierstokes(x, U0, h, M, epsilon, nu, omega, N0, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat, X, Y, Z)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
 % MODIFIED: 7/3/2013
@@ -136,9 +136,12 @@ for c = 1:M
     % Coriolis force
     coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
+    
+    % Ganesh force
+    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
 
     %Stick it all together
-    RK1 = nu*lapU - covU - omega*coriolis;
+    RK1 = nu*lapU - covU - omega*coriolis + fganesh;
     RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
 
     %================================RK4 Stage 2===========================
@@ -170,8 +173,11 @@ for c = 1:M
     coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
+    % Ganesh force
+    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
+
     %Stick it all together
-    RK2 = nu*lapU - covU - omega*coriolis;
+    RK2 = nu*lapU - covU - omega*coriolis + fganesh;
     RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 3===========================
@@ -203,8 +209,11 @@ for c = 1:M
     coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
    
+    % Ganesh force
+    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
+
     %Stick it all together
-    RK3 = nu*lapU - covU - omega*coriolis;
+    RK3 = nu*lapU - covU - omega*coriolis + fganesh;
     RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 4===========================
@@ -236,8 +245,11 @@ for c = 1:M
     coriolis = [(-Z*arg(:,2) + Y*arg(:,3)) (Z*arg(:,1) - X*arg(:,3)) (-Y*arg(:,1) + X*arg(:,2))];
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
+    % Ganesh force
+    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
+
     %Stick it all together
-    RK4 = nu*lapU - covU - omega*coriolis;
+    RK4 = nu*lapU - covU - omega*coriolis + fganesh;
     RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
 
     %============================Stitch Together===========================
@@ -444,9 +456,5 @@ for c = 1:M
 %     disp(error);
 %     U = sqrt(sum((U - Uganesh).^2,2));
 end
-
-max(max(U))
-min(min(U))
-
 
 end
