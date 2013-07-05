@@ -8,13 +8,13 @@ function f = makeGaneshForcing1(N0, X, t, nu, grad, Pxmat)
 % W2   = Y_0^2 + 2Y_1^2 + 2Y_2^2
 % core = sum Y_0^L + 2*Y_{1:L}^L, for L = 1:N0
 
-% f = u_t + nu*lapu + covdu
+% f = u_t - nu*lapu + covdu
 
 %==========================================================================
 %                             Inline defines                       
 %==========================================================================
 g  = @(t)  nu*exp(-t)*(sin(5*t)+cos(10*t));
-gp = @(t) -nu*exp(-t)*(sin(5*t)+cos(10*t) - 5*cos(5*t) + 10*sin(10*t));
+gp = @(t)  nu*exp(-t)*(-sin(5*t)-cos(10*t) +5*cos(5*t) -10*sin(10*t));
 
 Z = getDivFree(1,X);
 W1 = [Z(:,4) Z(:,5) Z(:,6)] + 2*[Z(:,7) Z(:,8) Z(:,9)];
@@ -40,7 +40,7 @@ end
 %                             Make Forcing                       
 %==========================================================================
     Ulap = t*g(t)*Ulap - g(t)*1*(1+1)*W1 - (t-1)*g(t)*2*(2+1)*W2;
-    Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) + g(t))*W2;
+    Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) - g(t))*W2;
     U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
     
     % Compute the covariant derivative

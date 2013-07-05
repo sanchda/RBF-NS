@@ -101,7 +101,7 @@ function U = navierstokes(x, U0, h, M, epsilon, nu, omega, N0, lap, grad, surfep
 U = U0;
 dmat = d(x);
 emat = e(x);
-t=0;
+t=-h;
     
 for c = 1:M
 
@@ -139,6 +139,7 @@ for c = 1:M
     
     % Ganesh force
     fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
+    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
 
     %Stick it all together
     RK1 = nu*lapU - covU - omega*coriolis + fganesh;
@@ -174,8 +175,9 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
-
+    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, grad, Pxmat);
+    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
+    
     %Stick it all together
     RK2 = nu*lapU - covU - omega*coriolis + fganesh;
     RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
@@ -210,8 +212,9 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
    
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
-
+    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, grad, Pxmat);
+    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
+    
     %Stick it all together
     RK3 = nu*lapU - covU - omega*coriolis + fganesh;
     RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
@@ -246,8 +249,9 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
-
+    fganesh = makeGaneshForcing1(N0, x, t+h, nu, grad, Pxmat);
+    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
+    
     %Stick it all together
     RK4 = nu*lapU - covU - omega*coriolis + fganesh;
     RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);

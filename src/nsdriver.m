@@ -180,7 +180,7 @@ end
 
 movie(gcf,F,1);
 %% Save movie
-movie2avi(F, 'NS_576DAS_7.4.13_trial3.avi')
+movie2avi(F, 'NS_576DAS_7.4.13_trial4.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
@@ -234,4 +234,4 @@ end
 
 movie(gcf,G,1)
 %% Save movie
-movie2avi(G, 'NS_576GAN_7.4.13_trial3.avi')
+movie2avi(G, 'NS_576GAN_7.4.13_trial4.avi')
