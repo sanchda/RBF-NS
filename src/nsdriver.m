@@ -9,7 +9,6 @@
 % TODO:
 % * Simplify interface
 % * Configure Ganesh's tests not as inlined, but as optional tests
-% * Fit the scalar-RBF PDE solver to line (already done for Leray part)
 % * Improve interface for visualization (and its initialization)
 % * Provide some kind of time-estimate for initialization
 % * Improve performance of initialization
@@ -23,13 +22,13 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1/10000;      % Parameter for the NS equation
+nu = 1;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
 N = 23;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
 N0 = 1;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
-h = 1/N;   % timestep
+h = 0.5/(N+1);   % timestep
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
 eps_Leray = divFree_geteps(N);
 beta = 12;
@@ -171,6 +170,7 @@ xxq=reshape(xxq(:,1),szq);
 disp('Visualization parameters set')
 %% Simulate with RBF
 U = U0;
+t=0;
 
 % Initial camera parameters
 cpos = [-0.031 -21.392 9.115];
@@ -224,10 +224,11 @@ movie(gcf,F,1);
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(F, 'NS_576DAS_7.4.13_trial7_4.avi')
+movie2avi(F, 'NS_576DAS_7.5.13_trial1_2.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
+t=0;
 
 % Initial camera parameters
 cpos = [-0.031 -21.392 9.115];
@@ -235,7 +236,7 @@ ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
 for c = 1:50
-t = h*c;
+t = t + h;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -281,4 +282,4 @@ movie(gcf,G,1)
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(G(1:50), 'NS_576GAN_7.4.13_trial7.avi')
+movie2avi(G(1:50), 'NS_576GAN_7.5.13_trial1.avi')

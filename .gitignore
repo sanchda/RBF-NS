@@ -3,7 +3,12 @@
 #################
 
 *.asv
+
+# Video output from Matlab
 *.avi
+
+# avisynth script
+*.avs
 
 ############
 ## Windows

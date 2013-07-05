@@ -88,7 +88,7 @@ function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, grad, Lx, Ly, Lz, Afu
     Y = diag(x(:,2));
     Z = diag(x(:,3));
     
-    % Need this later for the coriolis force.  Let's just define it now.
+    % Shortcut for Coriolis force
     zsqrt = 1 - x(:,3).*x(:,3);
     zsqrt = sqrt(zsqrt);
 
@@ -101,7 +101,7 @@ function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, grad, Lx, Ly, Lz, Afu
 U = U0;
 dmat = d(x);
 emat = e(x);
-t=-h;
+t=0;
     
 for c = 1:M
 
@@ -258,8 +258,6 @@ for c = 1:M
 
     %============================Stitch Together===========================
     U = U + (h/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
-    U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
-    
     
     %==========================Determine error=============================
     
