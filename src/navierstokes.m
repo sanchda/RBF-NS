@@ -1,4 +1,4 @@
-function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, grad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
+function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
 % MODIFIED: 7/5/2013
@@ -117,15 +117,15 @@ for c = 1:M
 
     % Covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
-    covu = grad*arg(:,1);
+    covu = projgrad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
 
-    covv = grad*arg(:,2);
+    covv = projgrad*arg(:,2);
     covv = reshape(covv,[],3);
     covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
 
-    covw = grad*arg(:,3);
+    covw = projgrad*arg(:,3);
     covw = reshape(covw,[],3);
     covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
 
@@ -139,7 +139,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t, nu, projgrad, Pxmat);
 
     % Stick it all together
     RK1 = nu*lapU - covU - coriolis + fganesh;
@@ -154,15 +154,15 @@ for c = 1:M
 
     % Covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
-    covu = grad*arg(:,1);
+    covu = projgrad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
 
-    covv = grad*arg(:,2);
+    covv = projgrad*arg(:,2);
     covv = reshape(covv,[],3);
     covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
 
-    covw = grad*arg(:,3);
+    covw = projgrad*arg(:,3);
     covw = reshape(covw,[],3);
     covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
 
@@ -176,7 +176,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, grad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK2 = nu*lapU - covU - coriolis + fganesh;
@@ -191,15 +191,15 @@ for c = 1:M
 
     % Covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
-    covu = grad*arg(:,1);
+    covu = projgrad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
 
-    covv = grad*arg(:,2);
+    covv = projgrad*arg(:,2);
     covv = reshape(covv,[],3);
     covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
 
-    covw = grad*arg(:,3);
+    covw = projgrad*arg(:,3);
     covw = reshape(covw,[],3);
     covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
 
@@ -213,7 +213,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
    
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, grad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK3 = nu*lapU - covU - coriolis + fganesh;
@@ -228,15 +228,15 @@ for c = 1:M
 
     % Covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
-    covu = grad*arg(:,1);
+    covu = projgrad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
 
-    covv = grad*arg(:,2);
+    covv = projgrad*arg(:,2);
     covv = reshape(covv,[],3);
     covv = arg(:,1).*covv(:,1) + arg(:,2).*covv(:,2) + arg(:,3).*covv(:,3);
 
-    covw = grad*arg(:,3);
+    covw = projgrad*arg(:,3);
     covw = reshape(covw,[],3);
     covw = arg(:,1).*covw(:,1) + arg(:,2).*covw(:,2) + arg(:,3).*covw(:,3);
 
@@ -250,7 +250,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h, nu, grad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t+h, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK4 = nu*lapU - covU - coriolis + fganesh;

@@ -22,13 +22,14 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1;      % Parameter for the NS equation
+nu = 1/1000;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
-N = 23;        % Somehow related to the number of centers.  For the
+N = 13;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
 N0 = 1;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
-h = 0.5/(N+1);   % timestep
+h = 1/(N+1);   % timestep
+h = 1/(N^(2));
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
 eps_Leray = divFree_geteps(N);
 beta = 12;
@@ -94,7 +95,7 @@ eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
 % * determine if any of these have a sparse structure, make sparse
 % * vectorize initialization code
 
-[lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfull PSIcrl PSIdiv Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
+[lap projgrad Lx Ly Lz Achol Afull Acrl Adiv PSIfull PSIcrl PSIdiv Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
 disp('NS working matrices initialized')
 
 
@@ -139,8 +140,8 @@ phi = @(r2) exp(-eps*eps*r2);
 phiq = @(r2) exp(-epsq*epsq*r2);
 
 s2 = @(t,p) [cos(t).*sin(p) sin(t).*sin(p) cos(p)];
-sz = [201, 351];
-szq = [35 35];
+sz = [101, 201];
+szq = [25 25];
 MM = prod(sz);  
 MMq = prod(szq);  
 NN = size(X,1);
@@ -177,7 +178,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:50
+for c = 1:25
 % Start with the visualization first to keep from having to handle the
 % visualization of the initial condition separately.
 
@@ -189,7 +190,6 @@ uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq);
 uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
 
 % Plot the results
-
 clf
 set(gca,'CameraPosition',cpos)
 set(gca,'CameraTarget',ctarg)
@@ -216,7 +216,7 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
 F(c) = getframe(gcf);
 
-U = navierstokes(X, U, h, 1, nu, omega, N0, lap, grad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+U = navierstokes(X, U, h, 20, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 end
 
 
@@ -224,7 +224,7 @@ movie(gcf,F,1);
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(F, 'NS_576DAS_7.5.13_trial1_2.avi')
+movie2avi(F(2:25), 'NS_576DAS_7.5.13_typical.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
@@ -235,8 +235,8 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:50
-t = t + h;
+for c = 1:25
+t = t + 20*h;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -246,7 +246,6 @@ uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq);
 uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq);
 
 % Plot the results
-
 clf
 set(gca,'CameraPosition',cpos)
 set(gca,'CameraTarget',ctarg)
@@ -282,4 +281,4 @@ movie(gcf,G,1)
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(G(1:50), 'NS_576GAN_7.5.13_trial1.avi')
+movie2avi(G(2:25), 'NS_576GAN_7.5.13_typical.avi')
