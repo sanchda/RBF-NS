@@ -180,7 +180,7 @@ end
 
 movie(gcf,F,1);
 %% Save movie
-movie2avi(F, 'NS_576DAS_7.4.13_trial7_2.avi')
+movie2avi(F, 'NS_576DAS_7.4.13_trial7_4.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
