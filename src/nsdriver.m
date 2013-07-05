@@ -7,11 +7,11 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1/8;      % Parameter for the NS equation
-omega = 0;     % Strength of coriolis force
+nu = 1/10000;      % Parameter for the NS equation
+omega = 1;     % Strength of coriolis force
 N = 23;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
-N0 = 5;        % Highest spherical harmonic in the test
+N0 = 1;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
 h = 1/(N+1);   % timestep
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
@@ -136,7 +136,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:100
+for c = 1:50
 % Start with the visualization first, so the initial condition is seen.
 
 % Note that RBFs can't capture constant fields very well, so make sure that
@@ -180,7 +180,7 @@ end
 
 movie(gcf,F,1);
 %% Save movie
-movie2avi(F, 'NS_576DAS_7.4.13_trial4.avi')
+movie2avi(F, 'NS_576DAS_7.4.13_trial7_2.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
@@ -190,7 +190,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:100
+for c = 1:50
 t = h*c;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
@@ -233,5 +233,6 @@ U = makeGaneshTest1(N0, X, t, nu);
 end
 
 movie(gcf,G,1)
+
 %% Save movie
-movie2avi(G, 'NS_576GAN_7.4.13_trial4.avi')
+movie2avi(G(1:50), 'NS_576GAN_7.4.13_trial7.avi')
