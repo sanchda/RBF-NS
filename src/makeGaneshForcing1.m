@@ -1,4 +1,4 @@
-function f = makeGaneshForcing1(N0, X, t, nu, grad, Pxmat)
+function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat)
 % AUTHOR:   David Sanchez
 % DATE:     December 2012
 % MODIFIED: 7/5/2013
@@ -10,7 +10,7 @@ function f = makeGaneshForcing1(N0, X, t, nu, grad, Pxmat)
 % g(t) = nu*exp(-t)(sin(5t) + cos(10t))
 % W1   = Z_0^1 + 2Y_1^1
 % W2   = Y_0^2 + 2Y_1^2 + 2Y_2^2
-% core = sum Y_0^L + 2*Y_{1:L}^L, for L = 1:N0
+% core = sum(Y_0^L + sum(2*Y_{1:L}^L,2), for L = 1:N0)
 
 % f = u_t - nu*lapu + covdu
 
@@ -72,15 +72,15 @@ end
     % Apply covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
     % TODO: write this out directly in terms of the spherical harmonics
-    covu = grad*U(:,1);
+    covu = projgrad*U(:,1);
     covu = reshape(covu,[],3);
     covu = U(:,1).*covu(:,1) + U(:,2).*covu(:,2) + U(:,3).*covu(:,3);
 
-    covv = grad*U(:,2);
+    covv = projgrad*U(:,2);
     covv = reshape(covv,[],3);
     covv = U(:,1).*covv(:,1) + U(:,2).*covv(:,2) + U(:,3).*covv(:,3);
 
-    covw = grad*U(:,3);
+    covw = projgrad*U(:,3);
     covw = reshape(covw,[],3);
     covw = U(:,1).*covw(:,1) + U(:,2).*covw(:,2) + U(:,3).*covw(:,3);
 
@@ -89,6 +89,7 @@ end
     covU = Pxmat*reshape([covu covv covw]',[],1);
     covU = reshape(covU,3,[])';
     
+    % Define the forcing
     f = Ut + covU - nu*Ulap;
 end
 
