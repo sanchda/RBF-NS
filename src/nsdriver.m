@@ -24,15 +24,17 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %==========================================================================
 
 nu = 1/10000;      % Parameter for the NS equation
-omega = 1;     % Strength of coriolis force
+omega = 0;     % Strength of coriolis force
 N = 23;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
 N0 = 1;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
-h = 1/(N+1);   % timestep
+h = 1/N;   % timestep
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
 eps_Leray = divFree_geteps(N);
-eps_PDE   = 1.75;
+beta = 12;
+c = (4*pi)^2;
+eps_PDE = (beta/c)*(N+1)^(9/8);
 surfeps = 2;
 
 disp('Set parameters')
@@ -176,7 +178,8 @@ ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
 for c = 1:50
-% Start with the visualization first, so the initial condition is seen.
+% Start with the visualization first to keep from having to handle the
+% visualization of the initial condition separately.
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.

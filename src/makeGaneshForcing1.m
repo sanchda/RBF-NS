@@ -59,11 +59,18 @@ end
 % just div-free vector spherical harmonics.
 %
 %
+
+    % Application of the vector Laplacian to Ganesh's reference sol'n
     Ulap = t*g(t)*Ulap - g(t)*2*W1 - (t-1)*g(t)*6*W2;
+    
+    % Application of d/dt
     Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) - g(t))*W2;
+    
+    % reference solution, for numerical evaluation of covariant derivative
     U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
     
-    % Compute the covariant derivative
+    % Apply covariant Derivative
+    % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
     % TODO: write this out directly in terms of the spherical harmonics
     covu = grad*U(:,1);
     covu = reshape(covu,[],3);

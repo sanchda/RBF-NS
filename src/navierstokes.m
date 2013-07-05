@@ -108,14 +108,15 @@ for c = 1:M
     %==============================Begin RK4===============================
     t = t + h;
 
-    %================================RK4 Stage 1===========================
+    %-----------------------------RK4 Stage 1------------------------------
     arg = U;
         
-    %Vector Laplacian
+    % Vector Laplacian
     lapU = lap*reshape(arg,[],1);
     lapU = reshape(lapU,[],3);
 
-    %Covariant Derivative
+    % Covariant Derivative
+    % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
     covu = grad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
@@ -139,20 +140,20 @@ for c = 1:M
     
     % Ganesh force
     fganesh = makeGaneshForcing1(N0, x, t, nu, grad, Pxmat);
-    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
 
-    %Stick it all together
-    RK1 = nu*lapU - covU - coriolis - fganesh;
+    % Stick it all together
+    RK1 = nu*lapU - covU - coriolis + fganesh;
     RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
 
-    %================================RK4 Stage 2===========================
-    arg = U + 0.5*h*RK1;
+    %-----------------------------RK4 Stage 2------------------------------
+    arg = U + (h/2)*RK1;
     
-    %Vector Laplacian
+    % Vector Laplacian
     lapU = lap*reshape(arg,[],1);
     lapU = reshape(lapU,[],3);
 
-    %Covariant Derivative
+    % Covariant Derivative
+    % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
     covu = grad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
@@ -176,20 +177,20 @@ for c = 1:M
 
     % Ganesh force
     fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, grad, Pxmat);
-    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
     
     %Stick it all together
-    RK2 = nu*lapU - covU - coriolis - fganesh;
+    RK2 = nu*lapU - covU - coriolis + fganesh;
     RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
-    %================================RK4 Stage 3===========================
-    arg = U + 0.5*h*RK2;
+    %-----------------------------RK4 Stage 3------------------------------
+    arg = U + (h/2)*RK2;
     
-    %Vector Laplacian
+    % Vector Laplacian
     lapU = lap*reshape(arg,[],1);
     lapU = reshape(lapU,[],3);
 
-    %Covariant Derivative
+    % Covariant Derivative
+    % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
     covu = grad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
@@ -213,20 +214,20 @@ for c = 1:M
    
     % Ganesh force
     fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, grad, Pxmat);
-    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
     
     %Stick it all together
-    RK3 = nu*lapU - covU - coriolis - fganesh;
+    RK3 = nu*lapU - covU - coriolis + fganesh;
     RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
     
-    %================================RK4 Stage 4===========================
+    %-----------------------------RK4 Stage 4------------------------------
     arg = U + h*RK3;
     
-    %Vector Laplacian
+    % Vector Laplacian
     lapU = lap*reshape(arg,[],1);
     lapU = reshape(lapU,[],3);
 
-    %Covariant Derivative
+    % Covariant Derivative
+    % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
     covu = grad*arg(:,1);
     covu = reshape(covu,[],3);
     covu = arg(:,1).*covu(:,1) + arg(:,2).*covu(:,2) + arg(:,3).*covu(:,3);
@@ -250,18 +251,15 @@ for c = 1:M
     
     % Ganesh force
     fganesh = makeGaneshForcing1(N0, x, t+h, nu, grad, Pxmat);
-    fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
     
     %Stick it all together
-    RK4 = nu*lapU - covU - coriolis - fganesh;
+    RK4 = nu*lapU - covU - coriolis + fganesh;
     RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
 
     %============================Stitch Together===========================
     U = U + (h/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
     U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
     
-
-
     
     %==========================Determine error=============================
     
