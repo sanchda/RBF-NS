@@ -142,7 +142,7 @@ for c = 1:M
     fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
 
     %Stick it all together
-    RK1 = nu*lapU - covU - omega*coriolis - fganesh;
+    RK1 = nu*lapU - covU - coriolis - fganesh;
     RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
 
     %================================RK4 Stage 2===========================
@@ -179,7 +179,7 @@ for c = 1:M
     fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
     
     %Stick it all together
-    RK2 = nu*lapU - covU - omega*coriolis - fganesh;
+    RK2 = nu*lapU - covU - coriolis - fganesh;
     RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 3===========================
@@ -216,7 +216,7 @@ for c = 1:M
     fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
     
     %Stick it all together
-    RK3 = nu*lapU - covU - omega*coriolis - fganesh;
+    RK3 = nu*lapU - covU - coriolis - fganesh;
     RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
     
     %================================RK4 Stage 4===========================
@@ -253,7 +253,7 @@ for c = 1:M
     fganesh = projectDivFree(fganesh, dmat, emat, Afull, PSIdiv);
     
     %Stick it all together
-    RK4 = nu*lapU - covU - omega*coriolis - fganesh;
+    RK4 = nu*lapU - covU - coriolis - fganesh;
     RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
 
     %============================Stitch Together===========================
