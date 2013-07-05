@@ -1,4 +1,8 @@
 function f = makeGaneshForcing1(N0, X, t, nu, grad, Pxmat)
+% AUTHOR:   David Sanchez
+% DATE:     December 2012
+% MODIFIED: 7/5/2013
+
 % Returns f(x,t) evaluated at all x in X at the prescribed t, where f is
 % the forcing corresponding to the reference solution in Ganesh 2009.
 

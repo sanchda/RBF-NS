@@ -1,3 +1,19 @@
+% AUTHOR:   David Sanchez
+% DATE:     August 2012
+% MODIFIED: 7/5/2013
+
+% This is the driver script for configuring, initializing, running, and
+% visualizing incompressible Navier-Stokes on the sphere, utilizing Grady
+% Wright's RBF-based projection method.
+%
+% TODO:
+% * Simplify interface
+% * Configure Ganesh's tests not as inlined, but as optional tests
+% * Fit the scalar-RBF PDE solver to line (already done for Leray part)
+% * Improve interface for visualization (and its initialization)
+% * Provide some kind of time-estimate for initialization
+% * Improve performance of initialization
+%
 %cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
 
 %% Initialization
@@ -40,32 +56,53 @@ end
 X = sortrows(X,3);
 
 disp('RBF nodes loaded')
+
+
 %==========================================================================
 %                            Hessian for matrix RBF                        
 %==========================================================================
-HGA =  @(x,y,eps) [exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
-                    -1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
-                    1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).* ...
-                    y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(2)+(-1).*y(2)),4.*exp(1).^((-1).* ...
-                    eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).* ...
-                    eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3));4.*exp(1).^((-1).*eps.^2.*(( ...
-                    x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(1)+( ...
-                    -1).*y(1)).*(x(2)+(-1).*y(2)),exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+( ...
-                    x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(2)+( ...
-                    -1).*y(2)).^2),4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1) ...
-                    .*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)); ...
-                    4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
-                    -1).*y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3)),4.*exp(1).^(( ...
-                    -1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)) ...
-                    .*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)),exp(1).^((-1).*eps.^2.*(( ...
-                    x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
-                    eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
+% I am SO sorry for this.  For ease of use, it was generated using a
+% Mathematica script that converts Mathematica output form to Matlab input.
+%
+% TODO:  generate using Matlab's symbolic toolkit
+
+HGA =  @(x,y,eps) ...
+[exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
+-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
+1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).* ...
+y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(2)+(-1).*y(2)),4.*exp(1).^((-1).* ...
+eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).* ...
+eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3));4.*exp(1).^((-1).*eps.^2.*(( ...
+x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(1)+( ...
+-1).*y(1)).*(x(2)+(-1).*y(2)),exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+( ...
+x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(2)+( ...
+-1).*y(2)).^2),4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1) ...
+.*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)); ...
+4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
+-1).*y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3)),4.*exp(1).^(( ...
+-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)) ...
+.*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)),exp(1).^((-1).*eps.^2.*(( ...
+x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
+eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
+
+% This is an amazingly wasteful way of defining the operators used
+% throughout the NS code, but it has the advantage of providing a
+% manifold-agnostic interface.
+% TODO: 
+% * streamline and clean up
+% * determine if any of these have a sparse structure, make sparse
+% * vectorize initialization code
 
 [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfull PSIcrl PSIdiv Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
 disp('NS working matrices initialized')
+
+
 %==========================================================================
 %                     Optional Test: Vector Laplacian                         
 %==========================================================================
+%
+% I am not proud of this test.
+% TODO: swallow regret or fix test
 if test_lap == 1
     
    divFree_L = 1;                                     % how high is the degree of the VSH
@@ -87,6 +124,8 @@ U0 = makeGaneshTest1(N0, X, 0, nu);
 %U0  = U0(:,1:3);
 
 disp('Initial VF generated')
+
+
 %==========================================================================
 %                        Initialize Visualization Stuff                       
 %==========================================================================
@@ -174,12 +213,14 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
 F(c) = getframe(gcf);
 
-U = navierstokes(X, U, h, 1, eps, nu, omega, N0, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+U = navierstokes(X, U, h, 1, nu, omega, N0, lap, grad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 end
 
 
 movie(gcf,F,1);
 %% Save movie
+% TODO: dynamically name these
+%
 movie2avi(F, 'NS_576DAS_7.4.13_trial7_4.avi')
 
 %% View corresponding Ganesh solution
@@ -235,4 +276,6 @@ end
 movie(gcf,G,1)
 
 %% Save movie
+% TODO: dynamically name these
+%
 movie2avi(G(1:50), 'NS_576GAN_7.4.13_trial7.avi')

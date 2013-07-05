@@ -1,7 +1,7 @@
-function U = navierstokes(x, U0, h, M, epsilon, nu, omega, N0, lap, grad, surfeps, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat, X, Y, Z)
+function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, grad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
-% MODIFIED: 7/3/2013
+% MODIFIED: 7/5/2013
     
 %==========================================================================
 %                               Description
