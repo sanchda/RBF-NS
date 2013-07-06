@@ -1,4 +1,4 @@
-function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
+function [U,t] = navierstokes(x, U0, h, t, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
 % MODIFIED: 7/5/2013
@@ -101,13 +101,10 @@ function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz,
 U = U0;
 dmat = d(x);
 emat = e(x);
-t=h;
     
 for c = 1:M
 
     %==============================Begin RK4===============================
-    t = t + h;
-
     %-----------------------------RK4 Stage 1------------------------------
     arg = U;
         
@@ -139,7 +136,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeDaveForcing1(N0, x, t, nu, projgrad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t, nu, projgrad, Pxmat);
     
     % Stick it all together
     RK1 = nu*lapU - covU - coriolis + fganesh;
@@ -176,7 +173,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     % Ganesh force
-    fganesh = makeDaveForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK2 = nu*lapU - covU - coriolis + fganesh;
@@ -213,7 +210,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
    
     % Ganesh force
-    fganesh = makeDaveForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK3 = nu*lapU - covU - coriolis + fganesh;
@@ -250,7 +247,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeDaveForcing1(N0, x, t+h, nu, projgrad, Pxmat);
+    fganesh = makeGaneshForcing1(N0, x, t+h, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK4 = nu*lapU - covU - coriolis + fganesh;
@@ -268,6 +265,9 @@ for c = 1:M
 %     error = sum(sqrt(sum(error,2)));
 %     disp(error);
 %     U = sqrt(sum((U - Uganesh).^2,2));
+
+    %==========================Finishing Stuff=============================
+    t = t + h;
 end
 
 end

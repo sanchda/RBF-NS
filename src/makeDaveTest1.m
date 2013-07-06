@@ -37,6 +37,6 @@ for L = 1:N0
         2*[sum(Z(:,4:3:end),2) sum(Z(:,5:3:end),2) sum(Z(:,6:3:end),2)];
 end
 
-    U = g(t)*U;
+    U = t*g(t)*U;
 end
 

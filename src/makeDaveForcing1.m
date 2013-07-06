@@ -58,13 +58,13 @@ end
 %
 
     % Application of the vector Laplacian to Ganesh's reference sol'n
-    Ulap = g(t)*Ulap;
+    Ulap = t*g(t)*Ulap;
     
     % Application of d/dt
-    Ut   = gp(t)*U;
+    Ut   = (g(t) + t*gp(t))*U;
     
     % reference solution, for numerical evaluation of covariant derivative
-    U = g(t)*U;
+    U = t*g(t)*U;
     
     % Apply covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
@@ -89,5 +89,6 @@ end
     
     % Define the forcing
     f = Ut + covU - nu*Ulap;
+
 end
 

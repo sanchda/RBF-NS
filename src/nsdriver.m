@@ -1,6 +1,6 @@
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
-% MODIFIED: 7/5/2013
+% MODIFIED: 7/6/2013
 
 % This is the driver script for configuring, initializing, running, and
 % visualizing incompressible Navier-Stokes on the sphere, utilizing Grady
@@ -24,12 +24,11 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 
 nu = 1/1000;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
-N = 13;        % Somehow related to the number of centers.  For the
+N = 24;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
 N0 = 1;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
 h = 1/(N+1);   % timestep
-h = 1/(N^(2));
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
 eps_Leray = divFree_geteps(N);
 beta = 12;
@@ -121,7 +120,7 @@ end
 %==========================================================================
 %                            Generate initial VF                       
 %==========================================================================
-U0 = makeDaveTest1(N0, X, 0, nu);
+U0 = makeGaneshTest1(N0, X, 0, nu);
 %U0  = getDivFree(2,X); 
 %U0  = U0(:,1:3);
 
@@ -178,7 +177,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:25
+for c = 1:100
 % Start with the visualization first to keep from having to handle the
 % visualization of the initial condition separately.
 
@@ -207,7 +206,7 @@ daspect([1 1 1]);
 box off
 axis off
 hold off
-text(-1.23,0,1.05,sprintf('t: %f',c*h),'Fontsize',12)
+text(-1.23,0,1.05,sprintf('t: %f',(c-1)*h),'Fontsize',12)
 text(-1.23,0,0.95,sprintf('max: %f',max(max(U))),'Fontsize',12)
 text(-1.23,0,0.85,sprintf('min: %f',min(min(U))),'Fontsize',12)
 text(-1.23,0,-0.75,sprintf('n: %d',size(U,1)),'Fontsize',12)
@@ -216,27 +215,26 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
 F(c) = getframe(gcf);
 
-U = navierstokes(X, U, h, 20, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+[U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 end
 
 
-movie(gcf,F,1);
+%movie(gcf,F,1);
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(F(2:25), 'NS_576DAS_7.5.13_typical.avi')
+movie2avi(F, 'NS_625_DAS_7.6.13_trial1.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
-t=0;
 
 % Initial camera parameters
 cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:25
-t = t + 20*h;
+for c = 1:100
+t=(c-1)*h;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -263,7 +261,7 @@ daspect([1 1 1]);
 box off
 axis off
 hold off
-text(-1.23,0,1.05,sprintf('t: %f',c*h),'Fontsize',12)
+text(-1.23,0,1.05,sprintf('t: %f',t),'Fontsize',12)
 text(-1.23,0,0.95,sprintf('max: %f',max(max(U))),'Fontsize',12)
 text(-1.23,0,0.85,sprintf('min: %f',min(min(U))),'Fontsize',12)
 text(-1.23,0,-0.75,sprintf('n: %d',size(U,1)),'Fontsize',12)
@@ -272,8 +270,8 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
 G(c) = getframe(gcf);
 
-
-U = makeDaveTest1(N0, X, t, nu);
+t = t+h;
+U = makeGaneshTest(N0, X, t, nu);
 end
 
 movie(gcf,G,1)
@@ -281,4 +279,4 @@ movie(gcf,G,1)
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(G, 'NS_576DAV_7.5.13.avi')
+movie2avi(G, 'NS_625_GAN_7.6.13_trial1.avi')
