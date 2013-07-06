@@ -121,7 +121,7 @@ end
 %==========================================================================
 %                            Generate initial VF                       
 %==========================================================================
-U0 = makeGaneshTest1(N0, X, 0, nu);
+U0 = makeDaveTest1(N0, X, 0, nu);
 %U0  = getDivFree(2,X); 
 %U0  = U0(:,1:3);
 
@@ -273,7 +273,7 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 G(c) = getframe(gcf);
 
 
-U = makeGaneshTest1(N0, X, t, nu);
+U = makeDaveTest1(N0, X, t, nu);
 end
 
 movie(gcf,G,1)
@@ -281,4 +281,4 @@ movie(gcf,G,1)
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(G(2:25), 'NS_576GAN_7.5.13_typical.avi')
+movie2avi(G, 'NS_576DAV_7.5.13.avi')

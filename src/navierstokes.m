@@ -15,7 +15,7 @@ function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz,
 %==========================================================================
 %
 %==========================WARNING WARNING WARNING=========================
-% THIS IS ALL A MASSIVE TODO.  NONE OF THE DEBUG ROUTINES ARE IS CURRENTLY
+% THIS IS ALL A MASSIVE TODO.  NONE OF THE DEBUG ROUTINES ARE CURRENTLY
 % IMPLEMENTED (2/18/2013)
 %
 % The values in x are assumed to be on the unit sphere, with coordinates
@@ -101,7 +101,7 @@ function U = navierstokes(x, U0, h, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz,
 U = U0;
 dmat = d(x);
 emat = e(x);
-t=0;
+t=h;
     
 for c = 1:M
 
@@ -139,8 +139,8 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t, nu, projgrad, Pxmat);
-
+    fganesh = makeDaveForcing1(N0, x, t, nu, projgrad, Pxmat);
+    
     % Stick it all together
     RK1 = nu*lapU - covU - coriolis + fganesh;
     RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
@@ -176,7 +176,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK2 = nu*lapU - covU - coriolis + fganesh;
@@ -213,7 +213,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
    
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK3 = nu*lapU - covU - coriolis + fganesh;
@@ -250,7 +250,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t+h, nu, projgrad, Pxmat);
     
     %Stick it all together
     RK4 = nu*lapU - covU - coriolis + fganesh;
