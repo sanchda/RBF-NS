@@ -22,9 +22,9 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1/1000;      % Parameter for the NS equation
+nu = 1/10;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
-N = 24;        % Somehow related to the number of centers.  For the
+N = 31;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
 N0 = 1;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
@@ -177,7 +177,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:100
+for c = 1:50
 % Start with the visualization first to keep from having to handle the
 % visualization of the initial condition separately.
 
@@ -216,14 +216,23 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 F(c) = getframe(gcf);
 
 [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+
+Uganesh = makeGaneshTest1(N0, X, t-h, nu);
+
+err = abs(U - Uganesh);
+err = err(:,1).^2 + err(:,2).^2 + err(:,3).^2;
+err = sqrt(err);
+err = mean(err);
+
+errmat(c) = err;
 end
 
 
-%movie(gcf,F,1);
+movie(gcf,F,5);
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(F, 'NS_625_DAS_7.6.13_trial1.avi')
+movie2avi(F, 'NS_1024_DAS_7.6.13_trial5_2.avi')
 
 %% View corresponding Ganesh solution
 U = U0;
@@ -233,7 +242,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:100
+for c = 1:50
 t=(c-1)*h;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
@@ -271,7 +280,7 @@ text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 G(c) = getframe(gcf);
 
 t = t+h;
-U = makeGaneshTest(N0, X, t, nu);
+U = makeGaneshTest1(N0, X, t, nu);
 end
 
 movie(gcf,G,1)
@@ -279,4 +288,4 @@ movie(gcf,G,1)
 %% Save movie
 % TODO: dynamically name these
 %
-movie2avi(G, 'NS_625_GAN_7.6.13_trial1.avi')
+movie2avi(G, 'NS_1024_GAN_7.6.13_trial5.avi')

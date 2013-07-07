@@ -255,6 +255,7 @@ for c = 1:M
 
     %============================Stitch Together===========================
     U = U + (h/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
+    U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
     
     %==========================Determine error=============================
     

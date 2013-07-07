@@ -28,6 +28,8 @@ W1 = Z(:,4:6) + 2*Z(:,7:9);
 Z = getDivFree(2,X);
 W2 = Z(:,7:9) + 2*(Z(:,10:12) + Z(:,13:15));
 
+W2 = 0*W2;
+
 % At first, U holds the running total for the sum Y_... terms.
 U = 0*W2;
 
@@ -36,11 +38,11 @@ U = 0*W2;
 %==========================================================================
 for L = 1:N0
     Z = getDivFree(L,X);
-    Z = Z(:,(3*L+1):end);
+    Z = Z(:,(3*L+1):end); % need only nonnegative-indexed VHS
     U = U + Z(:,1:3) + ...
         2*[sum(Z(:,4:3:end),2) sum(Z(:,5:3:end),2) sum(Z(:,6:3:end),2)];
 end
 
-    U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
+    U = 0*t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
 end
 
