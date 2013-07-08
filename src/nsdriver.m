@@ -177,7 +177,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:10
+for c = 1:500
 % Start with the visualization first to keep from having to handle the
 % visualization of the initial condition separately.
 
@@ -217,7 +217,7 @@ F(c) = getframe(gcf);
 
 [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 
-Uganesh = makeDaveTest1(N0, X, t-h, nu);
+Uganesh = makeDaveTest1(N0, X, t, nu);
 
 err = abs(U - Uganesh);
 err = err(:,1).^2 + err(:,2).^2 + err(:,3).^2;

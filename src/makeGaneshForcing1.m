@@ -1,15 +1,13 @@
-function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat, lap)
+function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat)
 % AUTHOR:   David Sanchez
-% DATE:     December 2012
-% MODIFIED: 7/5/2013
+% DATE:     July 2013
+% MODIFIED: 7/8/2013
 
 % Returns f(x,t) evaluated at all x in X at the prescribed t, where f is
-% the forcing corresponding to the reference solution in Ganesh 2009.
+% the forcing corresponding to the reference solution based on Ganesh 2009.
 
-% u is defined to be t*g(t)*core + g(t)*W1 + (1-t)g(t)*W2
-% g(t) = nu*exp(-t)(sin(5t) + cos(10t))
-% W1   = Z_0^1 + 2Y_1^1
-% W2   = Y_0^2 + 2Y_1^2 + 2Y_2^2
+% u is defined to be g(t)*core
+% g(t) = nu*exp(-t)
 % core = sum(Y_0^L + sum(2*Y_{1:L}^L,2), for L = 1:N0)
 
 % f = u_t - nu*lapu + covdu
@@ -18,15 +16,14 @@ function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat, lap)
 % indexing through the output of getDivFree might seem strange.  Check
 % getDivFree.m for details on the output.
 
-
 %==========================================================================
 %                              Inline defines
 %==========================================================================
 % g is given by Ganesh; gp is its time-derivative.
 % TODO explore simplification of gp to incur fewer operations or evaluate
 % fewer trigonometric functions
-g  = @(t)  nu*exp(-t)*(sin(5*t)+cos(10*t));
-gp = @(t)  nu*exp(-t)*(-sin(5*t)-cos(10*t) +5*cos(5*t)-10*sin(10*t));
+g  = @(t)  nu*exp(-t)*(sin(10*t) + cos(5*t));
+gp = @(t)  -nu*exp(-t)*(cos(5*t) - 10*cos(10*t) + 5*sin(5*t) + sin(10*t));
 
 Z = getDivFree(1,X);
 W1 = Z(:,4:6) + 2*Z(:,7:9);
@@ -66,8 +63,7 @@ end
     Ulap = -t*g(t)*Ulap - 2*g(t)*W1 - 6*(t-1)*g(t)*W2;
     
     % Application of d/dt
-%    Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) - g(t))*W2;
-    Ut = g(t)*(U - W2) + gp(t)*(t*U + W1 + W2 - t*W2);
+    Ut = g(t)*(U + W2) + gp(t)*(W1 - W2 + t*(U + W2));
     
     % reference solution, for numerical evaluation of covariant derivative
     U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
@@ -96,4 +92,3 @@ end
     f = Ut - covU + nu*Ulap;
 
 end
-

@@ -1,7 +1,7 @@
 function U = makeDaveTest1(N0, X, t, nu)
 % AUTHOR:   David Sanchez
 % DATE:     July 2013
-% MODIFIED: 7/5/2013
+% MODIFIED: 7/8/2013
 
 % Returns u(x,t) evaluated at all x in X at the prescribed t, where u is
 % the reference solution I made up, based on Ganesh 2009.

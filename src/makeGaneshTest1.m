@@ -1,7 +1,7 @@
 function U = makeGaneshTest1(N0, X, t, nu)
 % AUTHOR:   David Sanchez
 % DATE:     December 2012
-% MODIFIED: 7/5/2013
+% MODIFIED: 7/8/2013
 
 % Returns u(x,t) evaluated at all x in X at the prescribed t, where u is
 % the reference solution in Ganesh 2009.

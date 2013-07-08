@@ -1,7 +1,7 @@
 function f = makeDaveForcing1(N0, X, t, nu, projgrad, Pxmat, lap)
 % AUTHOR:   David Sanchez
 % DATE:     July 2013
-% MODIFIED: 7/5/2013
+% MODIFIED: 7/8/2013
 
 % Returns f(x,t) evaluated at all x in X at the prescribed t, where f is
 % the forcing corresponding to the reference solution I made up myself, but
@@ -23,8 +23,8 @@ function f = makeDaveForcing1(N0, X, t, nu, projgrad, Pxmat, lap)
 % g is given by Ganesh; gp is its time-derivative.
 % TODO explore simplification of gp to incur fewer operations or evaluate
 % fewer trigonometric functions
-g  = @(t)  nu*exp(-t)
-gp = @(t)  -nu*exp(-t)
+g  = @(t)  nu*exp(-t);
+gp = @(t)  -nu*exp(-t);
 
 Z = getDivFree(1,X);
 W1 = Z(:,4:6) + 2*Z(:,7:9);
@@ -64,8 +64,8 @@ end
     Ulap = -t*g(t)*Ulap - 2*g(t)*W1 - 6*(t-1)*g(t)*W2;
     
     % Application of d/dt
-%    Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) - g(t))*W2;
     Ut = g(t)*(U - W2) + gp(t)*(t*U + W1 + W2 - t*W2);
+    Ut = g(t)*(U + W2) + gp(t)*(W1 - W2 + t*(U + W2));
     
     % reference solution, for numerical evaluation of covariant derivative
     U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
