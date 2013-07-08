@@ -136,7 +136,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t, nu, projgrad, Pxmat, lap);
     
     % Stick it all together
     RK1 = nu*lapU - covU - coriolis + fganesh;
@@ -173,7 +173,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
 
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t+h/2, nu, projgrad, Pxmat, lap);
     
     %Stick it all together
     RK2 = nu*lapU - covU - coriolis + fganesh;
@@ -210,7 +210,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;  
    
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t+h/2, nu, projgrad, Pxmat, lap);
     
     %Stick it all together
     RK3 = nu*lapU - covU - coriolis + fganesh;
@@ -247,7 +247,7 @@ for c = 1:M
     coriolis = 2*omega*repmat(zsqrt,1,3).*coriolis;
     
     % Ganesh force
-    fganesh = makeGaneshForcing1(N0, x, t+h, nu, projgrad, Pxmat);
+    fganesh = makeDaveForcing1(N0, x, t+h, nu, projgrad, Pxmat, lap);
     
     %Stick it all together
     RK4 = nu*lapU - covU - coriolis + fganesh;
@@ -255,7 +255,6 @@ for c = 1:M
 
     %============================Stitch Together===========================
     U = U + (h/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
-    U = projectDivFree(U, dmat, emat, Afull, PSIdiv);
     
     %==========================Determine error=============================
     

@@ -22,7 +22,7 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1/10;      % Parameter for the NS equation
+nu = 1/100;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
 N = 31;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
@@ -177,7 +177,7 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:50
+for c = 1:10
 % Start with the visualization first to keep from having to handle the
 % visualization of the initial condition separately.
 
@@ -217,7 +217,7 @@ F(c) = getframe(gcf);
 
 [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
 
-Uganesh = makeGaneshTest1(N0, X, t-h, nu);
+Uganesh = makeDaveTest1(N0, X, t-h, nu);
 
 err = abs(U - Uganesh);
 err = err(:,1).^2 + err(:,2).^2 + err(:,3).^2;
@@ -225,6 +225,12 @@ err = sqrt(err);
 err = mean(err);
 
 errmat(c) = err;
+
+maxu(c) = max(max(U));
+minu(c) = min(min(U));
+
+maxg(c) = max(max(Uganesh));
+ming(c) = min(min(Uganesh));
 end
 
 

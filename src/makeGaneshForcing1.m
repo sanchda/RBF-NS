@@ -1,4 +1,4 @@
-function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat)
+function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat, lap)
 % AUTHOR:   David Sanchez
 % DATE:     December 2012
 % MODIFIED: 7/5/2013
@@ -34,7 +34,6 @@ W1 = Z(:,4:6) + 2*Z(:,7:9);
 Z = getDivFree(2,X);
 W2 = Z(:,7:9) + 2*(Z(:,10:12) + Z(:,13:15));
 
-W2 = 0*W2;
 U = 0*W1;
 Ulap = 0*U;
 
@@ -47,14 +46,11 @@ for L = 1:N0
     Ubuff = Z(:,1:3) + ...
         2*[sum(Z(:,4:3:end),2) sum(Z(:,5:3:end),2) sum(Z(:,6:3:end),2)];
     
-    Ulap = Ulap - (L*(L+1))*Ubuff;  % running total of the summation term for
+    Ulap = Ulap + (L*(L+1))*Ubuff;  % running total of the summation term for
                                   % synthesis with vector Laplacian
     U = U + Ubuff;                % running total of the summation term for
                                   % normal evaluation
 end
-
-Ulap = 0*Ulap;
-U = 0*U;
 
 %==========================================================================
 %                             Make Forcing                       
@@ -67,12 +63,11 @@ U = 0*U;
 %
 
     % Application of the vector Laplacian to Ganesh's reference sol'n
-    Ulap = t*g(t)*Ulap - 2*g(t)*W1 - 6*(t-1)*g(t)*W2;
+    Ulap = -t*g(t)*Ulap - 2*g(t)*W1 - 6*(t-1)*g(t)*W2;
     
     % Application of d/dt
 %    Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) - g(t))*W2;
     Ut = g(t)*(U - W2) + gp(t)*(t*U + W1 + W2 - t*W2);
-%    Ut = gp(t)*W1 + g(t)*W2 + (t-1)*gp(t)*W2;
     
     % reference solution, for numerical evaluation of covariant derivative
     U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
@@ -98,7 +93,7 @@ U = 0*U;
     covU = reshape(covU,3,[])';
     
     % Define the forcing
-    f = Ut - 0*covU + 0*nu*Ulap;
+    f = Ut - covU + nu*Ulap;
 
 end
 

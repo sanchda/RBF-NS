@@ -1,4 +1,4 @@
-function f = makeDaveForcing1(N0, X, t, nu, projgrad, Pxmat)
+function f = makeDaveForcing1(N0, X, t, nu, projgrad, Pxmat, lap)
 % AUTHOR:   David Sanchez
 % DATE:     July 2013
 % MODIFIED: 7/5/2013
@@ -23,12 +23,14 @@ function f = makeDaveForcing1(N0, X, t, nu, projgrad, Pxmat)
 % g is given by Ganesh; gp is its time-derivative.
 % TODO explore simplification of gp to incur fewer operations or evaluate
 % fewer trigonometric functions
-g  = @(t)  nu*exp(-t);
-gp = @(t)  -nu*exp(-t);
+g  = @(t)  nu*exp(-t)
+gp = @(t)  -nu*exp(-t)
 
-% Just to zero shit out
 Z = getDivFree(1,X);
 W1 = Z(:,4:6) + 2*Z(:,7:9);
+
+Z = getDivFree(2,X);
+W2 = Z(:,7:9) + 2*(Z(:,10:12) + Z(:,13:15));
 
 U = 0*W1;
 Ulap = 0*U;
@@ -41,7 +43,8 @@ for L = 1:N0
     Z = Z(:,(3*L+1):end); % need only nonnegative-indexed VHS
     Ubuff = Z(:,1:3) + ...
         2*[sum(Z(:,4:3:end),2) sum(Z(:,5:3:end),2) sum(Z(:,6:3:end),2)];
-    Ulap = Ulap - (L*(L+1))*Ubuff;  % running total of the summation term for
+    
+    Ulap = Ulap + (L*(L+1))*Ubuff;  % running total of the summation term for
                                   % synthesis with vector Laplacian
     U = U + Ubuff;                % running total of the summation term for
                                   % normal evaluation
@@ -58,13 +61,14 @@ end
 %
 
     % Application of the vector Laplacian to Ganesh's reference sol'n
-    Ulap = t*g(t)*Ulap;
+    Ulap = -t*g(t)*Ulap - 2*g(t)*W1 - 6*(t-1)*g(t)*W2;
     
     % Application of d/dt
-    Ut   = (g(t) + t*gp(t))*U;
+%    Ut   = (g(t) + t*gp(t))*U + gp(t)*W1 + ((t-1)*gp(t) - g(t))*W2;
+    Ut = g(t)*(U - W2) + gp(t)*(t*U + W1 + W2 - t*W2);
     
     % reference solution, for numerical evaluation of covariant derivative
-    U = t*g(t)*U;
+    U = t*g(t)*U + g(t)*W1 + (t-1)*g(t)*W2;
     
     % Apply covariant Derivative
     % cov_u(u) = Px*[U .* grad(U(:,1); U .* grad(U(:,2); U .* grad(U(:,3)]
@@ -86,9 +90,7 @@ end
     covU = Pxmat*reshape([covu covv covw]',[],1);
     covU = reshape(covU,3,[])';
     
-    
     % Define the forcing
-    f = Ut + covU - nu*Ulap;
+    f = Ut - covU + nu*Ulap;
 
 end
-
