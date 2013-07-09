@@ -23,7 +23,7 @@ function f = makeGaneshForcing1(N0, X, t, nu, projgrad, Pxmat)
 % TODO explore simplification of gp to incur fewer operations or evaluate
 % fewer trigonometric functions
 g  = @(t)  nu*exp(-t)*(sin(10*t) + cos(5*t));
-gp = @(t)  -nu*exp(-t)*(cos(5*t) - 10*cos(10*t) + 5*sin(5*t) + sin(10*t));
+gp = @(t)  nu*exp(-t)*(-sin(10*t) - cos(5*t) + 10*cos(10*t) - 5*sin(5*t));
 
 Z = getDivFree(1,X);
 W1 = Z(:,4:6) + 2*Z(:,7:9);
@@ -89,6 +89,7 @@ end
     covU = reshape(covU,3,[])';
     
     % Define the forcing
+    
     f = Ut - covU + nu*Ulap;
 
 end

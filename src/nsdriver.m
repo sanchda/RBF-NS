@@ -120,7 +120,7 @@ end
 %==========================================================================
 %                            Generate initial VF                       
 %==========================================================================
-U0 = makeGaneshTest1(N0, X, 0, nu);
+U0 = makeGaneshTest1(N0, X, h, nu);
 %U0  = getDivFree(2,X); 
 %U0  = U0(:,1:3);
 
@@ -169,17 +169,88 @@ xxq=reshape(xxq(:,1),szq);
 
 disp('Visualization parameters set')
 %% Simulate with RBF
+U0 = makeGaneshTest1(N0, X, h, nu);
 U = U0;
-t=0;
+Uganesh = U0;
+t=h;
 
 % Initial camera parameters
 cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-for c = 1:500
-% Start with the visualization first to keep from having to handle the
-% visualization of the initial condition separately.
+
+minu(1) = min(min(U0));
+ming(1) = min(min(U0));
+maxu(1) = max(max(U0));
+maxg(1) = max(max(U0));
+errmat(1) = 0;
+for c = 2:500
+% % Start with the visualization first to keep from having to handle the
+% % visualization of the initial condition separately.
+% 
+% % Note that RBFs can't capture constant fields very well, so make sure that
+% % the field isn't nearly constant (i.e., the zero field) before calling.
+% uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+% uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+% uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+% uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+
+% Plot the results
+% clf
+% set(gca,'CameraPosition',cpos)
+% set(gca,'CameraTarget',ctarg)
+% set(gca,'CameraViewAngle',cview)
+% %caxis([-0.2,0.2])
+% colorbar('EastOutside')
+% cpos = campos;
+% ctarg = camtarget;
+% hold on
+% quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
+% htop = surf(xx,yy,zz,uu);
+% shading interp;
+% set(htop, 'edgecolor','none')
+% daspect([1 1 1]);
+% box off
+% axis off
+% hold off
+% text(-1.23,0,1.05,sprintf('t: %f',(c-1)*h),'Fontsize',12)
+% text(-1.23,0,0.95,sprintf('max: %f',max(max(U))),'Fontsize',12)
+% text(-1.23,0,0.85,sprintf('min: %f',min(min(U))),'Fontsize',12)
+% text(-1.23,0,-0.75,sprintf('n: %d',size(U,1)),'Fontsize',12)
+% text(-1.23,0,-0.85,sprintf('nu: %f',nu),'Fontsize',12)
+% text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
+% 
+% F(c) = getframe(gcf);
+
+err = abs(U - Uganesh);
+err = err(:,1).^2 + err(:,2).^2 + err(:,3).^2;
+err = sqrt(err);
+err = mean(err);
+
+errmat(c) = err;
+
+maxu(c) = max(max(U));
+minu(c) = min(min(U));
+
+maxg(c) = max(max(Uganesh));
+ming(c) = min(min(Uganesh));
+
+Uganesh = makeGaneshTest1(N0, X, t+h, nu);
+[U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+end
+
+disp('Done!')
+%% Save movie
+% TODO: dynamically name these
+%
+movie2avi(F, 'NS_1024_DAS_7.6.13_trial5_2.avi')
+
+%% View Current U
+% Initial camera parameters
+cpos = [-0.031 -21.392 9.115];
+ctarg = [-0.031 0.122 -0.009];
+cview = 4.0;
 
 % Note that RBFs can't capture constant fields very well, so make sure that
 % the field isn't nearly constant (i.e., the zero field) before calling.
@@ -195,8 +266,6 @@ set(gca,'CameraTarget',ctarg)
 set(gca,'CameraViewAngle',cview)
 %caxis([-0.2,0.2])
 colorbar('EastOutside')
-cpos = campos;
-ctarg = camtarget;
 hold on
 quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
 htop = surf(xx,yy,zz,uu);
@@ -206,35 +275,7 @@ daspect([1 1 1]);
 box off
 axis off
 hold off
-text(-1.23,0,1.05,sprintf('t: %f',(c-1)*h),'Fontsize',12)
-text(-1.23,0,0.95,sprintf('max: %f',max(max(U))),'Fontsize',12)
-text(-1.23,0,0.85,sprintf('min: %f',min(min(U))),'Fontsize',12)
-text(-1.23,0,-0.75,sprintf('n: %d',size(U,1)),'Fontsize',12)
-text(-1.23,0,-0.85,sprintf('nu: %f',nu),'Fontsize',12)
-text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
-F(c) = getframe(gcf);
-
-[U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
-
-Uganesh = makeDaveTest1(N0, X, t, nu);
-
-err = abs(U - Uganesh);
-err = err(:,1).^2 + err(:,2).^2 + err(:,3).^2;
-err = sqrt(err);
-err = mean(err);
-
-errmat(c) = err;
-
-maxu(c) = max(max(U));
-minu(c) = min(min(U));
-
-maxg(c) = max(max(Uganesh));
-ming(c) = min(min(Uganesh));
-end
-
-
-movie(gcf,F,5);
 %% Save movie
 % TODO: dynamically name these
 %
