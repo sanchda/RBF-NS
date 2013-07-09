@@ -1,4 +1,4 @@
 RBF-NS
 ======
 
-An embedded, narrow-band RBF method for solving the incompressible Navier-Stokes equations on the surface of the sphere
+An RBF method for solving incompressible Navier-Stokes on the rotating sphere
