@@ -1,6 +1,6 @@
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
-% MODIFIED: 7/6/2013
+% MODIFIED: 7/9/2013
 
 % This is the driver script for configuring, initializing, running, and
 % visualizing incompressible Navier-Stokes on the sphere, utilizing Grady
@@ -22,13 +22,20 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 %                         Parameters and Constants                        
 %==========================================================================
 
-nu = 1/100;      % Parameter for the NS equation
+nu = 1/10;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
-N = 31;        % Somehow related to the number of centers.  For the
+N = 27;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
-N0 = 1;        % Highest spherical harmonic in the test
+mind = 6.1245; % min degrees for n=31
+mind = 12.5722; % minimum distance in degrees
+N0 = 20;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
 h = 1/(N+1);   % timestep
+
+
+
+% Generated parameters
+minarc = (mind/360)*pi;
 divFree_geteps = @(N) -0.519226 + 0.106809*(N+1);
 eps_Leray = divFree_geteps(N);
 beta = 12;
@@ -169,6 +176,7 @@ xxq=reshape(xxq(:,1),szq);
 
 disp('Visualization parameters set')
 %% Simulate with RBF
+h=1/(N+1);
 U0 = makeGaneshTest1(N0, X, h, nu);
 U = U0;
 Uganesh = U0;
@@ -179,65 +187,56 @@ cpos = [-0.031 -21.392 9.115];
 ctarg = [-0.031 0.122 -0.009];
 cview = 4.0;
 
-
 minu(1) = min(min(U0));
 ming(1) = min(min(U0));
 maxu(1) = max(max(U0));
 maxg(1) = max(max(U0));
 errmat(1) = 0;
-for c = 2:500
-% % Start with the visualization first to keep from having to handle the
-% % visualization of the initial condition separately.
-% 
-% % Note that RBFs can't capture constant fields very well, so make sure that
-% % the field isn't nearly constant (i.e., the zero field) before calling.
-% uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
-% uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
-% uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
-% uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
+tmat(1) = 0;
+c=1;
+while t < 6
+    c = c+1;
+% Start with the visualization first to keep from having to handle the
+% visualization of the initial condition separately.
+
+% Note that RBFs can't capture constant fields very well, so make sure that
+% the field isn't nearly constant (i.e., the zero field) before calling.
+uu=reshape(phi(re2)*(Achol\(Achol.'\sqrt((U(:,1).^2+U(:,2).^2+U(:,3).^2)))),sz); 
+uuq1=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,1))),szq); 
+uuq2=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,2))),szq); 
+uuq3=reshape(phiq(re2q)*(Achol\(Achol.'\U(:,3))),szq); 
 
 % Plot the results
-% clf
-% set(gca,'CameraPosition',cpos)
-% set(gca,'CameraTarget',ctarg)
-% set(gca,'CameraViewAngle',cview)
-% %caxis([-0.2,0.2])
-% colorbar('EastOutside')
-% cpos = campos;
-% ctarg = camtarget;
-% hold on
-% quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
-% htop = surf(xx,yy,zz,uu);
-% shading interp;
-% set(htop, 'edgecolor','none')
-% daspect([1 1 1]);
-% box off
-% axis off
-% hold off
-% text(-1.23,0,1.05,sprintf('t: %f',(c-1)*h),'Fontsize',12)
-% text(-1.23,0,0.95,sprintf('max: %f',max(max(U))),'Fontsize',12)
-% text(-1.23,0,0.85,sprintf('min: %f',min(min(U))),'Fontsize',12)
-% text(-1.23,0,-0.75,sprintf('n: %d',size(U,1)),'Fontsize',12)
-% text(-1.23,0,-0.85,sprintf('nu: %f',nu),'Fontsize',12)
-% text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
-% 
-% F(c) = getframe(gcf);
+clf
+set(gca,'CameraPosition',cpos)
+set(gca,'CameraTarget',ctarg)
+set(gca,'CameraViewAngle',cview)
+% caxis([-0.2,0.2])
+colorbar('EastOutside')
+cpos = campos;
+ctarg = camtarget;
+hold on
+quiv = quiver3(xxq,yyq,zzq,uuq1,uuq2,uuq3,1);
+htop = surf(xx,yy,zz,uu);
+shading interp;
+set(htop, 'edgecolor','none')
+daspect([1 1 1]);
+box off
+axis off
+hold off
+text(-1.23,0,1.05,sprintf('t: %f',(c-1)*h),'Fontsize',12)
+text(-1.23,0,0.95,sprintf('max: %f',max(max(U))),'Fontsize',12)
+text(-1.23,0,0.85,sprintf('min: %f',min(min(U))),'Fontsize',12)
+text(-1.23,0,-0.75,sprintf('n: %d',size(U,1)),'Fontsize',12)
+text(-1.23,0,-0.85,sprintf('nu: %f',nu),'Fontsize',12)
+text(-1.23,0,-0.95,sprintf('omega: %f',omega),'Fontsize',12)
 
-err = abs(U - Uganesh);
-err = err(:,1).^2 + err(:,2).^2 + err(:,3).^2;
-err = sqrt(err);
-err = mean(err);
+F(c) = getframe(gcf);
 
-errmat(c) = err;
 
-maxu(c) = max(max(U));
-minu(c) = min(min(U));
-
-maxg(c) = max(max(Uganesh));
-ming(c) = min(min(Uganesh));
-
-Uganesh = makeGaneshTest1(N0, X, t+h, nu);
+tmat(c) = t;
 [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+
 end
 
 disp('Done!')

@@ -1,7 +1,7 @@
 function [U,t] = navierstokes(x, U0, h, t, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
-% MODIFIED: 7/8/2013
+% MODIFIED: 7/11/2013
     
 %==========================================================================
 %                               Description
@@ -255,6 +255,7 @@ for c = 1:M
 
     %============================Stitch Together===========================
     U = U + (h/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);
+    
     
     %==========================Determine error=============================
     

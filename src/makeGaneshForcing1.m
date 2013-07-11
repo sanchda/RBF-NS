@@ -90,6 +90,6 @@ end
     
     % Define the forcing
     
-    f = Ut - covU + nu*Ulap;
+    f = Ut + covU - nu*Ulap;
 
 end
