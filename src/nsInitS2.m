@@ -1,5 +1,13 @@
 function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
 % Initializes everything needed by the Navier-Stokes spherical code.
+%
+% x is assumed to contain cell centers, with each column corresponding to a different dimension.
+%
+% H is a function handle to a Hessian matrix for the the scalar RBF kernel
+%
+% 
+%
+%
 
 %==========================================================================
 %                               Initialization
@@ -7,7 +15,7 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     % Sense the size of the problem from the initial conditions.  The
     % scalars in U0 are assumed to identify with the R3 vectors in X.  If
     % these are not the same length, function should return error.
-    % TODO:  return error
+    % TODO:  return error :)
     N = size(x,1);
     twoeps2 = 2*eps_PDE*eps_PDE;    
     
@@ -40,7 +48,7 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     % reuse some of the previous data in the derivative (this intermediate
     % matrix should really be called something like Bx, but we reuse Lx
     % here).  Finally, Lx = Bx*inv(A), but inv() isn't stable so we do a
-    % right-division.
+    % right-division against the Cholesky factorization.
    
     Lx = -twoeps2*A.*xdist;
     Lx = (Lx/Achol)/Achol.';
@@ -71,8 +79,6 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     Lzz = twoeps2*A.*(-1 + twoeps2*(zdist.*zdist));
     Lzz = (Lzz/Achol)/Achol.';
 
- 
-    
 
 %=====================Initialize the vector Laplacian=====================
 
@@ -105,8 +111,7 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     
     
 %=====================Initialize Gradient======================
-
-    % Reuses information from the above section 
+    % Reuses information from the above section.
     gradx = (eye(size(X,1))-X*X)*Lx - X*Y*Ly - X*Z*Lz;
     grady = -X*Y*Lx + (eye(size(X,1))-Y*Y)*Ly - Y*Z*Lz;
     gradz = -X*Z*Lx - Y*Z*Ly + (eye(size(X,1))-Z*Z)*Lz;
