@@ -1,4 +1,4 @@
-function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
+function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
 % Initializes everything needed by the Navier-Stokes spherical code.
 %
 % x is assumed to contain cell centers, with each column corresponding to a different dimension.
@@ -166,19 +166,25 @@ function [lap grad Lx Ly Lz Achol Afull Acrl Adiv PSIfullmat PSIcrlmat PSIdivmat
     disp('Acrl matrix initialized')
     Adiv =   makeSBFKernel(x, PSIdiv, d, e);
     disp('Adiv matrix initialized')
+
+    % In order to save time during the projection step, observe that:
+    % c = Afull\f, then u = Adiv*c.  This can be shortened by doing
+    % u = (Adiv\Afull)f;
     
-    PSIfullmat = zeros(3*size(x,1),3*size(x,1));
-    PSIdivmat = PSIfullmat;
-    PSIcrlmat = PSIfullmat;
+    Aleray = (Adiv\Afull);
+    
+%    PSIfullmat = zeros(3*size(x,1),3*size(x,1));
+%    PSIdivmat = PSIfullmat;
+%    PSIcrlmat = PSIfullmat;
     
     disp('Matrix RBF functions created')
-    for i=1:size(x,1)
-        for j=1:size(x,1)
-            PSIfullmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
-            PSIdivmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIdiv(x(i,:),x(j,:));
-            PSIcrlmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIcrl(x(i,:),x(j,:));
-        end
-    end
+%    for i=1:size(x,1)
+%        for j=1:size(x,1)
+%            PSIfullmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSI(x(i,:),x(j,:));
+%            PSIdivmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIdiv(x(i,:),x(j,:));
+%            PSIcrlmat((3*i-2):(3*i),(3*j-2):(3*j)) = PSIcrl(x(i,:),x(j,:));
+%        end
+%    end
     
     disp('PSI matrices populated')
 
