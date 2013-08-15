@@ -71,7 +71,7 @@ for N = 9:2:47
 	% * determine if any of these have a sparse structure, make sparse
 	% * vectorize initialization code
 
-	[lap projgrad Lx Ly Lz Achol Afull Acrl Adiv PSIfull PSIcrl PSIdiv Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
+	[lap projgrad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
 	disp('NS working matrices initialized')
 	%==========================================================================
 	%                            Generate initial VF                       
@@ -102,7 +102,7 @@ for N = 9:2:47
 	    Uganesh = makeGaneshTest1(N0, X, t+h, nu);
 	    tgan(c-1) = toc;
 	    tic;
-	    [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat);
+	    [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Aleray, Pxmat);
 	    tnav(c-1) = toc;
 	    errmean = U - Uganesh;
 	    errmean = sqrt(errmean(:,1).^2 + errmean(:,2).^2 + errmean(:,3).^2);
