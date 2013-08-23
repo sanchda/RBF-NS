@@ -1,4 +1,4 @@
-function [U,t] = navierstokes(x, U0, h, t, M, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Afull, Acrl, PSIfull, PSIcrl, PSIdiv, Pxmat)
+function [U,t] = navierstokes(x, U0, h, t, M, nu, omega, N0, lap, projgrad, Aleray, Pxmat)
 % AUTHOR:   David Sanchez
 % DATE:     August 2012
 % MODIFIED: 7/11/2013
@@ -70,18 +70,7 @@ function [U,t] = navierstokes(x, U0, h, t, M, nu, omega, N0, lap, projgrad, Lx, 
     % scalars in U0 are assumed to identify with the R3 vectors in X.  If
     % these are not the same length, function should return error.
     % TODO:  return error
-    N = size(U0,1);
-    
-    
-    timesMatVec = @(A,b) bsxfun(@times,A,b(:));
-
-    % Zonal and meridional bases.  Works on column-vectors as well as
-    % arrays.
-    d = @(x) timesMatVec([(-x(:,3).*x(:,1)) (-x(:,3).*x(:,2)) ...
-        (1-x(:,3).^2)],(1./sqrt(1-x(:,3).^2)));
-    
-    e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
-        0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
+%    N = size(U0,1);
     
     % Needed to compute coriolis force
     X = diag(x(:,1));
@@ -99,8 +88,6 @@ function [U,t] = navierstokes(x, U0, h, t, M, nu, omega, N0, lap, projgrad, Lx, 
  
 % pre-defines
 U = U0;
-dmat = d(x);
-emat = e(x);
     
 for c = 1:M
 
@@ -140,7 +127,7 @@ for c = 1:M
     
     % Stick it all together
     RK1 = nu*lapU - covU - coriolis + fganesh;
-    RK1 = projectDivFree(RK1, dmat, emat, Afull, PSIdiv);
+    RK1 = projectDivFree(RK1, Aleray);
 
     %-----------------------------RK4 Stage 2------------------------------
     arg = U + (h/2)*RK1;
@@ -177,7 +164,7 @@ for c = 1:M
     
     %Stick it all together
     RK2 = nu*lapU - covU - coriolis + fganesh;
-    RK2 = projectDivFree(RK2, dmat, emat, Afull, PSIdiv);
+    RK2 = projectDivFree(RK2, Aleray);
     
     %-----------------------------RK4 Stage 3------------------------------
     arg = U + (h/2)*RK2;
@@ -214,7 +201,7 @@ for c = 1:M
     
     %Stick it all together
     RK3 = nu*lapU - covU - coriolis + fganesh;
-    RK3 = projectDivFree(RK3, dmat, emat, Afull, PSIdiv);
+    RK3 = projectDivFree(RK3, Aleray);
     
     %-----------------------------RK4 Stage 4------------------------------
     arg = U + h*RK3;
@@ -251,7 +238,7 @@ for c = 1:M
     
     %Stick it all together
     RK4 = nu*lapU - covU - coriolis + fganesh;
-    RK4 = projectDivFree(RK4, dmat, emat, Afull, PSIdiv);
+    RK4 = projectDivFree(RK4, Aleray);
 
     %============================Stitch Together===========================
     U = U + (h/6)*(RK1 + 2*RK2 + 2*RK3 + RK4);

@@ -16,7 +16,7 @@
 %cd 'C:\Users\david\Documents\GitHub\RBF-NS\src';
 
 %% Initialization
-cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
+cd 'C:\Users\David Sanchez\Documents\GitHub\RBF-NS\src';
 
 %==========================================================================
 %                         Parameters and Constants                        
@@ -24,15 +24,13 @@ cd 'C:\Users\david\Desktop\GitHub\RBF-NS\src';
 
 nu = 1/10;      % Parameter for the NS equation
 omega = 0;     % Strength of coriolis force
-N = 27;        % Somehow related to the number of centers.  For the
+N = 12;        % Somehow related to the number of centers.  For the
                % ME points, the number of centers is (N+1)^2.
 mind = 6.1245; % min degrees for n=31
 mind = 12.5722; % minimum distance in degrees
 N0 = 20;        % Highest spherical harmonic in the test
 M = 1;         % how many iterations to run the simulation for
 h = 1/(N+1);   % timestep
-
-
 
 % Generated parameters
 minarc = (mind/360)*pi;
@@ -101,7 +99,7 @@ eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
 % * determine if any of these have a sparse structure, make sparse
 % * vectorize initialization code
 
-[lap projgrad Lx Ly Lz Achol Afull Acrl Adiv PSIfull PSIcrl PSIdiv Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
+[lap, projgrad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
 disp('NS working matrices initialized')
 
 
@@ -127,9 +125,9 @@ end
 %==========================================================================
 %                            Generate initial VF                       
 %==========================================================================
-U0 = makeGaneshTest1(N0, X, h, nu);
-%U0  = getDivFree(2,X); 
-%U0  = U0(:,1:3);
+%U0 = makeGaneshTest1(N0, X, h, nu);
+U0  = getDivFree(2,X); 
+U0  = U0(:,1:3);
 
 disp('Initial VF generated')
 

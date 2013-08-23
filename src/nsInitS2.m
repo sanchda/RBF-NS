@@ -1,4 +1,4 @@
-function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
+function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
 % Initializes everything needed by the Navier-Stokes spherical code.
 %
 % x is assumed to contain cell centers, with each column corresponding to a different dimension.
@@ -16,7 +16,7 @@ function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_
     % scalars in U0 are assumed to identify with the R3 vectors in X.  If
     % these are not the same length, function should return error.
     % TODO:  return error :)
-    N = size(x,1);
+%    N = size(x,1);
     twoeps2 = 2*eps_PDE*eps_PDE;    
     
 %==========================================================================
@@ -24,8 +24,6 @@ function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_
 %==========================================================================  
     
     % Scalar RBF kernel and its derivative
-    syms r;
-
     phi = @(r2) exp(-eps_PDE*eps_PDE*r2);
 
     % Build the distance matrix.
@@ -136,6 +134,9 @@ function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_
     e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
         0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
     
+    Acsarg = @(x) [d(x);e(x)];
+    Ascarg = @(x) [d(x)' e(x)'];
+    
     % The function Q(x) generates the matrix which will project a vector
     % in R3 onto the tangent space of the sphere at x in S2
     Q = @(x) [0*x(:,1) x(:,3) (-x(:,2));...
@@ -146,14 +147,21 @@ function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_
     P = @(x) eye(3) - [x(:,1);x(:,2);x(:,3)]*[x(:,1) x(:,2) x(:,3)];
     
     
-    % Make a sparse, block-diagonal matrix with copies of P.
+    % Make a sparse, block-diagonal matrix with copies of P, and another
+    % one with copies of Acsarg.
     Pxmat = zeros(3*size(x,1),3*size(x,1));
+    Acs   = zeros(2*size(x,1),3*size(x,1));
+    Asc   = zeros(3*size(x,1),2*size(x,1));
     for i = 1:size(x,1)
        %TODO:  built in a sparse way?
        Pxmat((3*i-2):(3*i),(3*i-2):(3*i)) = P(x(i,:));
+       Acs((2*i-1):(2*i),(3*i-2):(3*i)) = Acsarg(x(i,:));
+       Asc((3*i-2):(3*i),(2*i-1):(2*i)) = Ascarg(x(i,:));
     end
+    
     Pxmat = sparse(Pxmat);
-    disp('Pxmat created');
+    Acs   = sparse(Acs);
+    disp('Pxmat, Acs created');
     
     % Construct the matrix RBF
     PSIdiv  = @(x,y) (Q(x)')*(-H(x,y,eps_Leray))*Q(y);
@@ -162,16 +170,21 @@ function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_
     
     Afull =  makeSBFKernel(x, PSI, d, e);
     disp('Afull matrix initialized')
-    Acrl =   makeSBFKernel(x, PSIcrl, d, e);
-    disp('Acrl matrix initialized')
+%    Acrl =   makeSBFKernel(x, PSIcrl, d, e);
+%    disp('Acrl matrix initialized')
     Adiv =   makeSBFKernel(x, PSIdiv, d, e);
     disp('Adiv matrix initialized')
 
     % In order to save time during the projection step, observe that:
     % c = Afull\f, then u = Adiv*c.  This can be shortened by doing
-    % u = (Adiv\Afull)f;
+    % u = (Adiv/Afull)f;
     
-    Aleray = (Adiv\Afull);
+    % Grady:  Adiv/Afull
+    % Me   :  Afull\Adiv
+    
+    Aleray = Asc*(Afull\Adiv)*Acs;
+    
+    
     
 %    PSIfullmat = zeros(3*size(x,1),3*size(x,1));
 %    PSIdivmat = PSIfullmat;
@@ -186,7 +199,7 @@ function [lap grad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(x, H, eps_Leray, eps_
 %        end
 %    end
     
-    disp('PSI matrices populated')
+%    disp('PSI matrices populated')
 
     
 end
