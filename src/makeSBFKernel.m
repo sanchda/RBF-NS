@@ -1,4 +1,4 @@
-function Adiv = makeSBFKernel(X, PSI, d, e)
+function Asbf = makeSBFKernel(X, PSI, d, e)
 % Generates the matrix A in order to solve for the coefficients of f_i on
 % the tangent space of the sphere.
 
@@ -8,12 +8,22 @@ function Adiv = makeSBFKernel(X, PSI, d, e)
 
 
 N = size(X,1);
-Adiv = zeros(2*N,2*N);
+Asbf = zeros(2*N,2*N);
 
-for i=1:N
-    for j=1:N
-        Adiv((2*i-1):(2*i),(2*j-1):(2*j)) = [d(X(i,:)); e(X(i,:))]*PSI(X(i,:),X(j,:))*[d(X(j,:)); e(X(j,:))]';
-    end
+% matrix with all of the D on top and all of the E on bottom
+dmat = d(X(:,:));
+emat = e(X(:,:));
+
+leftmat = reshape([dmat(:) emat(:)]',2*size(dmat,1),[]);
+leftmat = reshape(leftmat',3,2,[]);
+leftmat = permute(leftmat, [2 1 3]);
+
+
+for i =1:size(X,1)
+    Acol = arrayfun(@(j) ...
+    	leftmat(:,:,j)*PSI(X(j,:), X(i,:))*leftmat(:,:,i)', (1:size(X,1))','UniformOutput', 0);
+    Asbf(:,(2*i-1):(2*i)) = cell2mat(Acol);
+
 end
 
 end

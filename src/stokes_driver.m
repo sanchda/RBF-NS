@@ -1,8 +1,7 @@
 %==========================================================================
 %                         Parameters and Constants                        
 %==========================================================================
-for N = 9:2:47
-
+for N = 10:10:50
 	disp('Initializing new N')
 	disp(N)
 
@@ -15,8 +14,9 @@ for N = 9:2:47
 	beta = 12;
 	c = (4*pi)^2;
 	eps_PDE = (beta/c)*(N+1)^(9/8);
+	eps_Leray = eps_Leray;
 	surfeps = 2;
-
+	
 	disp('Parameters Set')
 	%==========================================================================
 	%                            Generate RBF nodes                        
@@ -44,24 +44,7 @@ for N = 9:2:47
 	%
 	% TODO:  generate using Matlab's symbolic toolkit
 	
-	HGA =  @(x,y,eps) ...
-	[exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
-	-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(1)+(-1).*y(1)).^2),4.*exp( ...
-	1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).* ...
-	y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(2)+(-1).*y(2)),4.*exp(1).^((-1).* ...
-	eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).* ...
-	eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3));4.*exp(1).^((-1).*eps.^2.*(( ...
-	x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(1)+( ...
-	-1).*y(1)).*(x(2)+(-1).*y(2)),exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+( ...
-	x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).*eps.^2+4.*eps.^4.*(x(2)+( ...
-	-1).*y(2)).^2),4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1) ...
-	.*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)); ...
-	4.*exp(1).^((-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+( ...
-	-1).*y(3)).^2)).*eps.^4.*(x(1)+(-1).*y(1)).*(x(3)+(-1).*y(3)),4.*exp(1).^(( ...
-	-1).*eps.^2.*((x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)) ...
-	.*eps.^4.*(x(2)+(-1).*y(2)).*(x(3)+(-1).*y(3)),exp(1).^((-1).*eps.^2.*(( ...
-	x(1)+(-1).*y(1)).^2+(x(2)+(-1).*y(2)).^2+(x(3)+(-1).*y(3)).^2)).*((-2).* ...
-	eps.^2+4.*eps.^4.*(x(3)+(-1).*y(3)).^2)];
+	% Moved to own file, rbf_HGA
 
 	% This is an amazingly wasteful way of defining the operators used
 	% throughout the NS code, but it has the advantage of providing a
@@ -71,59 +54,63 @@ for N = 9:2:47
 	% * determine if any of these have a sparse structure, make sparse
 	% * vectorize initialization code
 
-	[lap projgrad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(X, HGA, eps_Leray, eps_PDE);
+	[lap projgrad Lx Ly Lz Achol Aleray Pxmat] = nsInitS2(X, eps_Leray, eps_PDE);
 	disp('NS working matrices initialized')
 	%==========================================================================
 	%                            Generate initial VF                       
 	%==========================================================================
-	h = 1/48;
-	for N0 = [1 5 10 15 20]
+	h = 1/200;
+	for N0 = [1 2 3 4 5 10]
 	  disp('New N0')
 	  disp(N0)
 
 	  U0 = makeGaneshTest1(N0, X, h, nu);
 	
 
+
 	  %% Simulate with RBF
-	  h=1/32;
+	  h=1/200;
 	  U0 = makeGaneshTest1(N0, X, h, nu);
 	  U = U0;
 	  Uganesh = U0;
 	  t=h;
 
-	  errmat = zeros(500,1);
+	  maxc=2000;
+	  errmat = zeros(maxc,1);
 	  errmax = errmat;
-          tgan   = zeros(499,1);
-          tnav   = tgan;
+	  tgan   = zeros(maxc-1,1);
+	  tnav   = tgan;
 
-	  for c = 2:500
+	  for c = 2:maxc
 
 	    tic;
 	    Uganesh = makeGaneshTest1(N0, X, t+h, nu);
 	    tgan(c-1) = toc;
 	    tic;
-	    [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Lx, Ly, Lz, Aleray, Pxmat);
+	    [U,t] = navierstokes(X, U, h, t, 1, nu, omega, N0, lap, projgrad, Aleray, Pxmat);
 	    tnav(c-1) = toc;
 	    errmean = U - Uganesh;
 	    errmean = sqrt(errmean(:,1).^2 + errmean(:,2).^2 + errmean(:,3).^2);
 	    errmax(c) = max(errmean);
 	    errmat(c) = mean(errmean);
-            if(mod(c,100) == 0)
+	    if(mod(c,100) == 0)
 		 disp(c)
-            end
+	    end
 	  end
 
-	  tgan_str   = sprintf('tgan_%d_%d.mat', N, N0);
-	  tnav_str   = sprintf('tnav_%d_%d.mat', N, N0);
-	  errmat_str = sprintf('errmat_%d_%d.mat', N, N0);
-	  errmax_str = sprintf('errmax_%d_%d.mat', N, N0);  
+	  suffix     = sprintf('%d_%d.mat', N, N0);
+	  tgan_str   = sprintf('tgan_%s', suffix);
+	  tnav_str   = sprintf('tnav_%s', suffix);
+	  errmat_str = sprintf('errmat_%s', suffix);
+	  errmax_str = sprintf('errmax_%s', suffix);  
 
 	  save(tgan_str,'tgan');
 	  save(tnav_str,'tnav');
 	  save(errmat_str,'errmat');
 	  save(errmax_str,'errmax');
 
-
+	  disp 'Error for current round:'
+	  errmat(end)
 	  clear tgan;
 	  clear tnav;
 	  clear errmax;

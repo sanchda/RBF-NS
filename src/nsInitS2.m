@@ -1,4 +1,4 @@
-function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, H, eps_Leray, eps_PDE)
+function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, eps_PDE)
 % Initializes everything needed by the Navier-Stokes spherical code.
 %
 % x is assumed to contain cell centers, with each column corresponding to a different dimension.
@@ -164,8 +164,8 @@ function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, H, eps_Lera
     disp('Pxmat, Acs created');
     
     % Construct the matrix RBF
-    PSIdiv  = @(x,y) (Q(x)')*(-H(x,y,eps_Leray))*Q(y);
-    PSIcrl  = @(x,y) (P(x)')*(-H(x,y,eps_Leray))*P(y);
+    PSIdiv  = @(x,y) (Q(x)')*(-rbf_HGA(x,y,eps_Leray))*Q(y);
+    PSIcrl  = @(x,y) (P(x)')*(-rbf_HGA(x,y,eps_Leray))*P(y);
     PSI     = @(x,y) PSIdiv(x,y) + PSIcrl(x,y);
     
     Afull =  makeSBFKernel(x, PSI, d, e);
