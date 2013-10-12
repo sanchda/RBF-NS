@@ -182,7 +182,7 @@ function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, 
     % Grady:  Adiv/Afull
     % Me   :  Afull\Adiv
     
-    Aleray = Asc*(Afull\Adiv)*Acs;
+    Aleray = Asc*(Adiv/Afull)*Acs;
     
     
     
