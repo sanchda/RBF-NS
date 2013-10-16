@@ -1,10 +1,10 @@
 function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, eps_PDE)
-% Initializes everything needed by the Navier-Stokes spherical code.
+% Initializes the operators needed by the Navier-Stokes spherical code.
 %
 % x is assumed to contain cell centers, with each column corresponding to a different dimension.
 %
-% H is a function handle to a Hessian matrix for the the scalar RBF kernel
-%
+% rbf_HGA.m is assumed to exist in the current directory (or the path).  This is a function to
+% the Hessian for the RBF kernel
 % 
 %
 %
@@ -35,6 +35,7 @@ function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, 
     zdist = zdist - zdist.';
     
     A = phi(xdist.^2 + ydist.^2 + zdist.^2);
+    
     Achol = chol(A);
 
     % Initialize the differentiation matrices
@@ -134,6 +135,7 @@ function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, 
     e = @(x) timesMatVec([(-x(:,2)) x(:,1) ...
         0*x(:,1)],(1./sqrt(1-x(:,3).^2)));
     
+    % Coordinate transformation matrices
     Acsarg = @(x) [d(x);e(x)];
     Ascarg = @(x) [d(x)' e(x)'];
     
@@ -164,9 +166,15 @@ function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, 
     disp('Pxmat, Acs created');
     
     % Construct the matrix RBF
+    
+    % Define the matrix-valued kernel
+    % TODO: export these as separate functions or something.
     PSIdiv  = @(x,y) (Q(x)')*(-rbf_HGA(x,y,eps_Leray))*Q(y);
     PSIcrl  = @(x,y) (P(x)')*(-rbf_HGA(x,y,eps_Leray))*P(y);
     PSI     = @(x,y) PSIdiv(x,y) + PSIcrl(x,y);
+    
+    % TODO: refactor code, makeSBFKernel no longer makes the kernel,
+    % but uses the kernel to make the matrix A!
     
     Afull =  makeSBFKernel(x, PSI, d, e);
     disp('Afull matrix initialized')
@@ -178,9 +186,6 @@ function [lap, grad, Lx, Ly, Lz, Achol, Aleray, Pxmat] = nsInitS2(x, eps_Leray, 
     % In order to save time during the projection step, observe that:
     % c = Afull\f, then u = Adiv*c.  This can be shortened by doing
     % u = (Adiv/Afull)f;
-    
-    % Grady:  Adiv/Afull
-    % Me   :  Afull\Adiv
     
     Aleray = Asc*(Adiv/Afull)*Acs;
     
