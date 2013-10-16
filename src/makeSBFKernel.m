@@ -11,6 +11,8 @@ N = size(X,1);
 Asbf = zeros(2*N,2*N);
 
 % matrix with all of the D on top and all of the E on bottom
+% configure for simple indexing
+
 dmat = d(X(:,:));
 emat = e(X(:,:));
 
@@ -19,6 +21,16 @@ leftmat = reshape(leftmat',3,2,[]);
 leftmat = permute(leftmat, [2 1 3]);
 
 
+% Can either use nested for loops:
+%
+% for i = 1:size(X,1)
+%   for j = 1:size(X,1)
+%       Asbf( (2*i-1):(2*i),(2*j-1):(2*i) ) = [dmat(i) emat(i)]*PSI(X(j,:),X(i,:))*[dmat(j)';emat(j)']'
+%    end
+% end
+%
+% Or, use arrayfun to collapse one of the nested loops
+%
 for i =1:size(X,1)
     Acol = arrayfun(@(j) ...
     	leftmat(:,:,j)*PSI(X(j,:), X(i,:))*leftmat(:,:,i)', (1:size(X,1))','UniformOutput', 0);
