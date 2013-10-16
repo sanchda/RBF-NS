@@ -126,7 +126,7 @@ for c = 1:M
     fganesh = makeGaneshForcing1(N0, x, t, nu, projgrad, Pxmat);
     
     % Stick it all together
-    RK1 = nu*lapU - 0*covU - coriolis + fganesh;
+    RK1 = nu*lapU - covU - coriolis + fganesh;
     RK1 = projectDivFree(RK1, Aleray);
 
     %-----------------------------RK4 Stage 2------------------------------
@@ -163,7 +163,7 @@ for c = 1:M
     fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
-    RK2 = nu*lapU - 0*covU - coriolis + fganesh;
+    RK2 = nu*lapU - covU - coriolis + fganesh;
     RK2 = projectDivFree(RK2, Aleray);
     
     %-----------------------------RK4 Stage 3------------------------------
@@ -200,7 +200,7 @@ for c = 1:M
     fganesh = makeGaneshForcing1(N0, x, t+h/2, nu, projgrad, Pxmat);
     
     %Stick it all together
-    RK3 = nu*lapU - 0*covU - coriolis + fganesh;
+    RK3 = nu*lapU - covU - coriolis + fganesh;
     RK3 = projectDivFree(RK3, Aleray);
     
     %-----------------------------RK4 Stage 4------------------------------
@@ -237,7 +237,7 @@ for c = 1:M
     fganesh = makeGaneshForcing1(N0, x, t+h, nu, projgrad, Pxmat);
     
     %Stick it all together
-    RK4 = nu*lapU - 0*covU - coriolis + fganesh;
+    RK4 = nu*lapU - covU - coriolis + fganesh;
     RK4 = projectDivFree(RK4, Aleray);
 
     %============================Stitch Together===========================
