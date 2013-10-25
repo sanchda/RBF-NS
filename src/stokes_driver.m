@@ -1,10 +1,10 @@
 %% Outer loop and constants
 Nvect = 10:10:80;
-N0vect = [1 2 3 5 10 20]; 
-hvect  = [1/50 1/100 1/200 1/400 1/800];
+N0vect = [1 2 3 5 10 20 40]; 
+hvect  = [1/50 1/100 1/200 1/400 1/800 1/1600];
 
 nu=1/10;
-omega=0;
+omega=0.1;
 
 % Empirically determined Leray projector shape parameter
 % TODO: find better fit for this; especially for higher N
@@ -49,7 +49,7 @@ for N = Nvect
           t=h;
 
           % Max timesteps.  Make sure the final nondimensional time is 2
-          maxc=2*(1/h);
+          maxc=(1/h);
           errmat = zeros(maxc,1);
           errmax = errmat;
 
